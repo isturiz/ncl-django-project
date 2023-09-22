@@ -9,7 +9,7 @@ from .models import Student
 from .forms import StudentForm
 
 from .models import Lesson
-from .models import Educator
+from .models import Teacher
 
 
 
@@ -28,10 +28,10 @@ class StudentUpdateView(UpdateView):
     template_name = 'forms/student_update.html'  # Nombre del archivo HTML para editar un estudiante
     success_url = reverse_lazy('student_list') 
 
-class EducatorListView(ListView):
-    model = Educator
-    template_name = 'home/educator_list.html'
-    context_object_name = 'educators' 
+class TeacherListView(ListView):
+    model = Teacher
+    template_name = 'home/teacher_list.html'
+    context_object_name = 'teachers' 
 
 class LessonListView(ListView):
     model = Lesson
