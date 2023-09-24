@@ -105,3 +105,5 @@ class StudentXDetail(models.Model):
 
     def __str__(self):
         return f"{self.date} - {self.student.first_name} {self.student.first_surname}"
+    
+

@@ -11,6 +11,8 @@ from .forms import StudentForm
 from .models import Lesson
 from .models import Teacher
 
+from .models import Subscription
+
 
 
 # Create your views here.
@@ -26,7 +28,7 @@ class StudentUpdateView(UpdateView):
     model = Student
     form_class = StudentForm
     template_name = 'forms/student_update.html'  # Nombre del archivo HTML para editar un estudiante
-    success_url = reverse_lazy('student_list') 
+    success_url = '/students/'
 
 class TeacherListView(ListView):
     model = Teacher
@@ -40,3 +42,8 @@ class LessonListView(ListView):
 
 class LessonCalendarsView(TemplateView):
     template_name = 'home/lesson_calendar.html'
+
+class SubscriptionsView(ListView):
+    model = Subscription
+    template_name = 'home/subscription_list.html'
+    context_object_name = 'subscriptions'

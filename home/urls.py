@@ -5,6 +5,7 @@ from .views import HomePageView
 from .views import StudentListView, StudentUpdateView
 from .views import TeacherListView
 from .views import LessonListView, LessonCalendarsView
+from .views import SubscriptionsView
 
 
 urlpatterns = [
@@ -17,5 +18,7 @@ urlpatterns = [
 
     path('lesson/', LessonListView.as_view(), name='lesson-list'),
     path('lesson-calendar/', LessonCalendarsView.as_view(), name='lesson-calendar'),
+
+    path('subscriptions/', SubscriptionsView.as_view(), name='subscriptions-list')
     
 ]

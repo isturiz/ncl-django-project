@@ -1,0 +1,68 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load compress %}
+{% load static %}
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Estudiante
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Estado
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Monto
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Inicio
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Fin 
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Acción
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subscription in subscriptions %}
+                <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ subscription.student }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ subscription.subscription_status }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ subscription.total_amount }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ subscription.start_date }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ subscription.end_date }}
+                    </td>
+                    <td class="px-6 py-4 flex gap-x-2">
+                        <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                            <img src="{% static 'src/icons/tabler/svg/edit.svg' %}" alt="logo niños cantores" class="w-6 h-6">
+                        </a>
+                        <a href="" class="font-medium text-red-600 dark:text-blue-500 hover:underline">
+                            <img src="{% static 'src/icons/tabler/svg/trash.svg' %}" alt="logo niños cantores" class="w-6 h-6 text-red-500">
+                        </a>
+                    </td>
+                </tr>
+            {% empty %}
+                <p>No hay suscripciones disponibles.</p>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
