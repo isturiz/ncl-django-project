@@ -4,8 +4,10 @@ from django.views.generic import TemplateView
 from .views import HomePageView
 from .views import StudentListView, StudentUpdateView
 from .views import TeacherListView
-from .views import LessonListView, LessonCalendarsView
+from .views import LessonListView
 from .views import SubscriptionsView
+from .views import CalendarView
+
 
 
 urlpatterns = [
@@ -17,8 +19,10 @@ urlpatterns = [
     path('teacher/', TeacherListView.as_view(), name='teacher-list'),
 
     path('lesson/', LessonListView.as_view(), name='lesson-list'),
-    path('lesson-calendar/', LessonCalendarsView.as_view(), name='lesson-calendar'),
+
+    path('calendar/', CalendarView.as_view(), name='calendar'),
 
     path('subscriptions/', SubscriptionsView.as_view(), name='subscriptions-list')
+
     
 ]

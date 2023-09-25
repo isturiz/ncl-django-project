@@ -13,7 +13,7 @@ from .models import Teacher
 
 from .models import Subscription
 
-
+from .models import StudentXDetail
 
 # Create your views here.
 class HomePageView(TemplateView):
@@ -40,8 +40,11 @@ class LessonListView(ListView):
     template_name = 'home/lesson_list.html'
     context_object_name = 'lessons' 
 
-class LessonCalendarsView(TemplateView):
-    template_name = 'home/lesson_calendar.html'
+class CalendarView(ListView):
+    # model = StudentXDetail
+    model = Subscription
+    template_name = 'home/calendar.html'
+    context_object_name = 'events'
 
 class SubscriptionsView(ListView):
     model = Subscription
