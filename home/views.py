@@ -41,8 +41,8 @@ class LessonListView(ListView):
     context_object_name = 'lessons' 
 
 class CalendarView(ListView):
-    # model = StudentXDetail
-    model = Subscription
+    model = StudentXDetail
+    # model = Subscription
     template_name = 'home/calendar.html'
     context_object_name = 'events'
 

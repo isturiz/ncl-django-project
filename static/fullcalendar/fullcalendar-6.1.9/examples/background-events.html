@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset='utf-8' />
-<script src='../dist/index.global.js'></script>
+<script src="{% static 'fullcalendar/fullcalendar-6.1.9/dist/index.global.min.js' %}"></script>
 <script>
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -15,10 +15,10 @@
         right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
       },
       initialDate: '2023-01-12',
-      navLinks: true, // can click day/week names to navigate views
-      businessHours: true, // display business hours
-      editable: true,
-      selectable: true,
+      navLinks: false, // can click day/week names to navigate views
+      businessHours: false, // display business hours
+      editable: false,
+      selectable: false,
       events: [
         {
           title: 'Business Lunch',
