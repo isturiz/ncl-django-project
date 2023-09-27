@@ -1,0 +1,30 @@
+<!-- event_create.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Crear Evento</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear Evento</button>
+</form>
+<a href="{% url 'calendar' %}">Volver al calendario</a>
+<script>
+    // Obtén los elementos de los campos de fecha y hora
+    const startInput = document.getElementById('id_start_date');
+    const endInput = document.getElementById('id_end_date');
+
+    // Agrega un evento al campo de fecha de inicio para actualizar el campo de fecha de fin
+    startInput.addEventListener('input', function() {
+        const startDate = new Date(startInput.value);
+        const endDate = new Date(startDate.getTime() - 180 * 60 * 1000); // Agrega una hora
+
+        // Formatea la fecha y hora en formato "YYYY-MM-DDTHH:mm:ss"
+        const endDateString = endDate.toISOString().slice(0, 16);
+
+        // Asigna el valor preseleccionado al campo de fecha de fin
+        endInput.value = endDateString;
+    });
+
+</script>
+{% endblock %}

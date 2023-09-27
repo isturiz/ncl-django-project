@@ -7,7 +7,7 @@ from .views import TeacherListView
 from .views import LessonListView
 from .views import SubscriptionsView
 from .views import CalendarView
-
+from .views import EventUpdateView, EventCreateView
 
 
 urlpatterns = [
@@ -21,6 +21,9 @@ urlpatterns = [
     path('lesson/', LessonListView.as_view(), name='lesson-list'),
 
     path('calendar/', CalendarView.as_view(), name='calendar'),
+    path('event/update/', EventUpdateView.as_view(), name='event-update'),
+    path('event/create/', EventCreateView.as_view(), name='event-create'),
+
 
     path('subscriptions/', SubscriptionsView.as_view(), name='subscriptions-list')
 

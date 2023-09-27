@@ -6,50 +6,207 @@
 
 {% load compress %}
 {% load static %}
+
+{% comment %} <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    start
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    end
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ event.student }} - {{ event.lesson_x_detail }}
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ event.end_date|date:"Y-m-d" }}T{{ event.end_date|time:"H:i:s" }}
+                </td>
+
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div> {% endcomment %}
+
 <script src="{% static 'fullcalendar/fullcalendar-6.1.9/dist/index.global.min.js' %}"></script>
 
 <div class="flex justify-center	">
 <script>
 
 document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
+    let calendarEl = document.getElementById('calendar');
+    let today = new Date();
+    let initialDate = today.toISOString().slice(0, 10);
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth',
-    locale: 'es',
-    initialDate: '2023-09-08',
-    navLinks: true,
-    selectable: true,
-    headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,listWeek,timeGridDay'
-    },
-    views: {
-        today: { text: 'Hoy' },
-        dayGridMonth: { buttonText: 'Mes' },
-        timeGridWeek: { buttonText: 'Semana' },
-        timeGridDay: { buttonText: 'Día' },
-        listWeek: { buttonText: 'Lista' },
-      },
-    events: [
-        {% for event in events %}
-        {
-        title: '{{ event.student }} - {{ event.lesson_x_detail }}',
-        start: '{{ event.date | date:"Y-m-d" }}T{{ event.start_time }}:00',
-        end: '{{ event.date | date:"Y-m-d" }}T{{ event.end_time }}:00',
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        initialDate: initialDate,
+        navLinks: true,
+        selectable: true,
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,listWeek,timeGridDay'
         },
-        {% endfor %}
-    ]
+        views: {
+            today: { text: 'Hoy' },
+            dayGridMonth: { buttonText: 'Mes' },
+            timeGridWeek: { buttonText: 'Semana' },
+            timeGridDay: { buttonText: 'Día' },
+            listWeek: { buttonText: 'Lista' },
+        },
+        events: [
+            {% for event in events %}
+                {
+                    id: '{{ event.id }}',
+                    title: '{{ event.student }} - {{ event.lesson_x_detail }}',
+                    start: '{{ event.start_date|date:"Y-m-d" }}T{{ event.start_date|time:"H:i:s" }}',
+                    end: '{{ event.end_date|date:"Y-m-d" }}T{{ event.end_date|time:"H:i:s" }}',
+                    editable: true,
+                    startEditable: true,
+                    overlap: true,
+                },
+            {% endfor %}
+        ],
+        editable: true,
+
+        // Triggered when dragging stops and the event has moved to a different day/time 
+        eventDrop: function(info) {
+            let event_id = info.event.id;
+            let new_start_date = info.event.start.toISOString();
+            let new_end_date = info.event.end.toISOString();
+
+            let formData = new FormData();
+            formData.append('event_id', event_id);
+            formData.append('new_start_date', new_start_date);
+            formData.append('new_end_date', new_end_date);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            fetch('/event/update/', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('La solicitud falló');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    console.log('El evento se ha actualizado correctamente.');
+                } else {
+                    console.log('Error al actualizar el evento: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        },
+        // 
+        eventResize: function(info) {
+            let event_id = info.event.id;
+            let new_start_date = info.event.start.toISOString();
+            let new_end_date = info.event.end.toISOString();
+
+            // Crear un objeto FormData para enviar los datos
+            let formData = new FormData();
+            formData.append('event_id', event_id);
+            formData.append('new_start_date', new_start_date);
+            formData.append('new_end_date', new_end_date);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            fetch('/event/update/', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('La solicitud falló');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    console.log('El evento se ha actualizado correctamente.');
+                } else {
+                    console.log('Error al actualizar el evento: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        },
+
+        selectable: true,
+        selectMirror: true,
+        select: function(info) {
+            // Cuando el usuario selecciona un rango en el calendario, muestra un formulario para crear un evento
+            let startDate = info.start.toISOString();
+            let endDate = info.end.toISOString();
+
+            // Aquí puedes mostrar un formulario modal o cualquier otro método para recopilar la información del evento
+
+            // Una vez que el usuario complete el formulario y tenga los datos del nuevo evento
+            // Enviar los datos al servidor para crear el evento
+            let formData = new FormData();
+            formData.append('student', 'Nombre del estudiante');
+            formData.append('lesson_x_detail', 'Detalle de la lección');
+            formData.append('start_date', startDate);
+            formData.append('end_date', endDate);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            fetch('/event/create/', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('La solicitud falló');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    // Actualizar el calendario con el nuevo evento
+                    calendar.addEvent({
+                        id: data.event_id,
+                        title: 'Nombre del estudiante - Detalle de la lección',
+                        start: startDate,
+                        end: endDate,
+                        editable: true,
+                        startEditable: true,
+                        overlap: true,
+                    });
+                    console.log('El evento se ha creado correctamente.');
+                } else {
+                    console.log('Error al crear el evento: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
     });
 
     calendar.render();
-    
 
 });
 
 </script>
 <div class="w-2/3">
+    <a href="{% url 'event-create' %}" class="btn btn-primary">Crear Evento</a>
+
     <div id='calendar' ></div>
 </div>
 </div>

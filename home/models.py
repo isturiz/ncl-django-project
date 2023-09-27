@@ -93,9 +93,8 @@ class RenewSubscription(models.Model):
         return f"{self.subscription_amount} - {self.end_date}"
 
 class StudentXDetail(models.Model):
-    date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
     description = models.CharField(max_length=200)
     student_status = models.CharField(max_length=50)
 
@@ -104,6 +103,6 @@ class StudentXDetail(models.Model):
     lesson_x_detail = models.ForeignKey(LessonXDetail, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.date} - {self.student.first_name} {self.student.first_surname}"
+        return f"{self.start_date} - {self.student.first_name} {self.student.first_surname}"
     
 

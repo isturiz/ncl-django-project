@@ -15,6 +15,21 @@
                     Nombre
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Apellido
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Email
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Teléfono
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Dirección
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Fecha de Nacimiento
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Acción
                 </th>
             </tr>
@@ -23,11 +38,31 @@
             {% for teacher in teachers %}
             <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ teacher.name }}
+                    {{ teacher.first_name }}
                 </td>
-
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ teacher.first_surname }}
+                </td>
                 <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    {{ teacher.email }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ teacher.phone_number }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ teacher.address }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ teacher.birthdate }}
+                    {% comment %} {{ teacher.birthdate|date:"d/m/Y"}} {% endcomment %}
+                </td>
+                <td class="px-6 py-4 flex gap-x-2">
+                    <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                        <img src="{% static 'src/icons/tabler/svg/edit.svg' %}" alt="logo niños cantores" class="w-6 h-6">
+                    </a>
+                    <a href="" class="font-medium text-red-600 dark:text-blue-500 hover:underline">
+                        <img src="{% static 'src/icons/tabler/svg/trash.svg' %}" alt="logo niños cantores" class="w-6 h-6 text-red-500">
+                    </a>
                 </td>
             </tr>
             {% endfor %}
