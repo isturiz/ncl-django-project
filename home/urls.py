@@ -9,6 +9,10 @@ from .views import SubscriptionsView
 from .views import CalendarView
 from .views import EventUpdateView, EventCreateView
 
+from .views import UserListView
+
+
+
 
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
@@ -16,16 +20,17 @@ urlpatterns = [
     path('students/', StudentListView.as_view(), name='student-list'),
     path('students/<int:pk>/', StudentUpdateView.as_view(), name='student-update'),
 
-    path('teacher/', TeacherListView.as_view(), name='teacher-list'),
+    path('teachers/', TeacherListView.as_view(), name='teacher-list'),
 
-    path('lesson/', LessonListView.as_view(), name='lesson-list'),
+    path('lessons/', LessonListView.as_view(), name='lesson-list'),
 
     path('calendar/', CalendarView.as_view(), name='calendar'),
     path('event/update/', EventUpdateView.as_view(), name='event-update'),
     path('event/create/', EventCreateView.as_view(), name='event-create'),
 
 
-    path('subscriptions/', SubscriptionsView.as_view(), name='subscriptions-list')
+    path('subscriptions/', SubscriptionsView.as_view(), name='subscriptions-list'),
 
+    path('users/', UserListView.as_view(), name='user-list'),
     
 ]

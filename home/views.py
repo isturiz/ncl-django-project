@@ -17,6 +17,8 @@ from .models import Subscription
 
 from .models import StudentXDetail
 
+from django.contrib.auth.models import User
+
 from django.http import JsonResponse, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 
@@ -85,3 +87,8 @@ class SubscriptionsView(ListView):
     model = Subscription
     template_name = 'home/subscription_list.html'
     context_object_name = 'subscriptions'
+
+class UserListView(ListView):
+    model = User
+    template_name = 'home/user_list.html'
+    context_object_name = 'users'
