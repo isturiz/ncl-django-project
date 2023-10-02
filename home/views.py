@@ -22,6 +22,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 
+########## Calendar views ##########
 class CalendarView(ListView):
     model = StudentXDetail
     # model = Subscription
@@ -60,34 +61,47 @@ class EventUpdateView(View):
 class HomePageView(TemplateView):
     template_name = "home.html"
 
+########## Student views ##########
 class StudentListView(ListView):
     model = Student
     template_name = 'home/student_list.html'
     context_object_name = 'students'
 
+class StudentAddView(CreateView):
+    model = Student
+    form_class = StudentForm
+    template_name = 'forms/student_add.html'  
+    success_url = '/students/'
+
 class StudentUpdateView(UpdateView):
     model = Student
     form_class = StudentForm
-    template_name = 'forms/student_update.html'  # Nombre del archivo HTML para editar un estudiante
+    template_name = 'forms/student_update.html' 
     success_url = '/students/'
 
+
+########## Teacher views ##########
 class TeacherListView(ListView):
     model = Teacher
     template_name = 'home/teacher_list.html'
     context_object_name = 'teachers' 
 
+
+########## Lesson views ##########
 class LessonListView(ListView):
     model = Lesson
     template_name = 'home/lesson_list.html'
     context_object_name = 'lessons' 
 
 
-
+########## Subscription views ##########
 class SubscriptionsView(ListView):
     model = Subscription
     template_name = 'home/subscription_list.html'
     context_object_name = 'subscriptions'
 
+
+########## User views ##########
 class UserListView(ListView):
     model = User
     template_name = 'home/user_list.html'
