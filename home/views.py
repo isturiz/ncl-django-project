@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView
 
 from django.views.generic import ListView, UpdateView
@@ -78,6 +78,14 @@ class StudentUpdateView(UpdateView):
     form_class = StudentForm
     template_name = 'forms/student_update.html' 
     success_url = '/students/'
+
+class StudentIsActiveView(UpdateView):
+    def post(self, request, pk):
+        student = get_object_or_404(Student, pk=pk)
+        student.is_active = not student.is_active  # Invierte el estado actual del estudiante
+        student.save()
+        message = 'Estudiante activado correctamente' if student.is_active else 'Estudiante desactivado correctamente'
+        return JsonResponse({'message': message})
 
 
 ########## Teacher views ##########
