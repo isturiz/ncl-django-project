@@ -5,7 +5,7 @@ from .models import StudentXDetail
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['first_name', 'second_name', 'first_surname', 'second_surname', 'email', 'phone_number', 'address', 'birthdate']
+        fields = ['first_name', 'second_name', 'first_surname', 'second_surname', 'email', 'phone_number', 'address', 'birthdate', 'is_active']
         labels = {
             'first_name': 'Primer Nombre',
             'second_name': 'Segundo Nombre',
@@ -15,6 +15,7 @@ class StudentForm(forms.ModelForm):
             'phone_number': 'Número de Teléfono',
             'address': 'Dirección',
             'birthdate': 'Fecha de Nacimiento',
+            'is_active': 'Estado'
         }
 
     def __init__(self, *args, **kwargs):

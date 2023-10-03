@@ -70,13 +70,13 @@ class StudentListView(ListView):
 class StudentAddView(CreateView):
     model = Student
     form_class = StudentForm
-    template_name = 'forms/student_add.html'  
+    template_name = 'forms/student.html'  
     success_url = '/students/'
 
 class StudentUpdateView(UpdateView):
     model = Student
     form_class = StudentForm
-    template_name = 'forms/student_add.html'  
+    template_name = 'forms/student.html'  
     success_url = '/students/'
 
 
