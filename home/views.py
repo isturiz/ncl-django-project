@@ -76,7 +76,7 @@ class StudentAddView(CreateView):
 class StudentUpdateView(UpdateView):
     model = Student
     form_class = StudentForm
-    template_name = 'forms/student_update.html' 
+    template_name = 'forms/student_add.html'  
     success_url = '/students/'
 
 
