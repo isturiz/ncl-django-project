@@ -2,20 +2,33 @@
 document.addEventListener("DOMContentLoaded", function() {
     const tableSearch = document.getElementById("table-search");
     const tableRows = document.querySelectorAll("#table-file tbody tr");
+    const resultMessage = document.getElementById("search-result-message");
 
     tableSearch.addEventListener("input", function() {
         const searchText = tableSearch.value.trim().toLowerCase();
+        let matchCount = 0;
 
         tableRows.forEach(function(row) {
             const rowData = row.textContent.toLowerCase();
             if (rowData.includes(searchText)) {
                 row.style.display = "";
+                matchCount++;
             } else {
                 row.style.display = "none";
             }
         });
+
+        // Mostrar mensaje de resultado solo si hay texto en el campo de búsqueda
+        if (searchText === "") {
+            resultMessage.textContent = "";
+        } else if (matchCount > 0) {
+            resultMessage.textContent = `Se encontraron ${matchCount} coincidencias.`;
+        } else {
+            resultMessage.textContent = "No se encontraron coincidencias.";
+        }
     });
 });
+
 
 // function doSearch() {
 //     const tableReg = document.getElementById("table-file");
