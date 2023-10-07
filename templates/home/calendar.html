@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {% for event in events %}
                 {
                     id: '{{ event.id }}',
-                    title: '{{ event.student }} - {{ event.lesson_x_detail }}',
+                    title: '{{ event.student }} - {{ event.lesson }}',
                     start: '{{ event.start_date|date:"Y-m-d" }}T{{ event.start_date|time:"H:i:s" }}',
                     end: '{{ event.end_date|date:"Y-m-d" }}T{{ event.end_date|time:"H:i:s" }}',
                     editable: true,
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Enviar los datos al servidor para crear el evento
             let formData = new FormData();
             formData.append('student', 'Nombre del estudiante');
-            formData.append('lesson_x_detail', 'Detalle de la lección');
+            formData.append('lesson', 'Detalle de la lección');
             formData.append('start_date', startDate);
             formData.append('end_date', endDate);
             formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');

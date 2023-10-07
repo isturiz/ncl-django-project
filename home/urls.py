@@ -25,12 +25,9 @@ urlpatterns = [
 
     path('lessons/', LessonListView.as_view(), name='lesson-list'),
 
-    # path('calendar/', CalendarView.as_view(), name='calendar'),
-    # path('event/update/', EventUpdateView.as_view(), name='event-update'),
-    # path('event/create/', EventCreateView.as_view(), name='event-create'),
-    path('calendar/', TemplateView.as_view(), name='calendar'),
-    path('event/update/', TemplateView.as_view(), name='event-update'),
-    path('event/create/', TemplateView.as_view(), name='event-create'),
+    path('calendar/', CalendarView.as_view(), name='calendar'),
+    path('event/update/', EventUpdateView.as_view(), name='event-update'),
+    path('event/create/', EventCreateView.as_view(), name='event-create'),
 
     path('subscriptions/', SubscriptionsView.as_view(), name='subscriptions-list'),
 

@@ -2,9 +2,9 @@ from django.db import models
 
 class Student(models.Model):
     first_name = models.CharField(max_length=50)
-    second_name = models.CharField(max_length=50, blank=True)
+    second_name = models.CharField(max_length=50, blank=True, null=True)
     first_surname = models.CharField(max_length=50)
-    second_surname = models.CharField(max_length=50, blank=True)
+    second_surname = models.CharField(max_length=50, blank=True, null=True)
     birthdate = models.DateField()
     phone_number = models.CharField(max_length=20)
     email = models.EmailField()
@@ -17,9 +17,9 @@ class Student(models.Model):
 class Teacher(models.Model):
     identify_card = models.CharField(max_length=20)
     first_name = models.CharField(max_length=50)
-    second_name = models.CharField(max_length=50, blank=True)
+    second_name = models.CharField(max_length=50, blank=True, null=True)
     first_surname = models.CharField(max_length=50)
-    second_surname = models.CharField(max_length=50, blank=True)
+    second_surname = models.CharField(max_length=50, blank=True, null=True)
     birthdate = models.DateField()
     phone_number = models.CharField(max_length=20)
     email = models.EmailField()
@@ -50,17 +50,17 @@ class Subscription(models.Model):
 
 
     def __str__(self):
-        return f"{self.total_amount} - {self.student.first_name} {self.student.first_surname}"
+        return f"{self.total_amount}"
 
 class StudentXLessonXSubscription(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    description = models.CharField(max_length=200)
-    student_status = models.CharField(max_length=50)
+    description = models.CharField(max_length=200, blank=True, null=True)
+    student_status = models.CharField(max_length=50, blank=True, null=True)
 
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
-    lesson_x_detail = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=True, null=True)
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, blank=True, null=True)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f"{self.start_date} - {self.student.first_name} {self.student.first_surname}"

@@ -34,12 +34,12 @@ class StudentForm(forms.ModelForm):
 class EventCreateForm(forms.ModelForm):
     class Meta:
         model = StudentXLessonXSubscription
-        fields = ['student','description', 'student_status', 'lesson_x_detail', 'start_date', 'end_date', 'subscription']
+        fields = ['student','description', 'student_status', 'lesson', 'start_date', 'end_date', 'subscription']
         labels = {
             'student': 'Estudiante',
             'description': 'Descripción',
             'student_status': 'Estatus del estudiante',
-            'lesson_x_detail': 'IDK',
+            'lesson': 'IDK',
             'start_date': 'Inicio',
             'end_date': 'Fin',
             'subscription': 'Suscripción',
@@ -57,8 +57,8 @@ class EventCreateForm(forms.ModelForm):
         self.fields['description'].widget.attrs.update({'class': 'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer', 'placeholder': ' '})
         self.fields['student_status'].widget.attrs.update({'class': 'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer', 'placeholder': ' '})
 
-        self.fields['lesson_x_detail'].empty_label = 'Selecciona'
-        self.fields['lesson_x_detail'].widget.attrs.update({'class': 'block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer'})
+        self.fields['lesson'].empty_label = 'Selecciona'
+        self.fields['lesson'].widget.attrs.update({'class': 'block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer'})
 
         self.fields['subscription'].widget.attrs.update({'class': 'block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer'})
         # self.fields['lesson_x_detail'].widget.attrs.update({'class': 'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer', 'placeholder': ' '})
