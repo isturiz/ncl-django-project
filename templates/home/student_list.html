@@ -13,15 +13,15 @@
     <div class="flex py-3 flex-row lg:items-center justify-between space-y-0 space-x-4">
         <div class="flex items-center flex-1 space-x-4">
             <h5>
-                <span class="text-gray-500">Número de estudiantes</span>
+                <span class="text-gray-500 dark:text-gray-300">Número de estudiantes</span>
                 <span class="dark:text-white">{{ students | length}}</span>
             </h5>
         </div>
     </div>
 
     {% comment %} second section {% endcomment %}
-    <div class="flex flex-row items-center justify-between pb-4">
-        <div class="flex py-3 flex-row lg:items-center justify-between space-y-0 space-x-4">
+    <div class="flex flex-row w-full items-center justify-between pb-4">
+        <div class="flex py-3 flex-row items-center justify-between space-y-0 space-x-4">
             <div>
                 <label for="table-search" class="sr-only">Buscar</label>
             
@@ -117,8 +117,13 @@
                     {% comment %} {{ student.birthdate|date:"d/m/Y"}} {% endcomment %}
                 </td>
                 <td class="px-6 py-4 flex gap-x-2">
-                    <a href="{% url 'student-update' student.pk %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                        <img src="{% static 'src/icons/tabler/svg/edit.svg' %}" alt="edit icon" class="w-6 h-6">
+                    <a href="{% url 'student-update' student.pk %}" class="font-medium text-black dark:text-white hover:underline">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                            <path d="M16 5l3 3"></path>
+                        </svg>
                     </a>
                 </td>
             </tr>
