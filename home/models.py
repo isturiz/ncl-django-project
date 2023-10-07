@@ -30,71 +30,29 @@ class Teacher(models.Model):
         return f"{self.first_name} {self.first_surname}"
 
 class Lesson(models.Model):
-    name = models.CharField(max_length=50) 
-
-    def __str__(self):
-        return self.name
-
-class LessonType(models.Model):
     name = models.CharField(max_length=50)
+    cost = models.DecimalField(max_digits=8, decimal_places=2)
+    type = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
-
-class LessonXDetail(models.Model):
-    cost = models.DecimalField(max_digits=8, decimal_places=2)
-
-    lesson_type = models.ForeignKey(LessonType, on_delete=models.CASCADE)
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.lesson.name} - {self.lesson_type.name}"
-
-class TeacherXDetail(models.Model):
+    
+class TeacherXLesson(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    lesson_x_detail = models.ForeignKey(LessonXDetail, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.teacher.first_name} - {self.teacher.first_surname}"
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
 
 class Subscription(models.Model):
     total_amount = models.DecimalField(max_digits=8, decimal_places=2)
     subscription_status = models.CharField(max_length=50)
     start_date = models.DateField()
     end_date = models.DateField()
+    description = models.CharField(max_length=200)
 
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.total_amount} - {self.student.first_name} {self.student.first_surname}"
 
-class Payment(models.Model):
-    amount_paid = models.DecimalField(max_digits=8, decimal_places=2)
-    date = models.DateField()
-
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.amount_paid} - {self.date}"
-
-class SubscriptionXDetail(models.Model):
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
-    lesson_x_detail = models.ForeignKey(LessonXDetail, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.subscription.total_amount}"
-
-class RenewSubscription(models.Model):
-    subscription_amount = models.DecimalField(max_digits=8, decimal_places=2)
-    end_date = models.DateField()
-    number_of_months = models.PositiveIntegerField()
-
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.subscription_amount} - {self.end_date}"
-
-class StudentXDetail(models.Model):
+class StudentXLessonXSubscription(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     description = models.CharField(max_length=200)
@@ -102,9 +60,25 @@ class StudentXDetail(models.Model):
 
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
-    lesson_x_detail = models.ForeignKey(LessonXDetail, on_delete=models.CASCADE)
+    lesson_x_detail = models.ForeignKey(Lesson, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.start_date} - {self.student.first_name} {self.student.first_surname}"
     
 
+class Renew(models.Model):
+    Subscription_amount = models.DecimalField(max_digits=8, decimal_places=2)
+    end_date = models.DateTimeField()
+    number_of_months = models.PositiveIntegerField()
+
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
+
+class Payment(models.Model):
+    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    date = models.DateTimeField(auto_now_add=True)
+    payment_date = models.DateTimeField(auto_now_add=True)
+
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Payment of {self.amount} on {self.payment_date}"
