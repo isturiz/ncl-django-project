@@ -168,10 +168,7 @@
                     <button 
                         class="font-medium text-black dark:text-white hover:underline" 
                         onclick="openModal('studentModal', {
-                            'Nombre': '{{ student.first_name }}',
-                            'Segundo Nombre': '{{ student.second_name }}',
-                            'Apellido': '{{ student.first_surname }}',
-                            'Segundo Apellido': '{{ student.second_surname }}',
+                            'Nombre': '{{ student.first_name }} {{ student.second_name }} {{ student.first_surname }} {{ student.second_surname }}',   
                             'Fecha de Nacimiento': '{{ student.birthdate }}',
                             'Teléfono': '{{ student.phone_number }}',
                             'Email': '{{ student.email }}',
