@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 
 from .views import HomePageView
 from .views import StudentListView, StudentAddView, StudentUpdateView
-from .views import TeacherListView
+from .views import TeacherListView, TeacherAddView, TeacherUpdateView
 from .views import LessonListView
 from .views import SubscriptionsView
 from .views import CalendarView
@@ -22,6 +22,8 @@ urlpatterns = [
     path('students/<int:pk>/', StudentUpdateView.as_view(), name='student-update'),
 
     path('teachers/', TeacherListView.as_view(), name='teacher-list'),
+    path('teachers/add/', TeacherAddView.as_view(), name='teacher-add'),
+    path('teachers/<int:pk>/', TeacherUpdateView.as_view(), name='teacher-update'),
 
     path('lessons/', LessonListView.as_view(), name='lesson-list'),
 

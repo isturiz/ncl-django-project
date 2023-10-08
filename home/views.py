@@ -6,9 +6,9 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import CreateView
 
+# Models
 from .models import Student
-from .forms import StudentForm
-from .forms import EventCreateForm
+
 
 from .models import Lesson
 from .models import Teacher
@@ -17,6 +17,11 @@ from .models import Subscription
 
 from .models import StudentXLessonXSubscription
 
+
+# Forms
+from .forms import StudentForm
+from .forms import TeacherForm
+from .forms import EventCreateForm
 
 from django.contrib.auth.models import User
 
@@ -100,6 +105,18 @@ class TeacherListView(ListView):
     model = Teacher
     template_name = 'home/teacher_list.html'
     context_object_name = 'teachers' 
+
+class TeacherAddView(CreateView):
+    model = Teacher
+    form_class = TeacherForm
+    template_name = 'forms/teacher_form.html'  
+    success_url = '/teachers/'
+
+class TeacherUpdateView(UpdateView):
+    model = Teacher
+    form_class = TeacherForm
+    template_name = 'forms/teacher_form.html'  
+    success_url = '/teachers/'
 
 
 ########## Lesson views ##########
