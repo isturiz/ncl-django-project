@@ -3,11 +3,25 @@ const openModal = (modalId, data) => {
     const modal = document.getElementById(modalId);
     const modalContent = modal.querySelector(".modal-content");
 
-    // Construye el contenido del modal dinámicamente a partir del objeto.
-    let modalHTML = "";
+    // Divide el string del nombre y apellido en partes usando espacios como separadores.
+    const nameParts = data['Nombre'].split(' ');
+
+    // Filtra las partes válidas (no son 'None' ni 'undefined') del nombre y apellido.
+    let filteredNameParts = nameParts.filter(part => part !== 'None' && part !== 'undefined');
+
+    // Construye el contenido del modal para el nombre y apellido.
+    let modalHTML = '';
+    
+
     for (const key in data) {
         if (Object.hasOwnProperty.call(data, key)) {
-            modalHTML += `<p><strong>${key}:</strong> ${data[key]}</p>`;
+            if (filteredNameParts.length > 0) {
+                modalHTML += `<p><strong>Nombre:</strong> ${filteredNameParts.join(' ')}</p>`;
+                filteredNameParts = 0
+            }else {
+
+                modalHTML += `<p><strong>${key}:</strong> ${data[key]}</p>`;
+            }
         }
     }
 
@@ -25,6 +39,7 @@ const openModal = (modalId, data) => {
         }
     });
 };
+
 
 const closeModal = (modalId) => {
     // Obtén una referencia al modal.

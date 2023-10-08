@@ -59,9 +59,22 @@ class EventUpdateView(View):
             return JsonResponse({'status': 'error', 'message': 'Método no permitido'}, status=405)
 
 
-# Create your views here.
+########## Home views ##########
 class HomePageView(TemplateView):
     template_name = "home.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Obtener información de los modelos
+        students = Student.objects.all()
+
+        # Agregar la información al contexto
+        context['students'] = students
+
+        # También puedes agregar formularios al contexto si es necesario
+        context['student_form'] = StudentForm()
+
+        return context
 
 ########## Student views ##########
 class StudentListView(ListView):
