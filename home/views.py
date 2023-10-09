@@ -82,10 +82,14 @@ class HomePageView(TemplateView):
         return context
 
 ########## Student views ##########
+from django.contrib.auth.mixins import UserPassesTestMixin
 class StudentListView(ListView):
     model = Student
     template_name = 'home/student_list.html'
     context_object_name = 'students'
+
+    def test_func(self):
+        return self.request.user.groups.filter(name='Teachers').exists()
 
 class StudentAddView(CreateView):
     model = Student
