@@ -35,7 +35,7 @@ class Lesson(models.Model):
     type = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} {self.cost} {self.type}"
     
 class TeacherXLesson(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
@@ -63,7 +63,7 @@ class StudentXLessonXSubscription(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.start_date} - {self.student.first_name} {self.student.first_surname}"
+        return f"{self.student} - {self.subscription}"
     
 
 class Renew(models.Model):
