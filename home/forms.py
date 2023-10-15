@@ -1,6 +1,6 @@
 from django import forms
 from .models import Student
-from .models import StudentXLessonXSubscription
+
 
 from .models import Teacher
 
@@ -66,8 +66,8 @@ class TeacherForm(forms.ModelForm):
 
 
 class EventCreateForm(forms.ModelForm):
+    pass
     class Meta:
-        model = StudentXLessonXSubscription
         fields = ['student','description', 'student_status', 'lesson', 'start_date', 'end_date', 'subscription']
         labels = {
             'student': 'Estudiante',

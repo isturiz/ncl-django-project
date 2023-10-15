@@ -15,7 +15,6 @@ from .models import Teacher
 
 from .models import Subscription
 
-from .models import StudentXLessonXSubscription
 
 
 # Forms
@@ -31,13 +30,13 @@ from django.views.decorators.csrf import csrf_exempt
 ########## Calendar views ##########
 
 class CalendarView(ListView):
-    model = StudentXLessonXSubscription
+    model = ''
     # model = Subscription
     template_name = 'home/calendar.html'
     context_object_name = 'events'
 
 class EventCreateView(CreateView):
-    model = StudentXLessonXSubscription
+    model = ''
     form_class = EventCreateForm
     template_name = 'forms/event_create.html'
     success_url = reverse_lazy('calendar')
@@ -50,12 +49,12 @@ class EventUpdateView(View):
             new_end_date = request.POST.get('new_end_date')
 
             try:
-                event = StudentXLessonXSubscription.objects.get(id=event_id)
+                event = ''.objects.get(id=event_id)
                 event.start_date = new_start_date
                 event.end_date = new_end_date
                 event.save()
                 return JsonResponse({'status': 'success'})
-            except StudentXLessonXSubscription.DoesNotExist:
+            except ''.DoesNotExist:
                 return JsonResponse({'status': 'error', 'message': 'Evento no encontrado'}, status=404)
             except Exception as e:
                 return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
