@@ -1,6 +1,6 @@
 import os
 
-scripts_to_run = ['populate_lesson_types.py', 'populate_teachers.py', 'populate_students.py', 'populate_subscription_types']
+scripts_to_run = ['populate_lesson_types.py', 'populate_teachers.py', 'populate_students.py', 'populate_subscription_types.py']
 
 # Run all scripts
 def run_scripts():
@@ -11,5 +11,4 @@ def run_scripts():
         except Exception as e:
             print(f'Error al ejecutar el script {script}: {e}')
 
-if __name__ == '__main__':
-    run_scripts()
+run_scripts()
