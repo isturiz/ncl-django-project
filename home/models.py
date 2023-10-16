@@ -40,20 +40,23 @@ class Lesson(models.Model):
 
     # Foreign Keys
     lesson_type = models.ForeignKey(LessonType, on_delete=models.CASCADE)
-    subscriptions = models.ForeignKey('Subscription', on_delete=models.CASCADE)
+    subscription = models.ForeignKey('Subscription', on_delete=models.CASCADE)
     teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE)
 
     # Fields
+    description = models.CharField(max_length=200, blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
-    lesson_status = models.BooleanField(default=True)  # True = Vista, False = No vista
+    lesson_status = models.BooleanField(default=False)  # True = Vista, False = No vista
 
     # M2M
     
 
     def __str__(self):
-        return f'{self.lesson_type} - {self.price} - {self.subscriptions}'
+        return f'{self.lesson_type} - {self.price} - {self.subscription}'
+    
+    
 
 
 class Teacher(models.Model):
@@ -123,8 +126,10 @@ class Subscription(models.Model):
     
 
     def __str__(self):
-        # lesson_names = ', '.join([str(lesson) for lesson in self.lessons.all()])
         return f'{self.student} - {self.type_subscription}'
+    
+    def get_student_name(self):
+        return str(self.student)
 
 
 class Payment(models.Model):

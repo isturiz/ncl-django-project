@@ -8,12 +8,11 @@ from django.views.generic.edit import CreateView
 
 # Models
 from .models import Student
-
-
 from .models import Lesson
 from .models import Teacher
-
 from .models import Subscription
+from .models import Lesson
+
 
 
 
@@ -30,13 +29,13 @@ from django.views.decorators.csrf import csrf_exempt
 ########## Calendar views ##########
 
 class CalendarView(ListView):
-    model = ''
+    model = Lesson
     # model = Subscription
     template_name = 'home/calendar.html'
     context_object_name = 'events'
 
 class EventCreateView(CreateView):
-    model = ''
+    model = Lesson
     form_class = EventCreateForm
     template_name = 'forms/event_create.html'
     success_url = reverse_lazy('calendar')
@@ -49,12 +48,12 @@ class EventUpdateView(View):
             new_end_date = request.POST.get('new_end_date')
 
             try:
-                event = ''.objects.get(id=event_id)
+                event = Lesson.objects.get(id=event_id)
                 event.start_date = new_start_date
                 event.end_date = new_end_date
                 event.save()
                 return JsonResponse({'status': 'success'})
-            except ''.DoesNotExist:
+            except Lesson.DoesNotExist:
                 return JsonResponse({'status': 'error', 'message': 'Evento no encontrado'}, status=404)
             except Exception as e:
                 return JsonResponse({'status': 'error', 'message': str(e)}, status=400)

@@ -52,3 +52,7 @@ py manage.py runserver
 
 
 
+update styles with tailwind:
+```bash
+npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css
+```
