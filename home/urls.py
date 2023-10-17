@@ -4,10 +4,10 @@ from django.views.generic import TemplateView
 from .views import HomePageView
 from .views import StudentListView, StudentAddView, StudentUpdateView
 from .views import TeacherListView, TeacherAddView, TeacherUpdateView
-from .views import LessonListView
+from .views import LessonListView, LessonCreateView, LessonUpdateView
 from .views import SubscriptionsView
 from .views import CalendarView
-from .views import EventUpdateView, EventCreateView
+from .views import EventUpdateView, EventCreateView, EventLessonUpdateView
 
 from .views import UserListView
 
@@ -26,10 +26,13 @@ urlpatterns = [
     path('teachers/<int:pk>/', TeacherUpdateView.as_view(), name='teacher-update'),
 
     path('lessons/', LessonListView.as_view(), name='lesson-list'),
+    path('lessons/create/', LessonCreateView.as_view(), name='lesson-create'),
+    path('lessons/<int:pk>', LessonUpdateView.as_view(), name='lesson-update'),
 
     path('calendar/', CalendarView.as_view(), name='calendar'),
-    path('event/update/', EventUpdateView.as_view(), name='event-update'),
     path('event/create/', EventCreateView.as_view(), name='event-create'),
+    path('event/<int:pk>/', EventLessonUpdateView.as_view(), name='event-update-form'), # update with lesson form
+    path('event/update/', EventUpdateView.as_view(), name='event-update'), # resize and date with calendar
 
     path('subscriptions/', SubscriptionsView.as_view(), name='subscriptions-list'),
 

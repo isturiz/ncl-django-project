@@ -1,8 +1,9 @@
 
 document.addEventListener("DOMContentLoaded", function() {
+    // for lesson seen and student active it's the same constant
     const STATUS = {
-        ACTIVE: "active",
-        INACTIVE: "inactive"
+        ACTIVE: "active", 
+        INACTIVE: "inactive",
     };
     
     const tableSearch = document.getElementById("table-search");
@@ -19,8 +20,9 @@ document.addEventListener("DOMContentLoaded", function() {
         tableRows.forEach(function(row) {
             const rowData = row.textContent.toLowerCase();
             const isActive = row.dataset.status === STATUS.ACTIVE;
-            console.log(row.dataset.status, isActive)
+            console.log(isActive)
 
+            // Active / Inactive filter
             if ((filterValue === "" || (filterValue === STATUS.ACTIVE && isActive) || (filterValue === STATUS.INACTIVE && !isActive)) && rowData.includes(searchText)) {
                 row.style.display = "";
                 matchCount++;

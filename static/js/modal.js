@@ -4,10 +4,9 @@ const openModal = (modalId, data) => {
     const modalContent = modal.querySelector(".modal-content");
 
     // Divide el string del nombre y apellido en partes usando espacios como separadores.
-    const nameParts = data['Nombre'].split(' ');
-
+    const nameParts = data['Nombre'] ? nameParts = data['Nombre'].split(' ') : ''
     // Filtra las partes válidas (no son 'None' ni 'undefined') del nombre y apellido.
-    let filteredNameParts = nameParts.filter(part => part !== 'None' && part !== 'undefined');
+    let filteredNameParts = nameParts !== '' ? nameParts.filter(part => part !== 'None' && part !== 'undefined') : '';
 
     // Construye el contenido del modal para el nombre y apellido.
     let modalHTML = '';

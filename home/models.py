@@ -130,6 +130,9 @@ class Subscription(models.Model):
     
     def get_student_name(self):
         return str(self.student)
+    
+    def get_student_and_type (self):
+        return f'{self.student} - {self.type_subscription.name} - ${self.type_subscription.price}'
 
 
 class Payment(models.Model):

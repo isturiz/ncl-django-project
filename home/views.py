@@ -39,6 +39,12 @@ class EventCreateView(CreateView):
     form_class = EventCreateForm
     template_name = 'forms/event_create.html'
     success_url = reverse_lazy('calendar')
+
+class EventLessonUpdateView(UpdateView):
+    model = Lesson
+    form_class = EventCreateForm
+    template_name = 'forms/event_create.html'  
+    success_url = reverse_lazy('calendar')
         
 class EventUpdateView(View):
     def post(self, request):
@@ -86,9 +92,6 @@ class StudentListView(ListView):
     template_name = 'home/student_list.html'
     context_object_name = 'students'
 
-    def test_func(self):
-        return self.request.user.groups.filter(name='Teachers').exists()
-
 class StudentAddView(CreateView):
     model = Student
     form_class = StudentForm
@@ -125,7 +128,19 @@ class TeacherUpdateView(UpdateView):
 class LessonListView(ListView):
     model = Lesson
     template_name = 'home/lesson_list.html'
-    context_object_name = 'lessons' 
+    context_object_name = 'lessons'
+
+class LessonCreateView(CreateView):
+    model = Lesson
+    form_class = EventCreateForm
+    template_name = 'forms/lesson_form.html'
+    success_url = '/lessons/'
+
+class LessonUpdateView(UpdateView):
+    model = Lesson
+    form_class = EventCreateForm
+    template_name = 'forms/event_create.html'  
+    success_url = '/lessons/'
 
 
 ########## Subscription views ##########
@@ -133,6 +148,12 @@ class SubscriptionsView(ListView):
     model = Subscription
     template_name = 'home/subscription_list.html'
     context_object_name = 'subscriptions'
+
+class SubscriptionCreateView(CreateView):
+    model = Subscription
+    form_class = EventCreateForm
+    template_name = 'forms/subscription_form.html'
+    success_url = '/subscriptions/'
 
 
 ########## User views ##########

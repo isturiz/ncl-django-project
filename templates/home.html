@@ -17,21 +17,21 @@
 
       <div>
         <a href="{% url "student-list" %}" class="block w-full h-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Estudiantes totales</h5>
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Estudiantes</h5>
           {% comment %} <p class="font-normal text-gray-700 dark:text-gray-400">{{ students | length }}</p> {% endcomment %}
         </a>
       </div>
 
       <div>
-        <a href="#" class="block w-full h-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Ingresos mensuales totales</h5>
+        <a href="{% url "lesson-list" %}" class="block w-full h-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Clases</h5>
           {% comment %} <p class="font-normal text-gray-700 dark:text-gray-400">$ 560</p> {% endcomment %}
         </a>
       </div>
 
-      <div class="">
-        <a href="#" class="block w-full h-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Clases vistas mensuales</h5>
+      <div>
+        <a href="{% url "teacher-list" %}" class="block w-full h-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Profesores</h5>
           {% comment %} <p class="font-normal text-gray-700 dark:text-gray-400">26</p> {% endcomment %}
         </a>
       </div>
