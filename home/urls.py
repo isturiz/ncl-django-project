@@ -5,13 +5,14 @@ from .views import HomePageView
 from .views import StudentListView, StudentAddView, StudentUpdateView
 from .views import TeacherListView, TeacherAddView, TeacherUpdateView
 from .views import LessonListView, LessonCreateView, LessonUpdateView
-from .views import SubscriptionsView
+from .views import SubscriptionView, SubscriptionCreateView, SubscriptionUpdateView
 from .views import CalendarView
 from .views import EventUpdateView, EventCreateView, EventLessonUpdateView
 
 from .views import UserListView
 
-
+# TODO
+# Change add -> create in all urls and views
 
 
 urlpatterns = [
@@ -34,7 +35,9 @@ urlpatterns = [
     path('event/<int:pk>/', EventLessonUpdateView.as_view(), name='event-update-form'), # update with lesson form
     path('event/update/', EventUpdateView.as_view(), name='event-update'), # resize and date with calendar
 
-    path('subscriptions/', SubscriptionsView.as_view(), name='subscriptions-list'),
+    path('subscriptions/', SubscriptionView.as_view(), name='subscription-list'),
+    path('subscriptions/create/', SubscriptionCreateView.as_view(), name='subscription-create'),
+    path('subscriptions/<int:pk>', SubscriptionUpdateView.as_view(), name='subscription-update'),
 
     path('users/', UserListView.as_view(), name='user-list'),
     

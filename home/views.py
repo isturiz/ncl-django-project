@@ -20,6 +20,7 @@ from .models import Lesson
 from .forms import StudentForm
 from .forms import TeacherForm
 from .forms import EventCreateForm
+from .forms import SubscriptionCreateForm
 
 from django.contrib.auth.models import User
 
@@ -144,16 +145,23 @@ class LessonUpdateView(UpdateView):
 
 
 ########## Subscription views ##########
-class SubscriptionsView(ListView):
+class SubscriptionView(ListView):
     model = Subscription
     template_name = 'home/subscription_list.html'
     context_object_name = 'subscriptions'
 
 class SubscriptionCreateView(CreateView):
     model = Subscription
-    form_class = EventCreateForm
+    form_class = SubscriptionCreateForm
     template_name = 'forms/subscription_form.html'
     success_url = '/subscriptions/'
+
+class SubscriptionUpdateView(UpdateView):
+    model = Subscription
+    form_class = SubscriptionCreateForm
+    template_name = 'forms/subscription_form.html'  
+    success_url = '/subscriptions/'
+
 
 
 ########## User views ##########

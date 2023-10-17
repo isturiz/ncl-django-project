@@ -115,9 +115,8 @@ class Student(models.Model):
 class Subscription(models.Model):
 
     # Foreign Keys
-    type_subscription = models.ForeignKey(SubscriptionType, on_delete=models.CASCADE)
+    subscription_type = models.ForeignKey(SubscriptionType, on_delete=models.CASCADE)
     student = models.ForeignKey('Student', on_delete=models.CASCADE)
-
 
     # Fields
     start_date = models.DateField()
@@ -126,13 +125,13 @@ class Subscription(models.Model):
     
 
     def __str__(self):
-        return f'{self.student} - {self.type_subscription}'
+        return f'{self.student} - {self.subscription_type}'
     
     def get_student_name(self):
         return str(self.student)
     
     def get_student_and_type (self):
-        return f'{self.student} - {self.type_subscription.name} - ${self.type_subscription.price}'
+        return f'{self.student} - {self.subscription_type.name} - ${self.subscription_type.price}'
 
 
 class Payment(models.Model):

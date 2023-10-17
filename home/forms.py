@@ -106,3 +106,19 @@ class EventCreateForm(forms.ModelForm):
         self.fields['start_date'].widget.attrs.update({'class': 'block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer', 'placeholder': ' '})
         self.fields['end_date'].widget.attrs.update({'class': 'block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer', 'placeholder': ' '})
         self.fields['lesson_status'].widget.attrs.update({'class': 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'})
+
+class SubscriptionCreateForm(forms.ModelForm):
+    class Meta:
+        model = Subscription
+        fields = ['subscription_type', 'student', 'start_date', 'end_date', 'subscription_status']
+        labels = {
+            'subscription_type': 'Tipo de suscripción',
+            'student': 'Estudiante',
+            'start_date': 'Fecha nicio',
+            'end_date': 'Fecha fin',
+            'subscription_status': 'Suscripción activa',
+        }
+        widgets = {
+            'start_date':  forms.DateInput(format=('%Y-%m-%d'), attrs={'type': 'date'}),
+            'end_date':  forms.DateInput(format=('%Y-%m-%d'), attrs={'type': 'date'})
+        }

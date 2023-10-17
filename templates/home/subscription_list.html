@@ -59,7 +59,7 @@
         
         
         {% comment %} Add {% endcomment %}
-        <button type="button" onclick="window.location.href = '{% url 'lesson-create' %}'" class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <button type="button" onclick="window.location.href = '{% url 'subscription-create' %}'" class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
             </svg>
@@ -72,16 +72,22 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">
-                    Fecha
-                </th>
-                <th scope="col" class="px-6 py-3">
                     Estudiante
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Profesor
+                    Tipo de suscripción
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Modalidad
+                    Precio
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Fecha de inicio
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Fecha de fin
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Estado
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Acción
@@ -89,31 +95,26 @@
             </tr>
         </thead>
         <tbody>
-            {% for lesson in lessons %}
+            {% for subscription in subscriptions %}
             <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700" data-status="{% if lesson.lesson_status %}active{% else %}inactive{% endif %}">
-                
-                {% if lesson.start_date %}
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ lesson.start_date|date:"l j, g:iA" }}
-                    </td>
-                {% else %}
-                    <td class="px-6 py-4 font-medium text-gray-400 whitespace-nowrap dark:text-white">
-                        Sin fecha establecida
-                    </td>
-                {% endif %}
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ lesson.subscription.student }}
-
+                    {{ subscription.student }}
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ subscription.subscription_type.name }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ lesson.teacher }}
+                    ${{ subscription.subscription_type.price }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ lesson.lesson_type }}
+                    {{ subscription.start_date }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ subscription.end_date }}
                 </td>
 
                 <td class="px-6 py-4 flex gap-x-2">
-                    <a href="{% url 'lesson-update' lesson.pk %}" class="font-medium text-black dark:text-white hover:underline">
+                    <a href="{% url 'subscription-update' subscription.pk %}" class="font-medium text-black dark:text-white hover:underline">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                             <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
