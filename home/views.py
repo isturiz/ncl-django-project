@@ -177,14 +177,19 @@ class FinanceView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['total_payments'] = self.get_total_payments_current_year()        
         context['payment_data'] = self.get_all_payment_data()
-        context['monthly_payment_data'] = self.get_monthly_payment_data_current_year()
         context['percentage_change'] = self.calculate_percentage_change()
 
-        context['total_payments_last_three_months'] = self.get_total_payments_last_three_months()
-        context['total_payments_last_six_months'] = self.get_total_payments_last_six_months()
-        context['total_payments_last_nine_months'] = self.get_total_payments_last_nine_months()
+        context['total_payments'] = self.get_total_payments_current_year() 
+        context['total_payments_amount_last_three_months'] = self.get_total_payments_amount_last_three_months() 
+        context['total_payments_amount_last_six_months'] = self.get_total_payments_amount_last_six_months() 
+        context['total_payments_amount_last_nine_months'] = self.get_total_payments_amount_last_nine_months() 
+
+        # Data per month
+        context['monthly_payment_data'] = self.get_monthly_payment_data_current_year()
+        context['payments_data_last_three_months'] = self.get_total_payments_last_three_months()
+        context['payments_data_last_six_months'] = self.get_total_payments_last_six_months()
+        context['payments_data_last_nine_months'] = self.get_total_payments_last_nine_months()
 
         
 
@@ -232,10 +237,36 @@ class FinanceView(TemplateView):
         total_payments = Payment.objects.aggregate(total=models.Sum('price'))
         return total_payments['total'] or 0
 
+    # Total payments amount for current year
     def get_total_payments_current_year(self):
         current_year = datetime.now().year
         total_payments = Payment.objects.filter(date__year=current_year).aggregate(total=Sum('price'))
         return total_payments['total'] or 0
+
+    # Total payments amount for last three months
+    def get_total_payments_amount_last_three_months(self):
+        today = datetime.now()
+        three_months_ago = today - timedelta(days=90)
+        total_payments = Payment.objects.filter(date__range=[three_months_ago, today]).aggregate(total=Sum('price'))
+
+        return total_payments['total'] or 0
+    
+    # Total payments amount for last six months
+    def get_total_payments_amount_last_six_months(self):
+        today = datetime.now()
+        six_months_ago = today - timedelta(days=180)
+        total_payments = Payment.objects.filter(date__range=[six_months_ago, today]).aggregate(total=Sum('price'))
+
+        return total_payments['total'] or 0
+    
+    # Total payments amount for last three months
+    def get_total_payments_amount_last_nine_months(self):
+        today = datetime.now()
+        nine_months_ago = today - timedelta(days=270)
+        total_payments = Payment.objects.filter(date__range=[nine_months_ago, today]).aggregate(total=Sum('price'))
+
+        return total_payments['total'] or 0
+
 
     def get_all_payment_data(self):
         payments = Payment.objects.all()
@@ -337,6 +368,7 @@ class FinanceView(TemplateView):
         ]
         return json.dumps(monthly_payment_data)
     
+    # Calculate percentage change per last month 
     def calculate_percentage_change(self):
         today = datetime.now()
         this_month_payments = Payment.objects.filter(date__month=today.month, date__year=today.year).aggregate(total=Sum('price'))['total'] or 0

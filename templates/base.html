@@ -42,7 +42,9 @@
         {% include "includes/sidebar.html" %}
 
         <div class="p-4 sm:ml-64">
-            <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+            <div class="p-4 border-2 border-dashed rounded-lg dark:border-gray-700 mt-16">
+            {% comment %} <div class="p-4 bg-white rounded-lg shadow dark:bg-gray-800 mt-16 md:p-6"> {% endcomment %}
+                
                 {% block content %}
                 {% endblock content %}
             </div>

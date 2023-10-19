@@ -9,7 +9,7 @@
 <div class="max-w-none w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
     <div class="flex justify-between">
         <div>
-            <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Total anual ${{ total_payments }}</h5>
+            <h5 id="idTotalAmount" class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Total anual ${{ total_payments }}</h5>
             <p class="text-base font-normal text-gray-500 dark:text-gray-400">Año actual</p>
         </div>
 
@@ -68,7 +68,7 @@
                 <a href="#" data-filter="last-six-months" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Últimos seis meses</a>
               </li>
               <li>
-                <a href="#" data-filter="last-nine-months" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Últimos seis meses</a>
+                <a href="#" data-filter="last-nine-months" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Últimos nueve meses</a>
               </li>
             </ul>
         </div>
@@ -80,6 +80,11 @@
   <script>
 
     const paymentData = {{ payment_data|safe }};
+
+    const totalPaymentsAmountCurrentYear = "Total anual $" + {{ total_payments|safe }};
+    const totalPaymentsAmountLastThreeMonths = "Total tres meses $" + {{ total_payments_amount_last_three_months|safe }};
+    const totalPaymentsAmountLastSixMonths = "Total seis meses $" + {{ total_payments_amount_last_six_months|safe }};
+    const totalPaymentsAmountLastNineMonths = "Total nueve meses $" + {{ total_payments_amount_last_nine_months|safe }};
 
     // All months 
     const monthlyPaymentData = {{ monthly_payment_data|safe }};
@@ -98,7 +103,7 @@
     });
 
     // last three months
-    const lastThreeMonths = {{ total_payments_last_three_months|safe }}
+    const lastThreeMonths = {{ payments_data_last_three_months|safe }}
     const lastThreeMonthsPrice = lastThreeMonths.map(item => item.total);
     const lastThreeMonthLabels = lastThreeMonths.map(item => {
         const monthNumber = item.month;
@@ -111,7 +116,7 @@
     });
 
     // last six months
-    const lastSixMonths = {{ total_payments_last_six_months|safe }}
+    const lastSixMonths = {{ payments_data_last_six_months|safe }}
     const lastSixMonthsPrice = lastSixMonths.map(item => item.total);
     const lastSixMonthLabels = lastSixMonths.map(item => {
         const monthNumber = item.month;
@@ -124,7 +129,7 @@
     });
 
     // last nine months
-    const lastNineMonths = {{ total_payments_last_nine_months|safe }}
+    const lastNineMonths = {{ payments_data_last_nine_months|safe }}
     const lastNineMonthsPrice = lastNineMonths.map(item => item.total);
     const lastNineMonthLabels = lastNineMonths.map(item => {
         const monthNumber = item.month;
@@ -249,19 +254,23 @@
             
             const filters = {
                 'current-year': {
+                    total: totalPaymentsAmountCurrentYear,
                     data: monthPaymentPrice,
                     labels: monthLabels, 
                 },
                 'mes-pasado': [200, 10, 100, 50, 5],
                 'last-three-months': {
+                    total: totalPaymentsAmountLastThreeMonths,
                     data: lastThreeMonthsPrice,
                     labels: lastThreeMonthLabels, 
                 }, 
                 'last-six-months': {
+                    total: totalPaymentsAmountLastSixMonths,
                     data: lastSixMonthsPrice,
                     labels: lastSixMonthLabels, 
                 },
                 'last-nine-months': {
+                    total: totalPaymentsAmountLastNineMonths,
                     data: lastNineMonthsPrice,
                     labels: lastNineMonthLabels, 
                 },
@@ -270,6 +279,7 @@
             // Agrega un evento de escucha al botón de filtro.
             const filterButton = document.getElementById("filterMonthButton");
             const dropdownButton = document.getElementById("dropdownDefaultButton");
+            const idTotalAmount = document.getElementById("idTotalAmount")
             filterButton.addEventListener("click", function (event) {
 
                 event.preventDefault();
@@ -285,6 +295,7 @@
                             categories: filters[selectedFilter].labels,
                         },
                     });
+                    idTotalAmount.textContent = filters[selectedFilter].total
                     
                 }
                 if (selectedFilter) {
