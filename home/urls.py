@@ -8,6 +8,7 @@ from .views import LessonListView, LessonCreateView, LessonUpdateView
 from .views import SubscriptionView, SubscriptionCreateView, SubscriptionUpdateView
 from .views import CalendarView
 from .views import EventUpdateView, EventCreateView, EventLessonUpdateView
+from .views import FinanceView
 
 from .views import UserListView
 
@@ -38,6 +39,8 @@ urlpatterns = [
     path('subscriptions/', SubscriptionView.as_view(), name='subscription-list'),
     path('subscriptions/create/', SubscriptionCreateView.as_view(), name='subscription-create'),
     path('subscriptions/<int:pk>', SubscriptionUpdateView.as_view(), name='subscription-update'),
+
+    path('finances/', FinanceView.as_view(), name='finances'),
 
     path('users/', UserListView.as_view(), name='user-list'),
     

@@ -16,7 +16,11 @@ admin.site.register(Lesson)
 
 admin.site.register(Subscription)
 
-admin.site.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ('price', 'date', 'subscription')
+    # list_filter = ('date',)  # Agrega filtrado por fecha en el admin
+
+admin.site.register(Payment, PaymentAdmin)
 
 admin.site.register(SubscriptionType)
 admin.site.register(LessonType)
