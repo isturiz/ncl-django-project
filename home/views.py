@@ -177,10 +177,12 @@ class FinanceView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        ### Payments info
         context['payment_data'] = self.get_all_payment_data()
         context['percentage_change'] = self.calculate_percentage_change()
 
-        context['total_payments'] = self.get_total_payments_current_year() 
+        # Total amount per month
+        context['total_payments_current_year'] = self.get_total_payments_current_year() 
         context['total_payments_amount_last_three_months'] = self.get_total_payments_amount_last_three_months() 
         context['total_payments_amount_last_six_months'] = self.get_total_payments_amount_last_six_months() 
         context['total_payments_amount_last_nine_months'] = self.get_total_payments_amount_last_nine_months() 
@@ -191,48 +193,30 @@ class FinanceView(TemplateView):
         context['payments_data_last_six_months'] = self.get_total_payments_last_six_months()
         context['payments_data_last_nine_months'] = self.get_total_payments_last_nine_months()
 
-        
-
-
-        # Filtra los datos para los últimos tres meses
-        three_months_ago = datetime.now() - timedelta(days=90)
-        last_three_months_payments = Payment.objects.filter(date__gte=three_months_ago, date__lte=datetime.now()) \
-            .aggregate(total=models.Sum('price'))
-        last_three_months_total = last_three_months_payments['total'] or 0
-        context['last_three_months_total'] = last_three_months_total
-
-        # Filtra los datos para los últimos seis meses
-        six_months_ago = datetime.now() - timedelta(days=180)
-        last_six_months_payments = Payment.objects.filter(date__gte=six_months_ago, date__lte=datetime.now()) \
-            .aggregate(total=models.Sum('price'))
-        last_six_months_total = last_six_months_payments['total'] or 0
-        context['last_six_months_total'] = last_six_months_total
-
-        # Filtra los datos para los últimos 12 meses
-        twelve_months_ago = datetime.now() - timedelta(days=365)
-        last_twelve_months_payments = Payment.objects.filter(date__gte=twelve_months_ago, date__lte=datetime.now()) \
-            .aggregate(total=models.Sum('price'))
-        last_twelve_months_total = last_twelve_months_payments['total'] or 0
-        context['last_twelve_months_total'] = last_twelve_months_total
-
-        # Tres meses
-        today = datetime.now()
-        last_three_months = [today - timedelta(days=i) for i in range(1, 91)]
-        last_three_months_payments = Payment.objects.filter(date__in=last_three_months) \
-            .values('date') \
-            .annotate(total=Sum('price'))
-        last_three_months_data = [
-            {
-                'date': payment['date'].strftime("%Y-%m-%d"),
-                'total': float(payment['total'] or 0)
-            }
-            for payment in last_three_months_payments
-        ]
-        context['last_three_months_data'] = json.dumps(last_three_months_data)
-        
-
+        ### Students info
+        context['inscription_students'] = self.get_start_dates_for_students()
 
         return context
+
+    def get_start_dates_for_students(self):
+        # Obtener todos los estudiantes
+        students = Student.objects.all()
+        
+        # Crear una lista para almacenar las fechas de inicio de los estudiantes
+        start_dates = []
+
+        # Recorrer todos los estudiantes y obtener sus fechas de inicio
+        for student in students:
+            subscriptions = Subscription.objects.filter(student=student).order_by('start_date')
+            if subscriptions.exists():
+                first_subscription = subscriptions.first()
+                start_dates.append({
+                    'student_name': str(student),
+                    'start_date': first_subscription.start_date,
+                })
+        
+        return start_dates
+    
     def get_total_payments_historically(self):
         total_payments = Payment.objects.aggregate(total=models.Sum('price'))
         return total_payments['total'] or 0
@@ -334,11 +318,12 @@ class FinanceView(TemplateView):
         ]
         return json.dumps(monthly_payment_data)
     
+    # Payment data for last nine months of current year
     def get_total_payments_last_nine_months(self):
         today = datetime.now()
-        six_months_ago = today - timedelta(days=270)  
+        nine_months_ago = today - timedelta(days=270)  
 
-        monthly_payments = Payment.objects.filter(date__range=[six_months_ago, today]) \
+        monthly_payments = Payment.objects.filter(date__range=[nine_months_ago, today]) \
             .annotate(month=ExtractMonth('date')) \
             .values('month') \
             .annotate(total=Sum('price'))
@@ -378,30 +363,7 @@ class FinanceView(TemplateView):
             return round(((this_month_payments - last_month_payments) / last_month_payments) * 100, 2)
         else:
             return 0
-    
 
-
-    # def get(self, request, *args, **kwargs):
-    #     # Obtiene el mes que se pasa como parámetro en la URL
-    #     selected_month = request.GET.get('month')
-        
-    #     if selected_month is not None:
-    #         # Filtra los datos de los pagos para obtener solo los del mes seleccionado
-    #         payments = Payment.objects.filter(date__month=selected_month)
-            
-    #         # Serializa los datos como JSON
-    #         data = [
-    #             {
-    #                 'price': float(payment.price),
-    #                 'subscription': str(payment.subscription),
-    #                 'date': payment.date.strftime("%Y-%m-%d %H:%M:%S")
-    #             } for payment in payments
-    #         ]
-            
-    #         return JsonResponse({'payment_data': data})
-        
-    #     # Si no se proporciona un mes, simplemente renderiza la plantilla
-    #     return super().get(request, *args, **kwargs)
 
         
 
