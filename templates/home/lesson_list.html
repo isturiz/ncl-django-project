@@ -123,7 +123,7 @@
                         onclick="openModal('lessonModal', {
                             'Fecha': '{% if lesson.start_date %}{{ lesson.start_date|date:"l j, g:iA" }}{% endif %}',   
                             'Estudiante': '{{ lesson.subscription.student }}',
-                            'Precio': '{% if lesson.cost %}{{lesson.cost}}{% else %}$0{% endif %}',
+                            'Precio': '{% if lesson.price %}${{lesson.price}}{% else %}$0{% endif %}',
                             'Profesor': '{{ lesson.teacher }}',
                             'Clase vista': '{% if lesson.lesson_status %}Vista{% else %}No vista{% endif %}',
                             
