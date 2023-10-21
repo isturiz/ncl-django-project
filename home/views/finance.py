@@ -61,7 +61,7 @@ class FinanceView(TemplateView):
         return start_dates
     
     def get_total_payments_historically(self):
-        total_payments = Payment.objects.aggregate(total=models.Sum('price'))
+        total_payments = Payment.objects.aggregate(total=Sum('price'))
         return total_payments['total'] or 0
 
     # Total payments amount for current year
@@ -135,20 +135,20 @@ class FinanceView(TemplateView):
             }
             for payment in monthly_payments
         ]
-        
+
         return dumps(monthly_payment_data)
     
     # Payment data for last three months of current year
     def get_total_payments_last_three_months(self):
-        return self.get_total_payments_last_months(90)
+        return self.get_total_payments_last_months(THREE_MONTHS)
     
     # Payment data for last six months of current year
     def get_total_payments_last_six_months(self):
-        return self.get_total_payments_last_months(180)
+        return self.get_total_payments_last_months(SIX_MONTHS)
     
     # Payment data for last nine months of current year
     def get_total_payments_last_nine_months(self):
-        return self.get_total_payments_last_months(270)
+        return self.get_total_payments_last_months(NINE_MONTHS)
     
     
     # All payment data for each month historically
