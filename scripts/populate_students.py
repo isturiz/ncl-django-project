@@ -4,97 +4,109 @@ from home.models import Student
 from datetime import date, datetime, timedelta
 import random
 from faker import Faker
+from faker.providers import DynamicProvider
 
-faker = Faker()
+fake = Faker('es_ES')
 
-
-
-FIRST_NAMES = [
-    'Carlos',
-    'Luis',
-    'Ana',
-    'Pedro',
-    'Camila',
-    'Juan',
-    'María',
-    'Lorena',
-    'José',
-    'Javier',
-    'Miguel',
-    'Luisa',
-    'Luciano',
-    'Marcos',
-    'Sofía',
-    'Daniel',
-    'Marina',
-    'Elena',
-    'Isabel',
-    'Fernando',
-    'Laura',
-    'Xeniel'
-    'Sara',
-    'Alejandra',
-    'Ricardo',
-    'Mariana',
-    'Raul',
-    'Gabriel',
-    'Axel',
-    'Natalia',
-    'Eduardo',
+custom_first_names_provider= DynamicProvider(
+    provider_name="custom_first_names",
+    elements=[
+        'Carlos',
+        'Luis',
+        'Ana',
+        'Pedro',
+        'Camila',
+        'Juan',
+        'María',
+        'Lorena',
+        'José',
+        'Javier',
+        'Miguel',
+        'Luisa',
+        'Luciano',
+        'Marcos',
+        'Sofía',
+        'Daniel',
+        'Marina',
+        'Elena',
+        'Isabel',
+        'Fernando',
+        'Laura',
+        'Xeniel'
+        'Sara',
+        'Alejandra',
+        'Ricardo',
+        'Mariana',
+        'Raul',
+        'Gabriel',
+        'Axel',
+        'Natalia',
+        'Eduardo',
     ]
+)
+fake.add_provider(custom_first_names_provider)
 
-LAST_NAME = [
-    'Gonzales',
-    'Martínez',
-    'Torres',
-    'Fernández',
-    'Hernández',
-    'López',
-    'García',
-    'Pérez',
-    'Gómez',
-    'Rojas',
-    'Muñoz',
-    'Sánchez',
-    'Rivera',
-    'Vega',
-    'Martín',
-    'Ramírez',
-    'Mendoza',
-    'Navarro',
-    'Morales',
-    'Riera',
-    'Flores',
-    'Mora',
-    'Cruz',
-    'Aquino',
-    'Istúriz',
-    'Dorante',
-    'Figueroa',
-    'Velázquez',
-    'Villegas',
+custom_last_names_provider = DynamicProvider(
+    provider_name="custom_last_names",
+    elements=[
+        'Gonzales',
+        'Martínez',
+        'Torres',
+        'Fernández',
+        'Hernández',
+        'López',
+        'García',
+        'Pérez',
+        'Gómez',
+        'Rojas',
+        'Muñoz',
+        'Sánchez',
+        'Rivera',
+        'Vega',
+        'Martín',
+        'Ramírez',
+        'Mendoza',
+        'Navarro',
+        'Morales',
+        'Riera',
+        'Flores',
+        'Mora',
+        'Cruz',
+        'Aquino',
+        'Istúriz',
+        'Dorante',
+        'Figueroa',
+        'Velázquez',
+        'Villegas',
     ]
+)
+fake.add_provider(custom_last_names_provider)
 
-ADDRESS = [
-    'Urbanización Ciudad Roca, Barquisimeto',
-    'Calle de los Niños, Urbanización Los Próceres, Barquisimeto',
-    'Avenida Venezuela, Centro Comercial El Trigal, Barquisimeto',
-    'Calle Los Estudiantes, Urbanización Los Próceres, Barquisimeto',
-    'Urbanización El Trigal, Barquisimeto',
-    'Calle de la Luna, Urbanización Los Próceres, Barquisimeto',
-    'Urbanización Yucatán, Barquisimeto',
-    'Urbanización Roquita, Barquisimeto',
-    'Urbanización Nueva Tierra, Barquisimeto',
-    'Urbanización Tierra Vieja, Barquisimeto',
-    'Urbanización La Grieta del Invocador',
-]
+
+custom_address_provider = DynamicProvider(
+    provider_name = "custom_address",
+    elements = [
+        'Urbanización Ciudad Roca, Barquisimeto',
+        'Calle de los Niños, Urbanización Los Próceres, Barquisimeto',
+        'Avenida Venezuela, Centro Comercial El Trigal, Barquisimeto',
+        'Calle Los Estudiantes, Urbanización Los Próceres, Barquisimeto',
+        'Urbanización El Trigal, Barquisimeto',
+        'Calle de la Luna, Urbanización Los Próceres, Barquisimeto',
+        'Urbanización Yucatán, Barquisimeto',
+        'Urbanización Roquita, Barquisimeto',
+        'Urbanización Nueva Tierra, Barquisimeto',
+        'Urbanización Tierra Vieja, Barquisimeto',
+        'Urbanización La Grieta del Invocador',
+    ]
+)
+fake.add_provider(custom_address_provider)
 
 def generate_phone_number():
     prefixe = ['0412', '0416', '0424', '0414', '0416']
     prefixe = random.choice(prefixe)
     number = ''.join([str(random.randint(0, 9)) for _ in range(7)])
 
-    telefono = f'{prefixe}-{number}'
+    telefono = f'{prefixe}{number}'
     return telefono
 
 def generate_identify_card():
@@ -104,19 +116,19 @@ def generate_identify_card():
     return random_string
 
 def generate_first_name():
-    return random.choice(FIRST_NAMES)
+    return fake.custom_first_names()
 
 def generate_last_name():
-    return random.choice(LAST_NAME)
+    return fake.custom_last_names()
 
 def generate_birthdate():
     return date(random.randint(2007, 2019), random.randint(1, 12), random.randint(1, 28))
 
 def generate_address():
-    return random.choice(ADDRESS)
+    return fake.custom_address()
 
 def generate_email():
-    return faker.email()
+    return fake.email()
 
 def generate_boolean():
     threshold = 0.8  # 80% probability of True
