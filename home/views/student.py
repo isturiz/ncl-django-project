@@ -38,20 +38,28 @@ class StudentGraph_View(TemplateView):
         start_dates = get_start_dates_for_students()
 
         context['start_dates'] = start_dates
-        context['calculate_age_by_count'] = self.calculate_age_by_count()
+        context['calculate_age_by_count'] = self.get_calculate_age_by_count()
+        context['student_count_by_subscription_type'] = self.get_student_count_by_subscription_type()
         return context
     
-    def calculate_age_by_count(self):
+    def get_calculate_age_by_count(self):
         today = datetime.now()
 
-        # Calcula la edad de los estudiantes y agrupa por edades
+        # Calculate the age of the students and group by age
         students = Student.objects.annotate(age=ExtractYear(today) - ExtractYear('birthdate')).values('age').annotate(count=Count('id')).order_by('age')
 
-        # Prepara los datos en el formato deseado
+        # Prepape the data in the desired format
         age_data = [{'age': student['age'], 'count': student['count']} for student in students]
-
-        # Convierte los datos a formato JSON
         age_data_json = json.dumps(age_data)
 
-        # Devuelve los datos en formato JSON
         return age_data_json
+    
+    def get_student_count_by_subscription_type(self):
+
+        subscription_counts = Student.objects.exclude(subscription__isnull=True).values('subscription__subscription_type__name').annotate(count=Count('id')).order_by('subscription__subscription_type__name')
+
+        # Prepape the data in the desired format
+        subscription_data = [{'subscription_type': item['subscription__subscription_type__name'], 'count': item['count']} for item in subscription_counts]
+
+        subscription_data_json = json.dumps(subscription_data)
+        return subscription_data_json

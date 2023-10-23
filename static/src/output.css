@@ -1581,6 +1581,10 @@ input:checked + .toggle-bg {
   resize: both;
 }
 
+.list-disc {
+  list-style-type: disc;
+}
+
 .list-none {
   list-style-type: none;
 }
