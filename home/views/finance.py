@@ -2,7 +2,6 @@ from django.views.generic import TemplateView
 
 from datetime import datetime, timedelta
 
-
 from django.db.models import Sum
 from django.db.models.functions import ExtractMonth
 from json import dumps

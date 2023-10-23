@@ -1,5 +1,4 @@
 
-
 {% extends "base.html" %}
 
 {% block content %}
@@ -7,20 +6,14 @@
 {% load compress %}
 {% load static %}
 
-
-
-<style>
-    
-</style>
-
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-2">
 
     {% comment %} first section {% endcomment %}
     <div class="flex py-3 flex-row lg:items-center justify-between space-y-0 space-x-4">
         <div class="flex items-center flex-1 space-x-4">
             <h5>
-                <span class="text-gray-500 dark:text-gray-300">Número de estudiantes</span>
-                <span class="dark:text-white">{{ students | length}}</span>
+                <span class="text-gray-500 dark:text-gray-300">Pagos totales</span>
+                <span class="dark:text-white">{{ payments | length}}</span>
             </h5>
         </div>
     </div>
@@ -42,15 +35,15 @@
             {% comment %} Filter {% endcomment %}
             <div class="relative">
                 <select id="filter-status" class="block p-2 pr-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="">Todos</option>
-                    <option value="active" selected>Activos</option>
-                    <option value="inactive">Inactivos</option>
+                    <option value="">Todas</option>
+                    <option value="inactive">Inactivas</option>
+                    <option value="active">Actives</option>
                 </select>
             </div>
     
             {% comment %} Export {% endcomment %}
             <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">            
-                <button type="button" id="export-pdf-button" class="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                <button type="button" class="export-button flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                     <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                     </svg>
@@ -63,7 +56,7 @@
         
         
         {% comment %} Add {% endcomment %}
-        <button type="button" onclick="window.location.href = '{% url 'student-add' %}'" class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <button type="button" onclick="window.location.href = '{% url 'subscription-create' %}'" class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
             </svg>
@@ -76,57 +69,45 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">
-                    Nombre
+                    Estudiante
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Apellido
+                    Tipo de suscripción
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Email
+                    Monto
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Teléfono
+                    Fecha
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Dirección
-                </th>
-                <th scope="col" class="px-6 py-3">
+                {% comment %} <th scope="col" class="px-6 py-3">
                     Estado
-                </th>
+                </th> {% endcomment %}
                 <th scope="col" class="px-6 py-3">
                     Acción
                 </th>
             </tr>
         </thead>
         <tbody>
-            {% for student in students %}
-            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700" data-status="{% if student.is_active %}active{% else %}inactive{% endif %}" {% if not student.is_active%}style="display:none;"{% endif %}>
+            {% for payment in payments %}
+            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700" data-status="{% if lesson.lesson_status %}active{% else %}inactive{% endif %}">
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ student.first_name }}
+                    {{ payment.subscription.student }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ student.first_surname }}
+                    {{ payment.subscription.subscription_type.name }}
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ payment.price }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ student.email }}
+                    {{ payment.date|date:"d/m/Y" }}
                 </td>
-                <td class="px-6 py-4">
-                    {{ student.phone_number }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ student.address }}
-                </td>
-                <td class="px-6 py-4">
-                    {% if student.is_active %}
-                        Activo
-                    {% else %}
-                        Inactivo
-                    {% endif %}
-                    {% comment %} {{ student.birthdate|date:"d/m/Y"}} {% endcomment %}
-                </td>
+
+
                 <td class="px-6 py-4">
                     <div class="flex items-center h-full flex-1 flex-row gap-x-2">
-                        <a href="{% url 'student-update' student.pk %}" class="font-medium text-black dark:text-white hover:underline">
+                        <a href="{% url 'payment-update' payment.pk %}" class="font-medium text-black dark:text-white hover:underline">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
@@ -137,12 +118,13 @@
 
                         <button 
                             class="font-medium text-black dark:text-white hover:underline" 
-                            onclick="openModal('studentModal', {
-                                'Nombre': '{{ student.first_name }} {{ student.second_name }} {{ student.first_surname }} {{ student.second_surname }}',   
-                                'Fecha de Nacimiento': '{{ student.birthdate }}',
-                                'Teléfono': '{{ student.phone_number }}',
-                                'Email': '{{ student.email }}',
-                                'Dirección': '{{ student.address }}'
+                            onclick="openModal('lessonModal', {
+                                'Fecha': '{% if lesson.start_date %}{{ lesson.start_date|date:"l j, g:iA" }}{% endif %}',   
+                                'Estudiante': '{{ lesson.subscription.student }}',
+                                'Precio': '{% if lesson.price %}${{lesson.price}}{% else %}$0{% endif %}',
+                                'Profesor': '{{ lesson.teacher }}',
+                                'Clase vista': '{% if lesson.lesson_status %}Vista{% else %}No vista{% endif %}',
+                                
                             })">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-square" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -161,7 +143,7 @@
 </div>
 
 <!-- Modal -->
-<div id="studentModal" class="modal">
+<div id="lessonModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span> <!-- "X" Button -->
         <div></div>
@@ -170,6 +152,4 @@
 
 <script src="{% static "js/features/search.js" %}"></script>
 <script src="{% static "js/modal.js" %}"></script>
-<script src="{% static "js/features/jspdf.js" %}"></script>
-
 {% endblock %}

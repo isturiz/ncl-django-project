@@ -1,7 +1,7 @@
-# scripts/populate_students.py
-
 from home.models import Student
-from datetime import date, datetime, timedelta
+
+
+from datetime import date
 import random
 from faker import Faker
 from faker.providers import DynamicProvider
@@ -109,8 +109,8 @@ def generate_phone_number():
     telefono = f'{prefixe}{number}'
     return telefono
 
-def generate_identify_card():
-    random_number = random.randint(33000000, 39000000)
+def generate_identify_card(initial, final):
+    random_number = random.randint(initial, final)
     random_string = f"V-{random_number:07}"
 
     return random_string
@@ -121,8 +121,8 @@ def generate_first_name():
 def generate_last_name():
     return fake.custom_last_names()
 
-def generate_birthdate():
-    return date(random.randint(2007, 2019), random.randint(1, 12), random.randint(1, 28))
+def generate_birthdate(years):
+    return date(random.randint(years[0], years[1]), random.randint(1, 12), random.randint(1, 28))
 
 def generate_address():
     return fake.custom_address()
@@ -138,12 +138,12 @@ def generate_boolean():
 def populate_students():
     for i in range(20):
         Student.objects.create(
-            identify_card=generate_identify_card(),
+            identify_card=generate_identify_card(33000000, 39000000),
             first_name=generate_first_name(),
             second_name=generate_first_name(),
             first_surname=generate_last_name(),
             second_surname=generate_last_name(),
-            birthdate=generate_birthdate(),
+            birthdate=generate_birthdate(years=[2007, 2019]),
             phone_number=generate_phone_number(),
             email=generate_email(),
             address=generate_address(),

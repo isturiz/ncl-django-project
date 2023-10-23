@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from celery.schedules import crontab
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -148,3 +149,16 @@ STATICFILES_FINDERS = (
 
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+
+# Celery Configuration
+CELERY_BROKER_URL = 'memory://'
+CELERY_RESULT_BACKEND = 'cache'
+CELERY_CACHE_BACKEND = 'memory'
+
+CELERY_BEAT_SCHEDULE = {
+    'auto-renew-subscriptions': {
+        'task': 'home.tasks.auto_renew_subscriptions',
+        'schedule': crontab(hour=0, minute=0),  # Ejecuta a la medianoche
+    },
+}

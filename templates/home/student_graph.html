@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load compress %}
+{% load static %}
+<script src="{% static "/node_modules/apexcharts/dist/apexcharts.min.js" %}"></script>
+
+<div>{{ calculate_age_by_count }}</div>
+{% comment %} <div>{{ start_dates }}</div> {% endcomment %}
+
+<div class="max-w-none w-full bg-white rounded-lg shadow mt-8 dark:bg-gray-800 p-4 md:p-6">
+    <div class="flex justify-between">
+        <div>
+            <h5 id="idTotalStudent" class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Cantidad de estudiantes {{ total_payments_current_year }}</h5>
+            <p class="text-base font-normal text-gray-500 dark:text-gray-400">Año actual</p>
+        </div>
+
+        <div class=" hidden flex flex-col items-end px-2.5 py-0.5">
+            {% if percentage_change > 0 %}
+                <div class="flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                    {{ percentage_change }}%
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12 5l0 14"></path>
+                        <path d="M16 9l-4 -4"></path>
+                        <path d="M8 9l4 -4"></path>
+                    </svg>
+                </div>
+            {% elif percentage_change < 0  %}
+                <div class="flex items-center text-base font-semibold text-red-500 dark:text-red-500 text-center">
+                    {{ percentage_change }}%
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12 5l0 14"></path>
+                        <path d="M16 15l-4 4"></path>
+                        <path d="M8 15l4 4"></path>
+                        </svg>
+                </div>
+            {% else %}
+                <div class="flex items-center text-base font-semibold text-gray-500 dark:text-gray-500 text-center pr-2">
+                    {{ percentage_change }}%
+                </div>
+            {% endif %}
+            <p class="flex items-center text-xs font-mono pr-2 text-gray-500 dark:text-gray-400">respecto al mes anterior</p>
+
+        </div>
+
+    </div>
+    <div id="student-chart">
+    </div>
+    <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
+        <div class="flex justify-between items-center pt-5">
+            <!-- Button -->
+            <button
+                id="dropdownStudentButton"
+                data-dropdown-toggle="filterStudentButton"
+                data-dropdown-placement="bottom"
+                class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
+                type="button">
+                Año actual
+                <svg class="w-2.5 m-2.5 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+            </button>
+            <!-- Dropdown menu -->
+            <div id="filterStudentButton" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownStudentButton">
+                    <li>
+                    <a href="#" data-filter="current-year" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Año actual</a>
+                    </li>
+                    <li>
+                    <a href="#" data-filter="last-three-months" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Últimos tres meses</a>
+                    </li>
+                    <li>
+                    <a href="#" data-filter="last-six-months" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Últimos seis meses</a>
+                    </li>
+                    <li>
+                    <a href="#" data-filter="last-nine-months" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Últimos nueve meses</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+<script>
+    
+    const calculateAgeByCount = {{ calculate_age_by_count|safe }};
+
+    const studentAge = calculateAgeByCount.map(item => item.age)
+    const studentCount = calculateAgeByCount.map(item => item.count)
+
+    const selectedMonthlyFilter = ({chart}) => {
+        const filterButton = document.getElementById("filterMonthButton");
+        const dropdownButton = document.getElementById("dropdownMonthButton");
+        const idTotalAmount = document.getElementById("idTotalAmount")
+        filterButton.addEventListener("click", function (event) {
+
+            event.preventDefault();
+        
+            const selectedFilter = event.target.getAttribute("data-filter");
+        
+            if (filtersMonthly[selectedFilter]) {
+                chart.updateSeries([{ data: filtersMonthly[selectedFilter].data }]);
+                chart.updateOptions({
+                    xaxis: {
+                        categories: filtersMonthly[selectedFilter].labels,
+                    },
+                });
+                idTotalAmount.textContent = filtersMonthly[selectedFilter].total
+                
+            }
+            if (selectedFilter) {
+                const filterText = event.target.textContent;
+                dropdownButton.textContent = filterText;
+            }
+            
+        });
+    }
+
+
+    // ApexCharts options and config
+    window.addEventListener("load", function() {
+        let options = {
+            chart: {
+                height: "100%",
+                maxWidth: "100%",
+                type: "area",
+                fontFamily: "Inter, sans-serif",
+                dropShadow: {
+                    enabled: false,
+                },
+                toolbar: {
+                    show: true,
+                    offsetX: 0,
+                    offsetY: 0,
+                    tools: {
+                        download: true,
+                        selection: true,
+                        zoom: true,
+                        zoomin: true,
+                        zoomout: true,
+                        pan: true,
+                        reset: true | '<img src="/static/icons/reset.png" width="20">',
+                        customIcons: []
+                    },
+                    export: {
+                        csv: {
+                            filename: 'cantidad-estudiantes-por-edad',
+                            columnDelimiter: ',',
+                            headerCategory: 'category',
+                            headerValue: 'value',
+                            dateFormatter(timestamp) {
+                            return new Date(timestamp).toDateString()
+                            }
+                        },
+                        svg: {
+                            filename: 'cantidad-estudiantes-por-edad',
+                        },
+                        png: {
+                            filename: 'cantidad-estudiantes-por-edad',
+                        }
+                    },
+                    autoSelected: 'zoom' 
+                },
+            },
+            
+            tooltip: {
+                enabled: true,
+                x: {
+                    show: false,
+                },
+            },
+            fill: {
+                type: "gradient",
+                gradient: {
+                    opacityFrom: 0.55,
+                    opacityTo: 0,
+                    shade: "#1C64F2",
+                    gradientToColors: ["#1C64F2"],
+                },
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                width: 6,
+            },
+            grid: {
+                show: false,
+                strokeDashArray: 4,
+                padding: {
+                    left: 2,
+                    right: 2,
+                    top: 0
+                },
+            },
+            series: [
+                {
+                    name: "Estudiantes",
+                    data: studentCount,
+                    color: "#1A56DB",
+                },
+            ],
+            xaxis: {
+                title: {
+                    text: 'Edad estudiantes',
+                    style: {
+                        fontSize: '14px',
+                    },
+                },
+                categories: studentAge,
+                labels: {
+                    show: true,
+                    style: {
+                        fontFamily: "Inter, sans-serif",
+                        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+                    }
+                    
+                },
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false,
+                },
+            },
+            yaxis: {
+                title: {
+                    text: 'Cantidad estudiantes',
+                    style: {
+                        fontSize: '14px',
+                    },
+                },
+                show: true,
+                labels: {
+                    show: true,
+                    style: {
+                        fontFamily: "Inter, sans-serif",
+                        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+                    },
+                    formatter: function (value) {
+                        return value;
+                    }
+                }
+            },
+        }
+
+        if (document.getElementById("student-chart") && typeof ApexCharts !== 'undefined') {
+            const studentChart = new ApexCharts(document.getElementById("student-chart"), options);
+            studentChart.render();
+        }
+    });
+
+</script>
+
+
+
+<script src="{% static "js/modal.js" %}"></script>
+{% endblock %}

@@ -1,72 +1,163 @@
+
 from home.models import Teacher
 
+
+from datetime import date
+import random
+from faker import Faker
+from faker.providers import DynamicProvider
+
+fake = Faker('es_ES')
+
+custom_first_names_provider= DynamicProvider(
+    provider_name="custom_first_names",
+    elements=[
+        'Carlos',
+        'Luis',
+        'Ana',
+        'Pedro',
+        'Camila',
+        'Juan',
+        'María',
+        'Lorena',
+        'José',
+        'Javier',
+        'Miguel',
+        'Luisa',
+        'Luciano',
+        'Marcos',
+        'Sofía',
+        'Daniel',
+        'Marina',
+        'Elena',
+        'Isabel',
+        'Fernando',
+        'Laura',
+        'Xeniel'
+        'Sara',
+        'Alejandra',
+        'Ricardo',
+        'Mariana',
+        'Raul',
+        'Gabriel',
+        'Axel',
+        'Natalia',
+        'Eduardo',
+    ]
+)
+fake.add_provider(custom_first_names_provider)
+
+custom_last_names_provider = DynamicProvider(
+    provider_name="custom_last_names",
+    elements=[
+        'Gonzales',
+        'Martínez',
+        'Torres',
+        'Fernández',
+        'Hernández',
+        'López',
+        'García',
+        'Pérez',
+        'Gómez',
+        'Rojas',
+        'Muñoz',
+        'Sánchez',
+        'Rivera',
+        'Vega',
+        'Martín',
+        'Ramírez',
+        'Mendoza',
+        'Navarro',
+        'Morales',
+        'Riera',
+        'Flores',
+        'Mora',
+        'Cruz',
+        'Aquino',
+        'Istúriz',
+        'Dorante',
+        'Figueroa',
+        'Velázquez',
+        'Villegas',
+    ]
+)
+fake.add_provider(custom_last_names_provider)
+
+
+custom_address_provider = DynamicProvider(
+    provider_name = "custom_address",
+    elements = [
+        'Urbanización Ciudad Roca, Barquisimeto',
+        'Calle de los Niños, Urbanización Los Próceres, Barquisimeto',
+        'Avenida Venezuela, Centro Comercial El Trigal, Barquisimeto',
+        'Calle Los Estudiantes, Urbanización Los Próceres, Barquisimeto',
+        'Urbanización El Trigal, Barquisimeto',
+        'Calle de la Luna, Urbanización Los Próceres, Barquisimeto',
+        'Urbanización Yucatán, Barquisimeto',
+        'Urbanización Roquita, Barquisimeto',
+        'Urbanización Nueva Tierra, Barquisimeto',
+        'Urbanización Tierra Vieja, Barquisimeto',
+        'Urbanización La Grieta del Invocador',
+    ]
+)
+fake.add_provider(custom_address_provider)
+
+def generate_phone_number():
+    prefixe = ['0412', '0416', '0424', '0414', '0416']
+    prefixe = random.choice(prefixe)
+    number = ''.join([str(random.randint(0, 9)) for _ in range(7)])
+
+    telefono = f'{prefixe}{number}'
+    return telefono
+
+def generate_identify_card(initial, final):
+    random_number = random.randint(initial, final)
+    random_string = f"V-{random_number:07}"
+
+    return random_string
+
+def generate_first_name():
+    return fake.custom_first_names()
+
+def generate_last_name():
+    return fake.custom_last_names()
+
+def generate_birthdate(years):
+    return date(random.randint(years[0], years[1]), random.randint(1, 12), random.randint(1, 28))
+
+def generate_address():
+    return fake.custom_address()
+
+def generate_email():
+    return fake.email()
+
+def generate_boolean():
+    threshold = 0.8  # 80% probability of True
+    random_number = random.random()  # Generate a random number between 0 and 1
+    return True if random_number < threshold else False
+
 def populate_teachers():
-    Teacher.objects.create(
-        identify_card="1111",
-        first_name="Juan",
-        second_name="Carlos",
-        first_surname="Gómez",
-        second_surname="López",
-        birthdate="1985-04-10",
-        phone_number="555-1111",
-        email="juan@example.com",
-        address="123 Main St",
-        is_active=True
-    )
+    for i in range(3):
+        Teacher.objects.create(
+            identify_card=generate_identify_card(10000000, 20000000),
+            first_name=generate_first_name(),
+            second_name=generate_first_name(),
+            first_surname=generate_last_name(),
+            second_surname=generate_last_name(),
+            birthdate=generate_birthdate(years=[1970, 1990]),
+            phone_number=generate_phone_number(),
+            email=generate_email(),
+            address=generate_address(),
+            is_active=generate_boolean()
+        )
 
-    Teacher.objects.create(
-        identify_card="2222",
-        first_name="María",
-        second_name="Isabel",
-        first_surname="Sánchez",
-        second_surname="Martínez",
-        birthdate="1990-07-22",
-        phone_number="555-2222",
-        email="maria@example.com",
-        address="456 Elm St",
-        is_active=True
-    )
-
-    Teacher.objects.create(
-        identify_card="3333",
-        first_name="Luis",
-        second_name="Antonio",
-        first_surname="Ramírez",
-        second_surname="García",
-        birthdate="1978-02-15",
-        phone_number="555-3333",
-        email="luis@example.com",
-        address="789 Oak St",
-        is_active=True
-    )
-
-    Teacher.objects.create(
-        identify_card="4444",
-        first_name="Laura",
-        second_name="Margarita",
-        first_surname="Gómez",
-        second_surname="Fernández",
-        birthdate="1986-11-28",
-        phone_number="555-4444",
-        email="laura@example.com",
-        address="890 Cedar St",
-        is_active=True
-    )
-
-    Teacher.objects.create(
-        identify_card="5555",
-        first_name="Carlos",
-        second_name="Fernando",
-        first_surname="Pérez",
-        second_surname="Hernández",
-        birthdate="1975-05-20",
-        phone_number="555-5555",
-        email="carlos@example.com",
-        address="111 Pine St",
-        is_active=True
-    )
-
-    print("Teacher data added successfully.")
-
+    print("Student data added successfully.")
 
 populate_teachers()
+
+
+
+
+
+
+

@@ -2,13 +2,16 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from .views import HomePageView
-from .views import StudentListView, StudentAddView, StudentUpdateView
+from .views import Student_ListView, Student_CreateView, Student_UpdateView, StudentGraph_View
 from .views import TeacherListView, TeacherAddView, TeacherUpdateView
 from .views import LessonListView, LessonCreateView, LessonUpdateView
 from .views import SubscriptionListView, SubscriptionCreateView, SubscriptionUpdateView
 from .views import CalendarView
 from .views import EventUpdateView, EventCreateView, EventLessonUpdateView
 from .views import FinanceView
+from .views import PaymentListView, PaymentCreateView, PaymentUpdateView
+
+
 
 from .views import UserListView
 
@@ -19,9 +22,10 @@ from .views import UserListView
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
 
-    path('students/', StudentListView.as_view(), name='student-list'),
-    path('students/add/', StudentAddView.as_view(), name='student-add'),
-    path('students/<int:pk>/', StudentUpdateView.as_view(), name='student-update'),
+    path('students/', Student_ListView.as_view(), name='student-list'),
+    path('students/add/', Student_CreateView.as_view(), name='student-add'),
+    path('students/<int:pk>/', Student_UpdateView.as_view(), name='student-update'),
+    path('students/graph/', StudentGraph_View.as_view(), name='student-graph'),
 
     path('teachers/', TeacherListView.as_view(), name='teacher-list'),
     path('teachers/add/', TeacherAddView.as_view(), name='teacher-add'),
@@ -41,6 +45,10 @@ urlpatterns = [
     path('subscriptions/<int:pk>', SubscriptionUpdateView.as_view(), name='subscription-update'),
 
     path('finances/', FinanceView.as_view(), name='finances'),
+
+    path('payments/', PaymentListView.as_view(), name='payment-list'),
+    path('payments/create/', PaymentCreateView.as_view(), name='payment-create'),
+    path('payments/<int:pk>', PaymentUpdateView.as_view(), name='payment-update'),
 
     path('users/', UserListView.as_view(), name='user-list'),
     

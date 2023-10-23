@@ -1,5 +1,12 @@
 from django.db import models
 from django.db.models import UniqueConstraint
+from datetime import timedelta
+from dateutil.relativedelta import relativedelta
+from datetime import date
+import calendar
+
+
+SUBSCRIPTION_DURATION = 30
 
 class SubscriptionType(models.Model):
 
@@ -121,7 +128,8 @@ class Subscription(models.Model):
     # Fields
     start_date = models.DateField()
     end_date = models.DateField()
-    subscription_status = models.BooleanField(default=True, blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    auto_renewal = models.BooleanField(default=True)
     
 
     def __str__(self):
@@ -132,6 +140,42 @@ class Subscription(models.Model):
     
     def get_student_and_type (self):
         return f'{self.student} - {self.subscription_type.name} - ${self.subscription_type.price}'
+    
+    # If auto_renewal is True, renews the subscription
+    def renew_subscription(self):
+        if self.auto_renewal:
+            current_month = self.end_date.month
+            current_year = self.end_date.year
+
+            # Get the last day of the new month
+            if current_month == 12:
+                new_month = 1
+                new_year = current_year + 1
+            else:
+                new_month = current_month + 1
+                new_year = current_year
+
+            # Get the last day of the new month
+            last_day_of_new_month = calendar.monthrange(new_year, new_month)[1]
+            if self.end_date.day > last_day_of_new_month:
+                new_day = last_day_of_new_month
+            else:
+                new_day = self.end_date.day
+
+            # Create a new subscription
+            new_subscription = Subscription(
+                subscription_type = self.subscription_type,
+                student = self.student,
+                start_date = self.end_date,
+                end_date = date(new_year, new_month, new_day),
+                is_active = True,
+                auto_renewal = True  
+            )
+            new_subscription.save()
+
+            self.auto_renewal = False
+            self.is_active = False
+            self.save()
 
 
 class Payment(models.Model):

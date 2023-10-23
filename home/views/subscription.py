@@ -20,3 +20,4 @@ class SubscriptionUpdateView(UpdateView):
     form_class = SubscriptionForm
     template_name = 'forms/subscription_form.html'  
     success_url = '/subscriptions/'
+
