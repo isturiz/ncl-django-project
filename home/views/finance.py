@@ -14,7 +14,7 @@ SIX_MONTHS = 180
 NINE_MONTHS = 270
 
 class FinanceView(TemplateView):
-    template_name = 'home/finance.html'
+    template_name = 'home/finance_graph.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

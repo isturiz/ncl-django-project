@@ -219,53 +219,83 @@
     window.addEventListener("load", function() {
         let options = {
             chart: {
-            height: "100%",
-            maxWidth: "100%",
-            type: "area",
-            fontFamily: "Inter, sans-serif",
-            dropShadow: {
-                enabled: false,
-            },
-            toolbar: {
-                show: false,
-            },
+                height: "100%",
+                maxWidth: "100%",
+                type: "area",
+                fontFamily: "Inter, sans-serif",
+                dropShadow: {
+                    enabled: false,
+                },
+                toolbar: {
+                    show: true,
+                    offsetX: 0,
+                    offsetY: 0,
+                    tools: {
+                        download: true,
+                        selection: true,
+                        zoom: true,
+                        zoomin: true,
+                        zoomout: true,
+                        pan: true,
+                        reset: true | '<img src="/static/icons/reset.png" width="20">',
+                        customIcons: []
+                    },
+                    export: {
+                        csv: {
+                            filename: 'ingresos-por-mes',
+                            columnDelimiter: ',',
+                            headerCategory: 'category',
+                            headerValue: 'value',
+                            dateFormatter(timestamp) {
+                                return new Date(timestamp).toDateString()
+                            }
+                        },
+                        svg: {
+                            filename: 'ingresos-por-mes',
+                        },
+                        png: {
+                            filename: 'ingresos-por-mes',
+                        }
+                    },
+                    autoSelected: 'zoom' 
+                },
             },
             tooltip: {
-            enabled: true,
-            x: {
-                show: false,
-            },
+                enabled: true,
+                x: {
+                    show: false,
+                },
             },
             fill: {
-            type: "gradient",
-            gradient: {
-                opacityFrom: 0.55,
-                opacityTo: 0,
-                shade: "#1C64F2",
-                gradientToColors: ["#1C64F2"],
-            },
+                type: "gradient",
+                gradient: {
+                    opacityFrom: 0.55,
+                    opacityTo: 0,
+                    shade: "#1C64F2",
+                    gradientToColors: ["#1C64F2"],
+                },
             },
             dataLabels: {
-            enabled: false,
+                enabled: false,
             },
             stroke: {
-            width: 6,
+                width: 6,
             },
             grid: {
-            show: false,
-            strokeDashArray: 4,
-            padding: {
-                left: 2,
-                right: 2,
-                top: 0
-            },
+                show: false,
+                strokeDashArray: 4,
+                padding: {
+                    left: 2,
+                    right: 2,
+                    top: 0
+                },
             },
             series: [
-            {
-                name: "Payments",
-                data: monthPaymentPrice,
-                color: "#1A56DB",
-            },
+                {
+                    name: "Payments",
+                    data: monthPaymentPrice,
+                    color: "#1A56DB",
+                },
             ],
             xaxis: {
                 categories: monthLabels,
@@ -274,27 +304,26 @@
                     style: {
                         fontFamily: "Inter, sans-serif",
                         cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
-                    }
-                    
-            },
-            axisBorder: {
-                show: false,
-            },
-            axisTicks: {
-                show: false,
-            },
+                    }  
+                },
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false,
+                },
             },
             yaxis: {
                 show: true,
                 labels: {
-                show: true,
-                style: {
-                    fontFamily: "Inter, sans-serif",
-                    cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
-                },
-                formatter: function (value) {
-                    return '$' + value;
-                }
+                    show: true,
+                    style: {
+                        fontFamily: "Inter, sans-serif",
+                        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+                    },
+                    formatter: function (value) {
+                        return '$' + value;
+                    }
                 }
             },
         }
