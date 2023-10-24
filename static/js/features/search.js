@@ -1,6 +1,5 @@
-
 document.addEventListener("DOMContentLoaded", function() {
-    // for lesson seen and student active it's the same constant
+
     const STATUS = {
         ACTIVE: "active", 
         INACTIVE: "inactive",
@@ -13,14 +12,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function filterTable() {
         const searchText = tableSearch.value.trim().toLowerCase();
-        const filterValue = filterStatus.value;
-        console.log(filterValue)
+        let filterValue = "";
+
+        if (filterStatus) {
+            filterValue = filterStatus.value;
+        }
+
+        console.log(filterValue);
         let matchCount = 0;
 
         tableRows.forEach(function(row) {
             const rowData = row.textContent.toLowerCase();
             const isActive = row.dataset.status === STATUS.ACTIVE;
-            console.log(isActive)
+            console.log(isActive);
 
             // Active / Inactive filter
             if ((filterValue === "" || (filterValue === STATUS.ACTIVE && isActive) || (filterValue === STATUS.INACTIVE && !isActive)) && rowData.includes(searchText)) {
@@ -31,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        // Mostrar mensaje de resultado solo si hay texto en el campo de búsqueda
+
         if (searchText === "") {
             resultMessage.textContent = "";
         } else if (matchCount > 0) {
@@ -41,8 +45,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Escuchar cambios en el filtro y el campo de búsqueda
-    tableSearch.addEventListener("input", filterTable);
-    filterStatus.addEventListener("change", filterTable);
-});
 
+    tableSearch.addEventListener("input", filterTable);
+    
+    if (filterStatus) {
+        filterStatus.addEventListener("change", filterTable);
+    }
+});
