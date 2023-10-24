@@ -9,7 +9,12 @@ from .subscription import SubscriptionListView, SubscriptionCreateView, Subscrip
 from .calendar import CalendarView, EventCreateView, EventUpdateView, EventLessonUpdateView
 from .finance import FinanceView
 from .user import UserListView
-from .payments import PaymentListView, PaymentCreateView, PaymentUpdateView
+
+from .payments import Payment_ListView, Payment_CreateView, Payment_UpdateView
+
+from .lesson_types import LessonTypes_ListView, LessonTypes_CreateView, LessonTypes_UpdateView
+
+
 
 from .lesson import load_subscriptions
 
