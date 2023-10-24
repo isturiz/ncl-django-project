@@ -28,7 +28,9 @@
     <link rel="stylesheet" href="{% static "css/modal.css" %}">
     <script src="{% static 'node_modules/jspdf/dist/jspdf.umd.min.js' %}"></script>
 
-
+    {% comment %} {% if request.user.is_authenticated %}
+        <script src="{{ livereload_script }}"></script>
+    {% endif %} {% endcomment %}
 </head>
 
 <body class="dark:bg-gray-900">

@@ -28,6 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LIVERELOAD_HOST = '127.0.0.1'
+LIVERELOAD_PORT = 35729
+
 
 # Application definition
 
@@ -38,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    'livereload',
     "django.contrib.staticfiles",
 
     # third party apps
@@ -57,6 +61,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    # third party apps
+    'livereload.middleware.LiveReloadScript',
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -73,6 +80,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
+            'debug': DEBUG,
         },
     },
 ]
@@ -162,3 +170,5 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=0, minute=0),  # Ejecuta a la medianoche
     },
 }
+
+
