@@ -13,6 +13,7 @@ from .user import UserListView
 from .payments import Payment_ListView, Payment_CreateView, Payment_UpdateView
 
 from .lesson_types import LessonTypes_ListView, LessonTypes_CreateView, LessonTypes_UpdateView
+from .subscription_types import SubscriptionTypes_ListView, SubscriptionTypes_CreateView, SubscriptionTypes_UpdateView
 
 
 
