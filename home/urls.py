@@ -11,6 +11,7 @@ from .views import EventUpdateView, EventCreateView, EventLessonUpdateView
 from .views import FinanceView
 from .views import PaymentListView, PaymentCreateView, PaymentUpdateView
 
+from .views import load_subscriptions
 
 
 from .views import UserListView
@@ -33,7 +34,9 @@ urlpatterns = [
 
     path('lessons/', LessonListView.as_view(), name='lesson-list'),
     path('lessons/create/', LessonCreateView.as_view(), name='lesson-create'),
-    path('lessons/<int:pk>', LessonUpdateView.as_view(), name='lesson-update'),
+    path('lessons/<int:pk>/', LessonUpdateView.as_view(), name='lesson-update'),
+
+    path('load-subscription/<int:student_id>/', load_subscriptions, name='load-subscription'),
 
     path('calendar/', CalendarView.as_view(), name='calendar'),
     path('event/create/', EventCreateView.as_view(), name='event-create'),
@@ -42,13 +45,13 @@ urlpatterns = [
 
     path('subscriptions/', SubscriptionListView.as_view(), name='subscription-list'),
     path('subscriptions/create/', SubscriptionCreateView.as_view(), name='subscription-create'),
-    path('subscriptions/<int:pk>', SubscriptionUpdateView.as_view(), name='subscription-update'),
+    path('subscriptions/<int:pk>/', SubscriptionUpdateView.as_view(), name='subscription-update'),
 
     path('finances/', FinanceView.as_view(), name='finances'),
 
     path('payments/', PaymentListView.as_view(), name='payment-list'),
     path('payments/create/', PaymentCreateView.as_view(), name='payment-create'),
-    path('payments/<int:pk>', PaymentUpdateView.as_view(), name='payment-update'),
+    path('payments/<int:pk>/', PaymentUpdateView.as_view(), name='payment-update'),
 
     path('users/', UserListView.as_view(), name='user-list'),
     

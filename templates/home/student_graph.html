@@ -533,18 +533,20 @@
     //const chart3_subcriptionType = revenueSubscriptionRypeCurrentYear.map(item => item.subscription_type)
     const chart3_revenueCurrentYear = revenueSubscriptionRypeCurrentYear.map(item => item.revenue)
 
+    console.log('chart3_revenueCurrentYear:', chart3_revenueCurrentYear)
+
     window.addEventListener("load", function() {
       var options = {
         series: [
         {
             name: "Ingresos",
             type: "column", // Puedes usar 'column' para ingresos
-            data: [5000, 7000, 3000, 9000],
+            data: chart3_revenueCurrentYear,
         },
         {
             name: "Estudiantes",
             type: "line", // Puedes usar 'line' para estudiantes
-            data: [50, 70, 30, 90],
+            data: chart3_studentCount,
         }
         ],
         chart: {

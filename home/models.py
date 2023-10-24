@@ -57,8 +57,6 @@ class Lesson(models.Model):
     end_date = models.DateTimeField(blank=True, null=True)
     lesson_status = models.BooleanField(default=False)  # True = Vista, False = No vista
 
-    # M2M
-    
 
     def __str__(self):
         return f'{self.lesson_type} - {self.price} - {self.subscription}'

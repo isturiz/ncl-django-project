@@ -1,10 +1,12 @@
 from django import forms
-from home.models import Lesson
+from home.models import Lesson, Student
 
 class EventForm(forms.ModelForm):
+    student = forms.ModelChoiceField(queryset=Student.objects.all())
+
     class Meta:
         model = Lesson
-        fields = ['lesson_type', 'subscription', 'teacher', 'description', 'price', 'start_date', 'end_date', 'lesson_status']
+        fields = ['student','lesson_type', 'subscription', 'teacher', 'description', 'price', 'start_date', 'end_date', 'lesson_status']
         labels = {
             'lesson_type': 'Tipo de clase',
             'subscription': 'Suscripción',
@@ -22,6 +24,10 @@ class EventForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
+
+
+        self.fields['student'].empty_label = 'Seleccionar estudiante'
+        self.fields['student'].widget.attrs.update({'class': 'block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer'})
 
 
         self.fields['lesson_type'].empty_label = 'Seleccionar tipo de clase'

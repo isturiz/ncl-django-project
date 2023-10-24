@@ -11,6 +11,21 @@
     {% csrf_token %}
     {% comment %} {{ form.as_p }} {% endcomment %}
 
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 md:gap-6">
+        <div class="relative z-0 w-full mb-6 group">
+            {{ form.student }}
+        </div>
+    </div>
+
+    {% comment %} <div class="grid grid-cols-1 lg:grid-cols-2 md:gap-6">
+        <div class="relative z-0 w-full mb-6 group">
+            <select id="{{ form.subscription.id }}" name="{{ form.subscription.name }}" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                <option value="" selected>Seleccionar suscripción</option>
+            </select>
+        </div>
+    </div> {% endcomment %}
+
     <div class="grid grid-cols-1 lg:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
             {{ form.lesson_type }}
@@ -102,4 +117,39 @@
     
 
 </script>
+
+<script>
+    // Obtén los elementos de los campos de selección
+    const studentSelect = document.getElementById('id_student');
+    const subscriptionSelect = document.getElementById('id_subscription');
+    
+    // Escucha el evento de cambio en el campo de selección de estudiantes
+    studentSelect.addEventListener('change', function() {
+        // Obtiene el ID del estudiante seleccionado
+        const selectedStudentId = studentSelect.value;
+
+        // Realiza una solicitud Ajax para cargar las suscripciones asociadas al estudiante
+        if (selectedStudentId) {
+            // Reemplaza 'URL_DE_TU_VISTA' con la URL de tu vista Django que carga las suscripciones del estudiante
+            fetch(`/load-subscription/${selectedStudentId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    // Limpia el campo de selección de suscripciones
+                    subscriptionSelect.innerHTML = '<option value="" selected>Seleccionar suscripción</option>';
+                    console.log(data)
+                    // Agrega las opciones de suscripciones al campo de selección
+                    data.subscriptions.forEach(subscription => {
+                        const option = document.createElement('option');
+                        option.value = subscription.sub_id;
+                        option.textContent = subscription.name; // Cambia esto al campo que desees mostrar
+                        subscriptionSelect.appendChild(option);
+                    });
+                });
+        } else {
+            // Si no se selecciona un estudiante, limpia el campo de selección de suscripciones
+            subscriptionSelect.innerHTML = '<option value="" selected>Seleccionar suscripción</option>';
+        }
+    });
+</script>
+
 {% endblock %}

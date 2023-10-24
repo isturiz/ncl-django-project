@@ -11,6 +11,6 @@ from .finance import FinanceView
 from .user import UserListView
 from .payments import PaymentListView, PaymentCreateView, PaymentUpdateView
 
-
+from .lesson import load_subscriptions
 
 
