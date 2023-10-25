@@ -9,22 +9,12 @@
 
 <form method="post" class='mt-8'>
     {% csrf_token %}
-    {% comment %} {{ form.as_p }} {% endcomment %}
-
 
     <div class="grid grid-cols-1 lg:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
             {{ form.student }}
         </div>
     </div>
-
-    {% comment %} <div class="grid grid-cols-1 lg:grid-cols-2 md:gap-6">
-        <div class="relative z-0 w-full mb-6 group">
-            <select id="{{ form.subscription.id }}" name="{{ form.subscription.name }}" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
-                <option value="" selected>Seleccionar suscripción</option>
-            </select>
-        </div>
-    </div> {% endcomment %}
 
     <div class="grid grid-cols-1 lg:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
