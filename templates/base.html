@@ -25,7 +25,7 @@
             document.documentElement.classList.remove('dark')
         }
     </script>
-    <link rel="stylesheet" href="{% static "css/modal.css" %}">
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}">
     <script src="{% static 'node_modules/jspdf/dist/jspdf.umd.min.js' %}"></script>
 
     {% comment %} {% if request.user.is_authenticated %}
@@ -45,7 +45,6 @@
 
         <div class="p-4 sm:ml-64">
             <div class="p-4 border-2 border-dashed rounded-lg dark:border-gray-700 mt-16">
-            {% comment %} <div class="p-4 bg-white rounded-lg shadow dark:bg-gray-800 mt-16 md:p-6"> {% endcomment %}
                 
                 {% block content %}
                 {% endblock content %}
@@ -56,7 +55,7 @@
     <script src="{% static 'node_modules/flowbite/dist/flowbite.min.js' %}"></script>
     <script src="{% static 'node_modules/flowbite/dist/datepicker.js' %}"></script>
 
-    <script src="{% static "js/features/dark-mode.js" %}"></script>
+    <script src="{% static 'js/features/dark-mode.js' %}"></script>
 
 </body>
 

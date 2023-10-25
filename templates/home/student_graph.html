@@ -4,7 +4,7 @@
 
 {% load compress %}
 {% load static %}
-<script src="{% static "/node_modules/apexcharts/dist/apexcharts.min.js" %}"></script>
+<script src="{% static '/node_modules/apexcharts/dist/apexcharts.min.js' %}"></script>
 
 <div>{{ revenue_by_subscription_type_current_year }}</div>
 <div>{{ student_count_by_subscription_type_current_year }}</div>
@@ -648,5 +648,5 @@
 </script>
 
 
-<script src="{% static "js/modal.js" %}"></script>
+<script src="{% static 'js/modal.js' %}"></script>
 {% endblock %}
