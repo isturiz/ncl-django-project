@@ -19,6 +19,6 @@ from .subscription_types import SubscriptionTypes_ListView, SubscriptionTypes_Cr
 
 from .lesson import load_subscriptions
 
-from .activity_log import action_history_view, auditlog_view
+from .activity_log import auditlog_view
 
 

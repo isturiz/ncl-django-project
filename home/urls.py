@@ -19,7 +19,7 @@ from .views import load_subscriptions
 
 from .views import UserListView
 
-from .views import action_history_view, auditlog_view
+from .views import auditlog_view
 
 
 
@@ -80,8 +80,6 @@ urlpatterns = [
     path('users/', UserListView.as_view(), name='user-list'),
     
     # Activity log
-
-    path('action_history/', action_history_view, name='action-history'),
     path('auditlog/', auditlog_view, name='auditlog'),
 
 

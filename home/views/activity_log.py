@@ -1,17 +1,8 @@
 from django.shortcuts import render
-from django.contrib.admin.models import LogEntry
-from django.contrib.contenttypes.models import ContentType
 import json
 from django.utils.translation import gettext as _
-from django.utils.translation import get_language
 
-def action_history_view(request):
-    log_entries = LogEntry.objects.all().select_related('user').order_by('-action_time')
-    return render(request, 'home/action_history.html', {'log_entries': log_entries})
-
-from django.shortcuts import render
 from auditlog.models import LogEntry
-from django.apps import apps
 from django.utils import timezone
 
 

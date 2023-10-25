@@ -22,7 +22,7 @@ class LessonCreateView(CreateView):
 class LessonUpdateView(UpdateView):
     model = Lesson
     form_class = EventForm
-    template_name = 'forms/event_create.html'  
+    template_name = 'forms/lesson_form.html'  
     success_url = '/lessons/'
 
 
