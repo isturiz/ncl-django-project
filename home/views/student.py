@@ -2,7 +2,7 @@
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 
-from home.models import Student, Subscription
+from home.models import Student, Subscription, ActivityLog
 from home.forms.student import StudentForm
 
 from .utils.student_utils import get_start_dates_for_students
@@ -31,6 +31,25 @@ class Student_UpdateView(UpdateView):
     form_class = StudentForm
     template_name = 'forms/student_form.html'  
     success_url = '/students/'
+
+    def form_valid(self, form):
+        # Obten el objeto Student actual y el objeto original
+        student = form.instance
+        original_student = Student.objects.get(pk=student.pk)
+
+        # Compara los campos para detectar cambios
+        changes = []
+        if student.nombre != original_student.first_name:
+            changes.append(f'Nombre: "{original_student.nombre}" a "{student.nombre}"')
+        # Agrega más campos aquí para detectar otros cambios
+
+        # Registra los cambios en el registro de actividad
+        if changes:
+            action_description = f"Modificación de {student}"
+            action_description += "\nCambios: " + ", ".join(changes)
+            ActivityLog.objects.create(user=self.request.user, action=action_description)
+
+        return super().form_valid(form)
 
 class StudentGraph_View(TemplateView):
     template_name = 'home/student_graph.html'

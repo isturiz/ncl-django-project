@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load compress %}
+{% load static %}
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <h1>Registro de Actividad</h1>
+    <div>test {{activity_logs}}</div>
+    <ul>
+        {% for log in activity_logs %}
+            <li>{{ log.user.username }} - {{ log.action }} - {{ log.timestamp }}</li>
+        {% empty %}
+            <li>No hay registros de actividad.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+{% endblock %}
+

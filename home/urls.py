@@ -19,6 +19,11 @@ from .views import load_subscriptions
 
 from .views import UserListView
 
+from .views import ActivityLog_ListView, LogActivity_View
+from .views import action_history_view
+
+
+
 # TODO
 # Change add -> create in all urls and views
 
@@ -75,4 +80,11 @@ urlpatterns = [
     # Users
     path('users/', UserListView.as_view(), name='user-list'),
     
+    # Activity log
+    path("activity-log/", ActivityLog_ListView.as_view(), name="activity-log"),
+
+    path('activity-log/<str:action>/', LogActivity_View.as_view(), name='activity-log-register'),
+    path('action_history/', action_history_view, name='action-history'),
+
+
 ]

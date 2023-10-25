@@ -4,6 +4,10 @@ from django.views.generic.edit import CreateView, UpdateView
 from home.models import Teacher
 from home.forms import TeacherForm
 
+from django.shortcuts import render
+
+
+
 class TeacherListView(ListView):
     model = Teacher
     template_name = 'home/teacher_list.html'

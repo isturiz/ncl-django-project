@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SubscriptionType, LessonType, Lesson, Teacher, Payment, Student, Subscription
+from .models import SubscriptionType, LessonType, Lesson, Teacher, Payment, Student, Subscription, ActivityLog
 
 # Guide
 # search_fields = () <- Search fields for the admin interface
@@ -26,3 +26,5 @@ admin.site.register(SubscriptionType)
 admin.site.register(LessonType)
 admin.site.register(Teacher)
 admin.site.register(Student)
+admin.site.register(ActivityLog)
+

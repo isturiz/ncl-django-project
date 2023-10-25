@@ -4,6 +4,7 @@ from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 from datetime import date
 import calendar
+from django.contrib.auth.models import User
 
 
 SUBSCRIPTION_DURATION = 30
@@ -187,3 +188,23 @@ class Payment(models.Model):
     def __str__(self):
         return f'{self.price} - {self.subscription} - {self.date}'
     
+class ActivityLog(models.Model):
+    user = models.ForeignKey(      "auth.User",
+        on_delete=models.CASCADE,
+        related_name="activity_logs",
+    )
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    action = models.CharField(max_length=255)
+    url = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} {self.action} {self.url}"
+    
+class ActivityLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    action = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user.username} - {self.action}'
