@@ -110,6 +110,9 @@ msgstr "Tipo de Clase"
 msgid "subscription"
 msgstr "Suscripción"
 
+msgid "subscriptiontype"
+msgstr "Tipo de suscripción"
+
 msgid "lesson"
 msgstr "Clase"
 
