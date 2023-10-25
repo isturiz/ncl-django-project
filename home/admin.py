@@ -27,4 +27,3 @@ admin.site.register(LessonType)
 admin.site.register(Teacher)
 admin.site.register(Student)
 admin.site.register(ActivityLog)
-

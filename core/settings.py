@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     # third party apps
     "compressor",
+    'auditlog',
 
 
     # local apps
@@ -64,6 +65,7 @@ MIDDLEWARE = [
 
     # third party apps
     'livereload.middleware.LiveReloadScript',
+    'auditlog.middleware.AuditlogMiddleware'
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -172,3 +174,6 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 
+AUDITLOG_USE_REQUEST_ID = True
+AUDITLOG_EXTRA_DATA = True
+AUDITLOG_DISABLE_ADOPTION = False

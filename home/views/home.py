@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from home.models import Student
 from home.forms import StudentForm
 
+
 class HomePageView(TemplateView):
     template_name = "home.html"
     def get_context_data(self, **kwargs):

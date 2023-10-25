@@ -208,3 +208,13 @@ class ActivityLog(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - {self.action}'
+    
+from auditlog.registry import auditlog
+    
+auditlog.register(SubscriptionType)
+auditlog.register(LessonType)
+auditlog.register(Lesson)
+auditlog.register(Teacher)
+auditlog.register(Student)
+auditlog.register(Subscription)
+auditlog.register(Payment)

@@ -6,8 +6,6 @@ from .forms import CustomLoginForm
 
 
 urlpatterns = [
-    # path("", HomePageView.as_view(), name="home"),
-    # path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/login/", auth_views.LoginView.as_view(
         template_name="registration/login.html",
         authentication_form=CustomLoginForm,
