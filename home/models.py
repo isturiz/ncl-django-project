@@ -5,6 +5,7 @@ from dateutil.relativedelta import relativedelta
 from datetime import date
 import calendar
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 
 SUBSCRIPTION_DURATION = 30
@@ -12,10 +13,10 @@ SUBSCRIPTION_DURATION = 30
 class SubscriptionType(models.Model):
 
     # Fields
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    number_of_lessons = models.IntegerField(blank=True, null=True)
+    name = models.CharField(verbose_name=_('Name'), max_length=255)
+    description = models.TextField(verbose_name=_('Description'), blank=True, null=True)
+    price = models.DecimalField(verbose_name=_('Price'), max_digits=10, decimal_places=2, blank=True, null=True)
+    number_of_lessons = models.IntegerField(verbose_name=_('Number of Lessons'), blank=True, null=True)
 
     def __str__(self):
         return f'{self.name} - Precio: {self.price} - Número de clases: {self.number_of_lessons}'
@@ -32,8 +33,8 @@ class SubscriptionType(models.Model):
 class LessonType(models.Model):
 
     # Fields
-    cathedra = models.CharField(max_length=255)
-    modality = models.CharField(max_length=255)
+    cathedra = models.CharField(verbose_name=_('Cathedra'), max_length=255)
+    modality = models.CharField(verbose_name=_('Modality'), max_length=255)
 
     def __str__(self):
         return f'{self.cathedra} - {self.modality}'
@@ -52,11 +53,11 @@ class Lesson(models.Model):
     teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE)
 
     # Fields
-    description = models.CharField(max_length=200, blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    start_date = models.DateTimeField(blank=True, null=True)
-    end_date = models.DateTimeField(blank=True, null=True)
-    lesson_status = models.BooleanField(default=False)  # True = Vista, False = No vista
+    description = models.CharField(verbose_name=_('Description'), max_length=200, blank=True, null=True)
+    price = models.DecimalField(verbose_name=_('Price'), max_digits=10, decimal_places=2, blank=True, null=True)
+    start_date = models.DateTimeField(verbose_name=_('Start Date'), blank=True, null=True)
+    end_date = models.DateTimeField(verbose_name=_('End Date'), blank=True, null=True)
+    lesson_status = models.BooleanField(verbose_name=_('Lesson Status'), default=False)  # True = Vista, False = No vista
 
 
     def __str__(self):
@@ -68,16 +69,16 @@ class Lesson(models.Model):
 class Teacher(models.Model):
 
     # Fields
-    identify_card = models.CharField(max_length=20, blank=True, null=True)
-    first_name = models.CharField(max_length=255)
-    second_name = models.CharField(max_length=255, blank=True, null=True)
-    first_surname = models.CharField(max_length=255)
-    second_surname = models.CharField(max_length=255, blank=True, null=True)
-    birthdate = models.DateField()
-    phone_number = models.CharField(max_length=20)
-    email = models.EmailField()
-    address = models.TextField()
-    is_active = models.BooleanField(default=True)
+    identify_card = models.CharField(verbose_name=_('Identify Card'), max_length=20, blank=True, null=True)
+    first_name = models.CharField(verbose_name=_('First Name'), max_length=255)
+    second_name = models.CharField(verbose_name=_('Second Name'), max_length=255, blank=True, null=True)
+    first_surname = models.CharField(verbose_name=_('First Surname'), max_length=255)
+    second_surname = models.CharField(verbose_name=_('Second Surname'), max_length=255, blank=True, null=True)
+    birthdate = models.DateField(verbose_name=_('Birthdate'))
+    phone_number = models.CharField(verbose_name=_('Phone'), max_length=20)
+    email = models.EmailField(verbose_name=_('Email'))
+    address = models.TextField(verbose_name=_('Address'))
+    is_active = models.BooleanField(verbose_name=_('Active'), default=True)
     
     def __str__(self):
         return f'{self.first_name} {self.first_surname}'
@@ -94,16 +95,16 @@ class Teacher(models.Model):
 class Student(models.Model):
 
     # Fields
-    identify_card = models.CharField(max_length=20, blank=True, null=True)
-    first_name = models.CharField(max_length=255)
-    second_name = models.CharField(max_length=255, blank=True, null=True)
-    first_surname = models.CharField(max_length=255)
-    second_surname = models.CharField(max_length=255, blank=True, null=True)
-    birthdate = models.DateField()
-    phone_number = models.CharField(max_length=20)
-    email = models.EmailField()
-    address = models.TextField()
-    is_active = models.BooleanField(default=True)
+    identify_card = models.CharField(verbose_name=_('Identify Card'), max_length=20, blank=True, null=True)
+    first_name = models.CharField(verbose_name=_('First Name'), max_length=255)
+    second_name = models.CharField(verbose_name=_('Second Name'), max_length=255, blank=True, null=True)
+    first_surname = models.CharField(verbose_name=_('First Surname'), max_length=255)
+    second_surname = models.CharField(verbose_name=_('Second Surname'), max_length=255, blank=True, null=True)
+    birthdate = models.DateField(verbose_name=_('Birthdate'))
+    phone_number = models.CharField(verbose_name=_('Phone'), max_length=20)
+    email = models.EmailField(verbose_name=_('Email'), )
+    address = models.TextField(verbose_name=_('Address'), )
+    is_active = models.BooleanField(verbose_name=_('Active'), default=True)
 
 
     def __str__(self):
@@ -125,10 +126,10 @@ class Subscription(models.Model):
     student = models.ForeignKey('Student', on_delete=models.CASCADE)
 
     # Fields
-    start_date = models.DateField()
-    end_date = models.DateField()
-    is_active = models.BooleanField(default=True)
-    auto_renewal = models.BooleanField(default=True)
+    start_date = models.DateField(verbose_name=_('Start Date'))
+    end_date = models.DateField(verbose_name=_('End Date'))
+    is_active = models.BooleanField(verbose_name=_('Active'), default=True)
+    auto_renewal = models.BooleanField(verbose_name=_('Auto Renewal'), default=True)
     
 
     def __str__(self):
@@ -179,10 +180,13 @@ class Subscription(models.Model):
 
 class Payment(models.Model):
 
-    # Fields
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    date = models.DateTimeField()
+    # Foreign Key
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, related_name='payments')
+
+    # Fields
+    price = models.DecimalField(verbose_name=_('Price'), max_digits=10, decimal_places=2)
+    date = models.DateTimeField(verbose_name=_('Date'), )
+
 
 
     def __str__(self):
