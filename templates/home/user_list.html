@@ -78,6 +78,9 @@
                     Email
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Última Conexión
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Acción
                 </th>
             </tr>
@@ -95,8 +98,11 @@
                     {{ user.email }}
                 </td>
                 <td class="px-6 py-4">
+                    {{ user.last_login|date:"F d, Y H:i:s" }} {# Muestra la última conexión formateada #}
+                </td>
+                <td class="px-6 py-4">
                     <div class="flex items-center h-full flex-1 flex-row gap-x-2">
-                        <a href="{% url 'student-update' user.pk %}" class="font-medium text-black dark:text-white hover:underline">
+                        <a href="{% url 'user-edit' user.pk %}" class="font-medium text-black dark:text-white hover:underline">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>

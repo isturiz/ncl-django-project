@@ -4,12 +4,13 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 
 # Create your views here.
-from accounts.forms import CustomLoginForm
+from accounts.forms import CustomLoginForm, CustomUserChangeForm
 
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from accounts.forms import CustomRegistrationForm
 from django.contrib.auth import login
+from django.contrib.auth.models import User 
 
 
 def login_view(request):
@@ -23,12 +24,13 @@ def login_view(request):
     return render(request, 'login.html', {'form': form})
 
 class UserCreateView(CreateView):
-    template_name = 'registration/register.html'
-    form_class = CustomRegistrationForm  # Utiliza el formulario de creación de usuarios predeterminado
-    success_url = reverse_lazy('user-list')  # Redirige a la lista de usuarios u otra página
+    model = User
+    template_name = 'registration/register_user.html'
+    form_class = CustomRegistrationForm
+    success_url = reverse_lazy('user-list')
 
-# class Student_CreateView(CreateView):
-#     model = Student
-#     form_class = StudentForm
-#     template_name = 'forms/student_form.html'  
-#     success_url = '/students/'
+class UserUpdateView(UpdateView):
+    model = User
+    form_class = CustomUserChangeForm  # Usa tu formulario personalizado para la edición
+    template_name = 'registration/edit_user.html'  # Crea una plantilla para la edición de usuarios
+    success_url = reverse_lazy('user-list') 

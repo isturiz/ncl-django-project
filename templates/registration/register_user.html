@@ -1,0 +1,79 @@
+<!-- event_create.html -->
+{% extends "base.html" %}
+
+{% block content %}
+{% comment %} is necessary for the styles {% endcomment %}
+<div class="hidden py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer', 'placeholder': ' ', 'datepicker': '', 'datepicker-orientation': 'bottom left', 'type': 'text', 'autocomplete': 'off'"></div>
+<div class="hidden w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></div>
+<h2 class="text-3xl font-extrabold dark:text-white">Usuario</h2>
+
+<form method="post" class='mt-8'>
+    {% csrf_token %}
+
+    <div class="mb-6">
+        <label for="{{ form.username.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.username.label }}</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+            <p class="mt-2 text-xs text-red-600 dark:text-red-400">
+                {{ form.username.errors.as_text }}
+            </p>
+        {% endif %}
+    </div>
+
+    <div class="mb-6">
+        <label for="{{ form.email.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.email.label }}</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <p class="mt-2 text-xs text-red-600 dark:text-red-400">
+                {{ form.email.errors.as_text }}
+            </p>
+        {% endif %}
+    </div>
+    <div class="mb-6">
+        <label for="{{ form.first_name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.first_name.label }}</label>
+        {{ form.first_name }}
+        {% if form.first_name.errors %}
+            <p class="mt-2 text-xs text-red-600 dark:text-red-400">
+                {{ form.first_name.errors.as_text }}
+            </p>
+        {% endif %}
+    </div>
+    <div class="mb-6">
+        <label for="{{ form.last_name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.last_name.label }}</label>
+        {{ form.last_name }}
+        {% if form.last_name.errors %}
+            <p class="mt-2 text-xs text-red-600 dark:text-red-400">
+                {{ form.last_name.errors.as_text }}
+            </p>
+        {% endif %}
+    </div>
+
+    <div class="mb-6">
+        <label for="{{ form.password1.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.password1.label }}</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+            <p class="mt-2 text-xs text-red-600 dark:text-red-400">
+                {{ form.password1.errors.as_text }}
+            </p>
+        {% endif %}
+    </div>
+    <div class="mb-6">
+        <label for="{{ form.password2.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.password2.label }}</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+            <p class="mt-2 text-xs text-red-600 dark:text-red-400">
+                {{ form.password2.errors.as_text }}
+            </p>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Confirmar</button>
+    <button type="button" onclick="window.location.href = '{% url 'user-list' %}'" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+        Cancelar
+    </button>
+</form>
+
+
+
+
+{% endblock %}
