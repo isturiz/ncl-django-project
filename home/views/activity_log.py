@@ -16,6 +16,8 @@ def get_verbose_name(model, field_name):
     return verbose_name
 
 def format_date(date_string):
+    if date_string is None or date_string == 'None':
+        return "[Sin valor]"
     # Convierte la cadena de fecha a un objeto de fecha y hora
     try:
         date = timezone.make_aware(timezone.datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S"))
@@ -32,6 +34,8 @@ def format_date(date_string):
 def auditlog_view(request):
     log_entries = LogEntry.objects.all().order_by('-timestamp')  # Obtén las últimas 10 entradas de registro de auditoría
 
+    DATE_FIELDS = ["date", "birthdate", "start_date", "end_date"]
+
     for entry in log_entries:
         try:
             changes = json.loads(entry.changes)
@@ -40,14 +44,41 @@ def auditlog_view(request):
 
             # Translate the field names
             for field, values in changes.items():
+                
+                    
                 translated_field = get_verbose_name(model, field)
-                if field == "date" or field == "birthdate":  # Reemplaza "fecha" con el nombre de tu campo de fecha
+                if field in DATE_FIELDS:  # Reemplaza "fecha" con el nombre de tu campo de fecha
                     formatted_date = f"{format_date(values[0])} → {format_date(values[1])}"
+                    if values[0] is None or values[0] == 'None' or values[0] == '':
+                        values[0] = "[Sin valor]"
+                    if values[1] is None or values[1] == 'None' or values[1] == '':
+                        values[1] = "[Sin valor]"
+
+                    # if values[0] == True or values[0] == 'True':
+                    #     values[0] = "Sí"
+                    #     print('field: ', field, 'values: ', values)
+                    # if values[1] == False or values[1] == 'False':
+                    #     values[1] = "No"
+                    #     print('field: ', field, 'values: ', values)
                     formatted_changes[translated_field] = formatted_date
+                    
                 else:
-                    print(field)
+                    if values[0] is None or values[0] == 'None' or values[0] == '':
+                        values[0] = "[Sin valor]"
+                    if values[1] is None or values[1] == 'None' or values[1] == '':
+                        values[1] = "[Sin valor]"
+
+                    # if values[0] == True or values[0] == 'True':
+                    #     values[0] = "Sí"
+                    #     print('field: ', field, 'values: ', values)
+                    # if values[1] == False or values[1] == 'False':
+                    #     values[1] = "No"
+                    #     print('field: ', field, 'values: ', values)
                     formatted_changes[translated_field] = f"{values[0]} → {values[1]}"
+                    
+
             entry.formatted_changes = formatted_changes
+            
 
             # Translate the model name
             for entry in log_entries:
