@@ -58,5 +58,8 @@ class EventForm(forms.ModelForm):
                 # Precarga el estudiante relacionado
                 self.fields['student'].initial = self.instance.subscription.student
 
+        self.fields['subscription'].disabled = True
+        # self.fields['subscription'].queryset = Subscription.objects.none()
+
 
    

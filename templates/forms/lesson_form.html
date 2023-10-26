@@ -118,6 +118,15 @@
         // Obtiene el ID del estudiante seleccionado
         const selectedStudentId = studentSelect.value;
 
+        if (selectedStudentId) {
+            // Si se seleccionó un estudiante, habilita el campo de suscripción
+            subscriptionSelect.disabled = false;
+        } else {
+            // Si no se seleccionó un estudiante, limpia y deshabilita el campo de suscripción
+            subscriptionSelect.innerHTML = '<option value="" selected>Seleccionar suscripción</option>';
+            subscriptionSelect.disabled = true;
+        }
+
         // Realiza una solicitud Ajax para cargar las suscripciones asociadas al estudiante
         if (selectedStudentId) {
             // Reemplaza 'URL_DE_TU_VISTA' con la URL de tu vista Django que carga las suscripciones del estudiante
