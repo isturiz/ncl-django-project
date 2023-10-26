@@ -18,14 +18,25 @@ class CalendarView(ListView):
 class EventCreateView(CreateView):
     model = Lesson
     form_class = EventForm
-    template_name = 'forms/event_create.html'
+    template_name = 'forms/lesson_form.html'
     success_url = reverse_lazy('calendar')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cancel_url'] = reverse_lazy('calendar')
+        return context
+
 
 class EventLessonUpdateView(UpdateView):
     model = Lesson
     form_class = EventForm
-    template_name = 'forms/event_create.html'  
+    template_name = 'forms/lesson_form.html'  
     success_url = reverse_lazy('calendar')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cancel_url'] = reverse_lazy('calendar')
+        return context
         
 class EventUpdateView(View):
     def post(self, request):

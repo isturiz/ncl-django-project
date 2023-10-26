@@ -7,6 +7,7 @@ import json
 
 from home.models import Lesson, Student, Subscription
 from home.forms import EventForm
+from django.urls import reverse_lazy
 
 class LessonListView(ListView):
     model = Lesson
@@ -19,11 +20,21 @@ class LessonCreateView(CreateView):
     template_name = 'forms/lesson_form.html'
     success_url = '/lessons/'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cancel_url'] = reverse_lazy('lesson-list')
+        return context
+
 class LessonUpdateView(UpdateView):
     model = Lesson
     form_class = EventForm
     template_name = 'forms/lesson_form.html'  
     success_url = '/lessons/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cancel_url'] = reverse_lazy('lesson-list')
+        return context
 
 
 def load_subscriptions(request, student_id):

@@ -13,8 +13,10 @@ from .models import SubscriptionType, LessonType, Lesson, Teacher, Payment, Stud
 
 admin.site.register(Lesson)
 
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'student', 'subscription_type', 'start_date', 'end_date', 'is_active', 'auto_renewal')
 
-admin.site.register(Subscription)
+admin.site.register(Subscription, SubscriptionAdmin)
 
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ('price', 'date', 'subscription')
@@ -25,5 +27,9 @@ admin.site.register(Payment, PaymentAdmin)
 admin.site.register(SubscriptionType)
 admin.site.register(LessonType)
 admin.site.register(Teacher)
-admin.site.register(Student)
+
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'identify_card', 'first_name', 'second_name', 'first_surname', 'second_surname', 'birthdate', 'phone_number', 'email', 'address', 'is_active')
+
+admin.site.register(Student, StudentAdmin)
 admin.site.register(ActivityLog)
