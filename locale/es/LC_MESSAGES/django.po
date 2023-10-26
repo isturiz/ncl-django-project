@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-25 14:11-0400\n"
+"POT-Creation-Date: 2023-10-25 21:58-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,6 +41,28 @@ msgstr "Cátedra"
 #: home/models.py:37
 msgid "Modality"
 msgstr "Modalidad"
+
+# Model names
+#: home/models.py:51
+msgid "lessontype"
+msgstr "Tipo de Clase"
+
+msgid "Lesson Type"
+msgstr "Tipo de Clase"
+
+#: home/models.py:52 home/models.py:184
+msgid "subscription"
+msgstr "Suscripción"
+
+msgid "Subscription"
+msgstr "Suscripción"
+
+#: home/models.py:53
+msgid "teacher"
+msgstr "Profesor"
+
+msgid "Teacher"
+msgstr "Profesor"
 
 #: home/models.py:58 home/models.py:129
 msgid "Start Date"
@@ -78,7 +100,7 @@ msgstr "Segundo Apellido"
 msgid "Birthdate"
 msgstr "Fecha de nacimiento"
 
-#: home/models.py:78
+#: home/models.py:78 home/models.py:104
 msgid "Phone"
 msgstr "Teléfono"
 
@@ -94,6 +116,20 @@ msgstr "Dirección"
 msgid "Active"
 msgstr "Activo"
 
+#: home/models.py:125
+msgid "subscriptiontype"
+msgstr "Tipo de suscripción"
+
+msgid "Subscription Type"
+msgstr "Tipo de suscripción"
+
+#: home/models.py:126
+msgid "student"
+msgstr "Estudiante"
+
+msgid "Student"
+msgstr "Estudiante"
+
 #: home/models.py:132
 msgid "Auto Renewal"
 msgstr "Auto-renovación"
@@ -102,26 +138,8 @@ msgstr "Auto-renovación"
 msgid "Date"
 msgstr "Fecha"
 
-# Model names
-
-msgid "lessontype"
-msgstr "Tipo de Clase"
-
-msgid "subscription"
-msgstr "Suscripción"
-
-msgid "subscriptiontype"
-msgstr "Tipo de suscripción"
-
 msgid "lesson"
 msgstr "Clase"
 
-msgid "student"
-msgstr "Estudiante"
-
 msgid "payment"
 msgstr "Pagos"
-
-msgid "teacher"
-msgstr "Profesor"
-

@@ -48,9 +48,9 @@ class LessonType(models.Model):
 class Lesson(models.Model):
 
     # Foreign Keys
-    lesson_type = models.ForeignKey(LessonType, on_delete=models.CASCADE)
-    subscription = models.ForeignKey('Subscription', on_delete=models.CASCADE)
-    teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE)
+    lesson_type = models.ForeignKey(LessonType, on_delete=models.CASCADE, verbose_name=_('Lesson Type'))
+    subscription = models.ForeignKey('Subscription', on_delete=models.CASCADE, verbose_name=_('Subscription'))
+    teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE, verbose_name=_('Teacher'))
 
     # Fields
     description = models.CharField(verbose_name=_('Description'), max_length=200, blank=True, null=True)
@@ -122,8 +122,8 @@ class Student(models.Model):
 class Subscription(models.Model):
 
     # Foreign Keys
-    subscription_type = models.ForeignKey(SubscriptionType, on_delete=models.CASCADE)
-    student = models.ForeignKey('Student', on_delete=models.CASCADE)
+    subscription_type = models.ForeignKey(SubscriptionType, on_delete=models.CASCADE, verbose_name=_('Subscription Type'))
+    student = models.ForeignKey('Student', on_delete=models.CASCADE, verbose_name=_('Student'))
 
     # Fields
     start_date = models.DateField(verbose_name=_('Start Date'))
@@ -181,7 +181,7 @@ class Subscription(models.Model):
 class Payment(models.Model):
 
     # Foreign Key
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, related_name='payments')
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, related_name='payments', verbose_name=_('Subscription'))
 
     # Fields
     price = models.DecimalField(verbose_name=_('Price'), max_digits=10, decimal_places=2)
