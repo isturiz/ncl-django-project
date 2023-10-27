@@ -6,6 +6,7 @@ from home.forms import TeacherForm
 
 from django.shortcuts import render
 
+from django.contrib import messages
 
 
 class TeacherListView(ListView):
@@ -19,8 +20,20 @@ class TeacherAddView(CreateView):
     template_name = 'forms/teacher_form.html'  
     success_url = '/teachers/'
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request, 'Profesor creado exitosamente')
+        return response
+
 class TeacherUpdateView(UpdateView):
     model = Teacher
     form_class = TeacherForm
     template_name = 'forms/teacher_form.html'  
     success_url = '/teachers/'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request, 'Datos del profesor actualizados exitosamente')
+        return response

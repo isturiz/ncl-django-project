@@ -13,7 +13,7 @@ from django.db.models.functions import ExtractYear
 import json
 from django.db.models import Sum, F
 
-
+from django.contrib import messages
 
 class Student_ListView(ListView):
     model = Student
@@ -26,11 +26,23 @@ class Student_CreateView(CreateView):
     template_name = 'forms/student_form.html'  
     success_url = '/students/'
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request, 'Estudiante creado exitosamente')
+        return response
+
 class Student_UpdateView(UpdateView):
     model = Student
     form_class = StudentForm
     template_name = 'forms/student_form.html'  
     success_url = '/students/'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request, 'Datos del estudiante actualizados exitosamente')
+        return response
 
 class StudentGraph_View(TemplateView):
     template_name = 'home/student_graph.html'

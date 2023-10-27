@@ -4,6 +4,9 @@ from django.views.generic.edit import CreateView, UpdateView
 from home.models import Subscription
 from home.forms import SubscriptionForm
 
+from django.contrib import messages
+
+
 class SubscriptionListView(ListView):
     model = Subscription
     template_name = 'home/subscription_list.html'
@@ -15,9 +18,21 @@ class SubscriptionCreateView(CreateView):
     template_name = 'forms/subscription_form.html'
     success_url = '/subscriptions/'
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request, 'Suscripción creada exitosamente')
+        return response
+
 class SubscriptionUpdateView(UpdateView):
     model = Subscription
     form_class = SubscriptionForm
     template_name = 'forms/subscription_form.html'  
     success_url = '/subscriptions/'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request, 'Datos de la suscripción actualizados exitosamente')
+        return response
 

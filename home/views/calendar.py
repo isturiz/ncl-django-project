@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 from home.models import Lesson
 from home.forms import EventForm
 
+from django.contrib import messages
+
 
 class CalendarView(ListView):
     model = Lesson
@@ -25,6 +27,12 @@ class EventCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['cancel_url'] = reverse_lazy('calendar')
         return context
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request, 'Clase registrada exitosamente')
+        return response
 
 
 class EventLessonUpdateView(UpdateView):
@@ -37,6 +45,13 @@ class EventLessonUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['cancel_url'] = reverse_lazy('calendar')
         return context
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request, 'Datos de la clase actualizados exitosamente')
+        return response
+    
         
 class EventUpdateView(View):
     def post(self, request):

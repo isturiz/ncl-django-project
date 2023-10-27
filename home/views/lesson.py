@@ -9,6 +9,8 @@ from home.models import Lesson, Student, Subscription
 from home.forms import EventForm
 from django.urls import reverse_lazy
 
+from django.contrib import messages
+
 class LessonListView(ListView):
     model = Lesson
     template_name = 'home/lesson_list.html'
@@ -24,6 +26,12 @@ class LessonCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['cancel_url'] = reverse_lazy('lesson-list')
         return context
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request, 'Clase registrada exitosamente')
+        return response
 
 class LessonUpdateView(UpdateView):
     model = Lesson
@@ -35,6 +43,12 @@ class LessonUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['cancel_url'] = reverse_lazy('lesson-list')
         return context
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request, 'Datos de la clase actualizados exitosamente')
+        return response
 
 
 def load_subscriptions(request, student_id):

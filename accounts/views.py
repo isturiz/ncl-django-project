@@ -46,5 +46,5 @@ class UserUpdateView(UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
 
-        messages.success(self.request, 'Usuario actualizado exitosamente')
+        messages.success(self.request, 'Datos del usuario actualizado exitosamente')
         return response
