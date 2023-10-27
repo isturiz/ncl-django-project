@@ -12,6 +12,8 @@ from accounts.forms import CustomRegistrationForm
 from django.contrib.auth import login
 from django.contrib.auth.models import User 
 
+from django.contrib import messages
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -29,8 +31,20 @@ class UserCreateView(CreateView):
     form_class = CustomRegistrationForm
     success_url = reverse_lazy('user-list')
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request, 'Usuario creado exitosamente')
+        return response
+
 class UserUpdateView(UpdateView):
     model = User
     form_class = CustomUserChangeForm  # Usa tu formulario personalizado para la edición
     template_name = 'registration/edit_user.html'  # Crea una plantilla para la edición de usuarios
     success_url = reverse_lazy('user-list') 
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request, 'Usuario actualizado exitosamente')
+        return response
