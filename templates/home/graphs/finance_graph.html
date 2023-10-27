@@ -81,6 +81,18 @@
         </div>
     </div>
 </div>
+
+<!-- Student Chart 3 -->
+<div class="max-w-none w-full bg-white rounded-lg shadow mt-8 dark:bg-gray-800 p-4 md:p-6">
+    <div class="flex justify-between border-gray-200 border-b dark:border-gray-700 pb-3">
+    <dl>
+        <dd class="leading-none text-3xl font-bold text-gray-900 dark:text-white">Ganancia por tipo de suscripción</dd>
+    </dl>
+    </div>
+
+
+    <div id="chart-3"></div>
+</div>
         
 <script>
     
@@ -354,6 +366,170 @@
 
 </script>
 
+<script>
+
+
+    const revenueSubscriptionRypeCurrentYear = {{ revenue_by_subscription_type_current_year|safe }};
+
+    // Yaxis
+
+    // Xaxis
+    const chart3_subcriptionType = revenueSubscriptionRypeCurrentYear.map(item => item.subscription_type)
+    const chart3_revenueCurrentYear = revenueSubscriptionRypeCurrentYear.map(item => item.revenue)
+
+    console.log('chart3_revenueCurrentYear:', chart3_revenueCurrentYear)
+
+    window.addEventListener("load", function() {
+      var options = {
+        series: [
+        {
+            name: "Ganancia",
+            type: "column", // Puedes usar 'line' para estudiantes
+            data: chart3_revenueCurrentYear,
+        },
+        {% comment %} {
+            name: "Ingresos",
+            type: "line", // Puedes usar 'column' para ingresos
+            data: chart3_revenueCurrentYear,
+        } {% endcomment %}
+        ],
+        chart: {
+            
+            sparkline: {
+                enabled: false,
+            },
+            type: "line",
+            width: "100%",
+            height: 400,
+            toolbar: {
+                show: true,
+                offsetX: 0,
+                offsetY: 0,
+                tools: {
+                    download: true,
+                    selection: true,
+                    zoom: true,
+                    zoomin: true,
+                    zoomout: true,
+                    pan: true,
+                    reset: true | '<img src="/static/icons/reset.png" width="20">',
+                    customIcons: []
+                },
+                export: {
+                    csv: {
+                        filename: 'cantidad-estudiantes-por-edad',
+                        columnDelimiter: ',',
+                        headerCategory: 'category',
+                        headerValue: 'value',
+                        dateFormatter(timestamp) {
+                        return new Date(timestamp).toDateString()
+                        }
+                    },
+                    svg: {
+                        filename: 'cantidad-estudiantes-por-edad',
+                    },
+                    png: {
+                        filename: 'cantidad-estudiantes-por-edad',
+                    }
+                },
+                autoSelected: 'zoom' 
+            },
+        },
+        fill: {
+            opacity: 1,
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: "100%",
+                borderRadiusApplication: "end",
+                borderRadius: 6,
+                dataLabels: {
+                    position: "top",
+                },
+                columnWidth: "60%", // Ajusta el ancho de las barras aquí
+                barHeight: "50%",
+            },
+        },
+        legend: {
+        show: true,
+            position: "bottom",
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        tooltip: {
+            shared: true,
+            intersect: false,
+            formatter: function (value) {
+                return "$" + value
+            }
+        },
+        xaxis: {
+            title: {
+                text: "Tipos de suscripciones",
+            },
+            labels: {
+                show: true,
+                style: {
+                    fontFamily: "Inter, sans-serif",
+                    cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+                },
+                formatter: function(value) {
+                    return value
+                }
+            },
+            categories: chart3_subcriptionType,
+            axisTicks: {
+                show: false,
+            },
+            axisBorder: {
+                show: false,
+            },
+        },
+        yaxis: [
+            {
+                title: {
+                    text: "Ganancia",
+                    {% comment %} style: {
+                        color: "#6B7280" // Cambia "#FF0000" al color que desees, por ejemplo, rojo
+                    } {% endcomment %}
+                },
+                labels: {
+                    show: true,
+                    style: {
+                        fontFamily: "Inter, sans-serif",
+                        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
+                    }
+                }
+            },
+            {% comment %} {
+                opposite: false, // Este eje estará en el lado opuesto (derecho)
+                title: {
+                    text: "Estudiantes",
+                }
+            } {% endcomment %}
+        ],
+        grid: {
+            show: true,
+            strokeDashArray: 4,
+            padding: {
+                left: 2,
+                right: 2,
+                top: -20
+            },
+        },
+        fill: {
+            opacity: 1,
+        }
+    }
+  
+    if(document.getElementById("chart-3") && typeof ApexCharts !== 'undefined') {
+        const chart = new ApexCharts(document.getElementById("chart-3"), options);
+        chart.render();
+    }
+    });
+</script>
 
 
 <script src="{% static 'js/modal.js' %}"></script>

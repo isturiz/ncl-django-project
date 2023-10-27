@@ -8,17 +8,20 @@ from json import dumps
 
 from home.models import Subscription, Payment, Student
 
+from .utils.finance_utils import get_revenue_by_subscription_type_current_year
+
 # Months to days
 THREE_MONTHS = 90
 SIX_MONTHS = 180
 NINE_MONTHS = 270
 
 class FinanceView(TemplateView):
-    template_name = 'home/finance_graph.html'
+    template_name = 'home/graphs/finance_graph.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        context['revenue_by_subscription_type_current_year'] = get_revenue_by_subscription_type_current_year
         ### Payments info
         context['payment_data'] = self.get_all_payment_data()
         context['percentage_change'] = self.calculate_percentage_change()
@@ -37,6 +40,8 @@ class FinanceView(TemplateView):
 
         ### Students info
         context['inscription_students'] = self.get_start_dates_for_students()
+
+
 
         return context
 

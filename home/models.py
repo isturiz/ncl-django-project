@@ -190,8 +190,6 @@ class Payment(models.Model):
     price = models.DecimalField(verbose_name=_('Price'), max_digits=10, decimal_places=2)
     date = models.DateTimeField(verbose_name=_('Date'), )
 
-
-
     def __str__(self):
         return f'{self.price} - {self.subscription} - {self.date}'
     

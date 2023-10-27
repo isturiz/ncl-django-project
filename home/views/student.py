@@ -6,6 +6,9 @@ from home.models import Student, Subscription, ActivityLog
 from home.forms.student import StudentForm
 
 from .utils.student_utils import get_start_dates_for_students
+from .utils.finance_utils import get_revenue_by_subscription_type_current_year
+
+
 
 from datetime import datetime
 from django.db.models import Count
@@ -43,9 +46,18 @@ class Student_UpdateView(UpdateView):
 
         messages.success(self.request, 'Datos del estudiante actualizados exitosamente')
         return response
+    
+    def get_form(self, form_class=None):
+        form = super(Student_UpdateView, self).get_form(form_class)
+        # Obtén el objeto que se está editando
+        instance = self.get_object()
+        # Asigna los valores de identify_card_prefix y identify_card_number al formulario
+        form.initial['identify_card_prefix'] = instance.identify_card[0]  # El primer carácter
+        form.initial['identify_card_number'] = instance.identify_card[1:]  # Los caracteres restantes
+        return form
 
 class StudentGraph_View(TemplateView):
-    template_name = 'home/student_graph.html'
+    template_name = 'home/graphs/student_graph.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -56,7 +68,8 @@ class StudentGraph_View(TemplateView):
         context['calculate_age_by_count'] = self.get_calculate_age_by_count()
         context['student_count_by_subscription_type'] = self.get_student_count_by_subscription_type()
         context['student_count_by_subscription_type_current_year'] = self.get_student_count_by_subscription_type_current_year()
-        context['revenue_by_subscription_type_current_year'] = self.get_revenue_by_subscription_type_current_year()
+
+        context['revenue_by_subscription_type_current_year'] = get_revenue_by_subscription_type_current_year
         return context
     
     def get_calculate_age_by_count(self):
@@ -92,21 +105,3 @@ class StudentGraph_View(TemplateView):
         # Convierte los datos a formato JSON
         subscription_data_json = json.dumps(subscription_data)
         return subscription_data_json
-    
-    def get_revenue_by_subscription_type_current_year(self):
-
-        # Obtén el año actual
-        current_year = datetime.now().year
-
-        # Realiza la consulta para calcular las ganancias por tipo de suscripción de este año
-        subscription_revenue = Subscription.objects.filter(start_date__year=current_year).values('subscription_type__name').annotate(revenue=Sum(F('subscription_type__price'))).order_by('subscription_type__name')
-
-        # Prepara los datos en el formato deseado
-        # revenue_data = [{'subscription_type': item['subscription_type__name'], 'revenue': item['revenue']} for item in subscription_revenue]
-        revenue_data = [{'subscription_type': item['subscription_type__name'], 'revenue': float(item['revenue'])} for item in subscription_revenue]
-
-        # Convierte los datos a formato JSON
-        revenue_data_json = json.dumps(revenue_data)
-
-        # Devuelve los datos en formato JSON
-        return revenue_data_json
