@@ -6,8 +6,8 @@
 {% load static %}
 <script src="{% static '/node_modules/apexcharts/dist/apexcharts.min.js' %}"></script>
 
-<div>{{ revenue_by_subscription_type_current_year }}</div>
-<div>{{ student_count_by_subscription_type_current_year }}</div>
+{% comment %} <div>{{ revenue_by_subscription_type_current_year }}</div> {% endcomment %}
+{% comment %} <div>{{ student_count_by_subscription_type_current_year }}</div> {% endcomment %}
 {% comment %} <div>{{ start_dates }}</div> {% endcomment %}
 
 <!-- Chart 1: count by age -->
@@ -87,7 +87,7 @@
 </div>
 
 <!-- Chart 2 -->
-<div class="max-w-none w-full bg-white rounded-lg shadow mt-8 dark:bg-gray-800 p-4 md:p-6">
+<div class="max-w-none w-full bg-white rounded-lg shadow mt-8 dark:bg-gray-800 p-4 md:p-6 hidden">
     <div class="flex justify-between">
         <div>
             <h5 id="idTotalStudent" class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Cantidad de estudiantes {{ total_payments_current_year }}</h5>
@@ -133,71 +133,12 @@
 <div class="max-w-none w-full bg-white rounded-lg shadow mt-8 dark:bg-gray-800 p-4 md:p-6">
     <div class="flex justify-between border-gray-200 border-b dark:border-gray-700 pb-3">
     <dl>
-        <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Profit</dt>
-        <dd class="leading-none text-3xl font-bold text-gray-900 dark:text-white">$5,405</dd>
+        <dd class="leading-none text-3xl font-bold text-gray-900 dark:text-white">Cantidad de estudiantes por tipos de suscripciones</dd>
     </dl>
-    <div>
-        <span class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-green-900 dark:text-green-300">
-        <svg class="w-2.5 h-2.5 mr-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
-        </svg>
-        Profit rate 1%
-        </span>
-    </div>
     </div>
 
 
     <div id="chart-3"></div>
-    <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
-        <div class="flex justify-between items-center pt-5">
-        <!-- Button -->
-        <button
-            id="dropdownStudentChart3Button"
-            data-dropdown-toggle="lastDaysdropdown"
-            data-dropdown-placement="bottom"
-            class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
-            type="button">
-            Last 6 months
-            <svg class="w-2.5 m-2.5 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-            </svg>
-        </button>
-        <!-- Dropdown menu -->
-        <div id="lastDaysdropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a>
-                </li>
-                <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a>
-                </li>
-                <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 7 days</a>
-                </li>
-                <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 30 days</a>
-                </li>
-                <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 90 days</a>
-                </li>
-                <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 6 months</a>
-                </li>
-                <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last year</a>
-                </li>
-            </ul>
-        </div>
-            <a
-                href="#"
-                class="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
-                Revenue Report
-                <svg class="w-2.5 h-2.5 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                </svg>
-            </a>
-        </div>
-    </div>
 </div>
   
 
@@ -364,6 +305,15 @@
                         return value;
                     }
                 }
+            },
+            grid: {
+                show: true,
+                strokeDashArray: 4,
+                padding: {
+                    left: 2,
+                    right: 2,
+                    top: -20
+                },
             },
         }
 
@@ -539,17 +489,18 @@
       var options = {
         series: [
         {
-            name: "Ingresos",
-            type: "column", // Puedes usar 'column' para ingresos
-            data: chart3_revenueCurrentYear,
-        },
-        {
             name: "Estudiantes",
-            type: "line", // Puedes usar 'line' para estudiantes
+            type: "column", // Puedes usar 'line' para estudiantes
             data: chart3_studentCount,
-        }
+        },
+        {% comment %} {
+            name: "Ingresos",
+            type: "line", // Puedes usar 'column' para ingresos
+            data: chart3_revenueCurrentYear,
+        } {% endcomment %}
         ],
         chart: {
+            
             sparkline: {
                 enabled: false,
             },
@@ -557,8 +508,38 @@
             width: "100%",
             height: 400,
             toolbar: {
-                show: false,
-            }
+                show: true,
+                offsetX: 0,
+                offsetY: 0,
+                tools: {
+                    download: true,
+                    selection: true,
+                    zoom: true,
+                    zoomin: true,
+                    zoomout: true,
+                    pan: true,
+                    reset: true | '<img src="/static/icons/reset.png" width="20">',
+                    customIcons: []
+                },
+                export: {
+                    csv: {
+                        filename: 'cantidad-estudiantes-por-edad',
+                        columnDelimiter: ',',
+                        headerCategory: 'category',
+                        headerValue: 'value',
+                        dateFormatter(timestamp) {
+                        return new Date(timestamp).toDateString()
+                        }
+                    },
+                    svg: {
+                        filename: 'cantidad-estudiantes-por-edad',
+                    },
+                    png: {
+                        filename: 'cantidad-estudiantes-por-edad',
+                    }
+                },
+                autoSelected: 'zoom' 
+            },
         },
         fill: {
             opacity: 1,
@@ -591,6 +572,9 @@
             }
         },
         xaxis: {
+            title: {
+                text: "Tipos de suscripciones",
+            },
             labels: {
                 show: true,
                 style: {
@@ -611,32 +595,38 @@
         },
         yaxis: [
             {
+                title: {
+                    text: "Estudiantes",
+                    {% comment %} style: {
+                        color: "#6B7280" // Cambia "#FF0000" al color que desees, por ejemplo, rojo
+                    } {% endcomment %}
+                },
                 labels: {
                     show: true,
                     style: {
                         fontFamily: "Inter, sans-serif",
-                        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+                        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
                     }
                 }
             },
-            {
-                opposite: true, // Este eje estará en el lado opuesto (derecho)
+            {% comment %} {
+                opposite: false, // Este eje estará en el lado opuesto (derecho)
                 title: {
                     text: "Estudiantes",
                 }
-            }
+            } {% endcomment %}
         ],
         grid: {
-        show: true,
-        strokeDashArray: 4,
-        padding: {
-            left: 2,
-            right: 2,
-            top: -20
-        },
+            show: true,
+            strokeDashArray: 4,
+            padding: {
+                left: 2,
+                right: 2,
+                top: -20
+            },
         },
         fill: {
-        opacity: 1,
+            opacity: 1,
         }
     }
   

@@ -39,8 +39,6 @@
                     </svg>
                     Exportar
                 </button>
-
-                
             </div>
         </div>
         
@@ -51,27 +49,29 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">
-                    Fecha y hora
+                    Usuario
+                </th>
+                
+                <th scope="col" class="px-6 py-3">
+                    Tabla
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    En
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Donde
+                    Evento
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Cambios
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Usuario
+                    Fecha y hora
                 </th>
+                
             </tr>
         </thead>
         <tbody>
             {% for entry in log_entries %}
             <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                <td class="px-6 py-4">
-                    {{ entry.timestamp }}
+                <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ entry.actor }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ entry.model_name }}
@@ -87,8 +87,9 @@
                     </ul>
                 </td>
                 <td class="px-6 py-4">
-                    {{ entry.actor }}
+                    {{ entry.timestamp }}
                 </td>
+                
             </tr>
             
             {% endfor %}
