@@ -38,7 +38,7 @@ class EventForm(forms.ModelForm):
         self.fields['lesson_type'].empty_label = 'Seleccionar tipo de clase'
         self.fields['lesson_type'].widget.attrs.update({'class': 'block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer'})
 
-        self.fields['subscription'].label_from_instance = lambda obj: obj.get_student_and_type()
+        self.fields['subscription'].label_from_instance = lambda obj: obj.get_subscription_type_name()
         self.fields['subscription'].empty_label = 'Seleccionar suscripción'
         self.fields['subscription'].widget.attrs.update({'class': 'block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer'})
 
@@ -58,8 +58,7 @@ class EventForm(forms.ModelForm):
                 # Precarga el estudiante relacionado
                 self.fields['student'].initial = self.instance.subscription.student
 
-        self.fields['subscription'].disabled = True
-        # self.fields['subscription'].queryset = Subscription.objects.none()
+            # self.fields['subscription'].initial = self.instance.subscription.get_subscription_type_name()
 
 
    

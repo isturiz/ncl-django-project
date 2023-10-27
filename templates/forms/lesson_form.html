@@ -112,43 +112,43 @@
     // Obtén los elementos de los campos de selección
     const studentSelect = document.getElementById('id_student');
     const subscriptionSelect = document.getElementById('id_subscription');
+    const optionElements = subscriptionSelect.querySelectorAll('option');
     
-    // Escucha el evento de cambio en el campo de selección de estudiantes
-    studentSelect.addEventListener('change', function() {
-    //document.addEventListener('DOMContentLoaded', function() {
-        // Obtiene el ID del estudiante seleccionado
-        const selectedStudentId = studentSelect.value;
-
-        if (selectedStudentId) {
-            // Si se seleccionó un estudiante, habilita el campo de suscripción
-            subscriptionSelect.disabled = false;
-        } else {
-            // Si no se seleccionó un estudiante, limpia y deshabilita el campo de suscripción
-            subscriptionSelect.innerHTML = '<option value="" selected>Seleccionar suscripción</option>';
-            subscriptionSelect.disabled = true;
-        }
-
+    
+    function showSubscriptionsForSelectedStudent(selectedStudentId) {
+        // Oculta todas las opciones por defecto
+        optionElements.forEach(option => {
+            option.style.display = "none";
+        });
+    
         // Realiza una solicitud Ajax para cargar las suscripciones asociadas al estudiante
         if (selectedStudentId) {
-            // Reemplaza 'URL_DE_TU_VISTA' con la URL de tu vista Django que carga las suscripciones del estudiante
             fetch(`/load-subscription/${selectedStudentId}/`)
                 .then(response => response.json())
                 .then(data => {
-                    // Limpia el campo de selección de suscripciones
-                    subscriptionSelect.innerHTML = '<option value="" selected>Seleccionar suscripción</option>';
-                    console.log(data)
-                    // Agrega las opciones de suscripciones al campo de selección
-                    data.subscriptions.forEach(subscription => {
-                        const option = document.createElement('option');
-                        option.value = subscription.sub_id;
-                        option.textContent = subscription.name; // Cambia esto al campo que desees mostrar
-                        subscriptionSelect.appendChild(option);
+                    data.student.subscriptions.forEach(subscription => {
+                        const subscriptionId = subscription.id;
+                        const matchingOption = subscriptionSelect.querySelector(`option[value="${subscriptionId}"]`);
+                        if (matchingOption) {
+                            matchingOption.style.display = "";
+                        }
                     });
                 });
-        } else {
-            // Si no se selecciona un estudiante, limpia el campo de selección de suscripciones
-            subscriptionSelect.innerHTML = '<option value="" selected>Seleccionar suscripción</option>';
         }
+    }
+
+    studentSelect.addEventListener('change', function() {
+        // Obtiene el ID del estudiante seleccionado y muestra suscripciones
+        const selectedStudentId = studentSelect.value;
+        showSubscriptionsForSelectedStudent(selectedStudentId);
+        subscriptionSelect.value = "";
+
+    });
+    
+    // Al cargar la página, muestra las suscripciones basadas en el estudiante preseleccionado
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectedStudentId = studentSelect.value;
+        showSubscriptionsForSelectedStudent(selectedStudentId);
     });
 </script>
 

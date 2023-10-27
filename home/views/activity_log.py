@@ -4,14 +4,25 @@ from django.utils.translation import gettext as _
 
 from auditlog.models import LogEntry
 from django.utils import timezone
+from django.db import models
 
 
 def get_verbose_name(model, field_name):
     # Obtén el campo a partir del nombre del campo y el modelo
     field = model._meta.get_field(field_name)
 
-    # Obtén el nombre descriptivo traducido del campo
-    verbose_name = field.verbose_name
+    # Verifica si el campo es una relación inversa de clave externa
+    if isinstance(field, models.ManyToOneRel):
+        # Accede al campo de clave externa
+        related_field = field.field
+
+        # Obtén el nombre descriptivo traducido del campo de clave externa
+        verbose_name = related_field.verbose_name
+    else:
+        # El campo no es una relación inversa, obtén su nombre descriptivo traducido
+        verbose_name = field.verbose_name
+
+    return verbose_name
 
     return verbose_name
 

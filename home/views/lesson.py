@@ -41,8 +41,23 @@ def load_subscriptions(request, student_id):
     student = Student.objects.get(pk=student_id)
     subscriptions = Subscription.objects.filter(student=student)
 
+    # data = {
+    #     'id_student': student.pk,'
+    #     'subscriptions': [{'id_student': sub.student.pk, 'student_name': sub.student.first_name, 'sub_id': sub.pk,'name': sub.subscription_type.name} for sub in subscriptions]
+    # }
     data = {
-        'subscriptions': [{'id': sub.student.pk, 'student_name': sub.student.first_name, 'sub_id': sub.pk,'name': sub.subscription_type.name} for sub in subscriptions]
+    'student': {
+        'id': student.pk,
+        'name': student.first_name,
+        'subscriptions': [
+            {
+                'id': sub.pk,
+                'name': sub.subscription_type.name,
+                'student': sub.student.first_name,
+            }
+            for sub in subscriptions
+        ]
     }
+}
 
     return JsonResponse(data)

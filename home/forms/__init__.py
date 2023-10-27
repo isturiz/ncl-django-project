@@ -6,3 +6,4 @@ from .payment import PaymentForm
 
 from .lesson_types import LessonTypeForm
 from .subscription_types import SubscriptionTypeForm
+
