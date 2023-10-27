@@ -76,24 +76,4 @@
     </button>
 </form>
 
-<script>
-    const validateNumbers = (inputField) => {
-        inputField.addEventListener("input", () => {
-            const inputValue = inputField.value;
-            const isValid = /^\d+$/.test(inputValue); // Expresión regular para permitir solo números
-    
-            if (!isValid) {
-                alert("El campo debe contener solo números.");
-                inputField.value = inputValue.replace(/[^\d]+/g, ""); // Eliminar caracteres no numéricos
-            }
-        });
-    };
-
-    const validateNumberInputs = document.querySelectorAll("[data-validate-numbers='true']");
-
-    validateNumberInputs.forEach((input) => {
-        validateNumbers(input);
-    });
-</script>
-
 {% endblock %}

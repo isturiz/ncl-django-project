@@ -1,6 +1,6 @@
 // Only letters 
-//data-validate-letters="true"
-const validateInput = (inputField) => {
+//data-validate-only-letters="true" <- property
+const validateOnlyLettersInput = (inputField) => {
     inputField.addEventListener("input", () => {
         const inputValue = inputField.value;
         const isValid = /^[A-Za-z]+$/.test(inputValue);
@@ -12,167 +12,60 @@ const validateInput = (inputField) => {
     });
 };
 
-const validateNumbers = (inputField) => {
+
+const validateLetterInputs = document.querySelectorAll("[data-validate-only-letters='true']");
+
+validateLetterInputs.forEach((input) => {
+    validateOnlyLettersInput(input);
+});
+
+// Only numbers
+const validateOnlyNumbers = (inputField) => {
     inputField.addEventListener("input", () => {
         const inputValue = inputField.value;
         const isValid = /^\d+$/.test(inputValue); // Expresión regular para permitir solo números
 
         if (!isValid) {
-            alert("El campo debe contener solo números.");
+            //alert("El campo debe contener solo números.");
             inputField.value = inputValue.replace(/[^\d]+/g, ""); // Eliminar caracteres no numéricos
         }
     });
 };
 
+const validateNumberInputs = document.querySelectorAll("[data-validate-only-numbers='true']");
 
-// student_form.html
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const firstNameField = document.getElementById("id_first_name");
-    const secondNameField = document.getElementById("id_second_name");
-    const firstSurnameField  = document.getElementById("id_first_surname");
-    const secondSurnameField  = document.getElementById("id_second_surname");
-    
-    function validateInput(inputField) {
-        inputField.addEventListener("input", function () {
-            const inputValue = inputField.value;
-            const isValid = /^[A-Za-z]+$/.test(inputValue);
-
-            if (!isValid) {
-                alert("El campo debe contener solo letras.");
-                inputField.value = inputValue.replace(/[^A-Za-z]+/g, "");
-            }
-        });
-    }
-
-    validateInput(firstNameField);
-    validateInput(secondNameField);
-    validateInput(firstSurnameField);
-    validateInput(secondSurnameField);
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const phoneField = document.getElementById("id_phone_number");
-    const identifyCardField = document.getElementById("id_identify_card");
-
-    function validateNumericField(field) {
-        field.addEventListener("input", function () {
-            const inputValue = field.value;
-            const numericValue = inputValue.replace(/\D/g, ''); // Elimina todos los caracteres que no sean dígitos
-            field.value = numericValue;
-
-            if (inputValue !== numericValue) {
-                alert("El campo debe contener solo números.");
-            }
-        });
-    }
-
-    validateNumericField(phoneField);
-    validateNumericField(identifyCardField);
+validateNumberInputs.forEach((input) => {
+    validateOnlyNumbers(input);
 });
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    const emailField = document.getElementById("id_email");
-
-    emailField.addEventListener("change", function () {
-        const inputValue = emailField.value;
-        // Expresión regular para validar una dirección de correo electrónico
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-        if (!emailPattern.test(inputValue)) {
-            alert("Por favor, ingrese una dirección de correo electrónico válida.");
-            emailField.value = ''; // Limpia el campo si la dirección no es válida
+// Only dates
+const validateOnlyDates = (inputField) => {
+    inputField.addEventListener("input", () => {
+        const inputValue = inputField.value;
+        // El regex permite solo números y / en el formato dd/mm/yyyy
+        const isValid = /^(\d{0,2}\/\d{0,2}\/\d{0,4})$/.test(inputValue);
+        
+        if (!isValid) {
+            // Eliminar caracteres no válidos y corregir el formato
+            const cleanedValue = inputValue.replace(/[^0-9/]/g, "");
+            const parts = cleanedValue.split('/');
+            if (parts[0] && parts[0].length > 2) {
+                parts[0] = parts[0].slice(0, 2);
+            }
+            if (parts[1] && parts[1].length > 2) {
+                parts[1] = parts[1].slice(0, 2);
+            }
+            if (parts[2] && parts[2].length > 4) {
+                parts[2] = parts[2].slice(0, 4);
+            }
+            inputField.value = parts.join('/');
         }
     });
-});
+};
 
+const validateDateInputs = document.querySelectorAll("[data-validate-only-dates='true']");
 
-
-
-// teacher_form.html
-
-document.addEventListener("DOMContentLoaded", function () {
-    const firstNameField = document.getElementById("id_first_name");
-    const secondNameField = document.getElementById("id_second_name");
-    const firstSurnameField  = document.getElementById("id_first_surname");
-    const secondSurnameField  = document.getElementById("id_second_surname");
-    
-    function validateInput(inputField) {
-        inputField.addEventListener("input", function () {
-            const inputValue = inputField.value;
-            const isValid = /^[A-Za-z]+$/.test(inputValue);
-
-            if (!isValid) {
-                alert("El campo debe contener solo letras.");
-                inputField.value = inputValue.replace(/[^A-Za-z]+/g, "");
-            }
-        });
-    }
-
-    validateInput(firstNameField);
-    validateInput(secondNameField);
-    validateInput(firstSurnameField);
-    validateInput(secondSurnameField);
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const phoneField = document.getElementById("id_phone_number");
-    const identifyCardField = document.getElementById("id_identify_card");
-
-    function validateNumericField(field) {
-        field.addEventListener("input", function () {
-            const inputValue = field.value;
-            const numericValue = inputValue.replace(/\D/g, ''); // Elimina todos los caracteres que no sean dígitos
-            field.value = numericValue;
-
-            if (inputValue !== numericValue) {
-                alert("El campo debe contener solo números.");
-            }
-        });
-    }
-
-    validateNumericField(phoneField);
-    validateNumericField(identifyCardField);
-
-document.addEventListener("DOMContentLoaded", function () {
-    const emailField = document.getElementById("id_email");
-
-    emailField.addEventListener("change", function () {
-        const inputValue = emailField.value;
-        // Expresión regular para validar una dirección de correo electrónico
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-        if (!emailPattern.test(inputValue)) {
-            alert("Por favor, ingrese una dirección de correo electrónico válida.");
-            emailField.value = ''; // Limpia el campo si la dirección no es válida
-        }
-    });
-});
-
-
-
-
-// subscription_types_form.html
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const nameField = document.getElementById("id_name");
-
-    
-    function validateInput(inputField) {
-        inputField.addEventListener("input", function () {
-            const inputValue = inputField.value;
-            const isValid = /^[A-Za-z]+$/.test(inputValue);
-
-            if (!isValid) {
-                alert("El campo debe contener solo letras.");
-                inputField.value = inputValue.replace(/[^A-Za-z]+/g, "");
-            }
-        });
-    }
-
-    validateInput(nameField);
+validateDateInputs.forEach((input) => {
+    validateOnlyDates(input);
 });
