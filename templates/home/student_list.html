@@ -123,7 +123,7 @@
         </thead>
         <tbody>
             {% for student in students %}
-            <tr class="bg-gray-100 border-b dark:bg-gray-900 dark:border-gray-700" data-status="{% if student.is_active %}active{% else %}inactive{% endif %}" {% if not student.is_active%}style="display:none;"{% endif %}>
+            <tr class="bg-gray-100 border-b dark:bg-gray-800 dark:border-gray-700" data-status="{% if student.is_active %}active{% else %}inactive{% endif %}" {% if not student.is_active%}style="display:none;"{% endif %}>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ student.identify_card.0 }}-{{ student.identify_card|slice:"1:" }}
                 </td>

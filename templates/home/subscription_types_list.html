@@ -76,9 +76,9 @@
 
         
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="table-file">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 rounded-tl-2xl">
                     Nombre
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -90,14 +90,14 @@
                 <th scope="col" class="px-6 py-3">
                     Número de clases
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 rounded-tr-2xl">
                     Acción
                 </th>
             </tr>
         </thead>
         <tbody>
             {% for subscription_type in subscription_types %}
-            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700" data-status="{% if lesson.lesson_status %}active{% else %}inactive{% endif %}">
+            <tr class="bg-gray-100 border-b dark:bg-gray-800 dark:border-gray-700" data-status="{% if lesson.lesson_status %}active{% else %}inactive{% endif %}">
                 
                 <td class="px-6 py-4">
                     {{ subscription_type.name }}
