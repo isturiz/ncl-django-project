@@ -6,7 +6,7 @@ const validateOnlyLettersInput = (inputField) => {
         const isValid = /^[A-Za-z]+$/.test(inputValue);
 
         if (!isValid) {
-            alert("El campo debe contener solo letras.");
+            // alert("El campo debe contener solo letras.");
             inputField.value = inputValue.replace(/[^A-Za-z]+/g, "");
         }
     });
