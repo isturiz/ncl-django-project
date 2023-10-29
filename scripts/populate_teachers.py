@@ -112,7 +112,7 @@ def generate_phone_number():
 
 def generate_identify_card(initial, final):
     random_number = random.randint(initial, final)
-    random_string = f"V-{random_number:07}"
+    random_string = f"V{random_number:07}"
 
     return random_string
 
@@ -137,7 +137,7 @@ def generate_boolean():
     return True if random_number < threshold else False
 
 def populate_teachers():
-    for i in range(3):
+    for i in range(4):
         Teacher.objects.create(
             identify_card=generate_identify_card(10000000, 20000000),
             first_name=generate_first_name(),

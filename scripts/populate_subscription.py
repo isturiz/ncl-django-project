@@ -36,7 +36,11 @@ with transaction.atomic():
                 student=student,
                 start_date=start_date,
                 end_date=end_date,
-                subscription_status=end_date >= current_date
+                # subscription_status=end_date >= current_date,
+
+
             )
             subscription.save()
         
+# 
+

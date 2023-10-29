@@ -132,7 +132,7 @@ class Subscription(models.Model):
     end_date = models.DateField(verbose_name=_('End Date'))
     is_active = models.BooleanField(verbose_name=_('Active'), default=True)
     auto_renewal = models.BooleanField(verbose_name=_('Auto Renewal'), default=True)
-    
+
 
     def __str__(self):
         return f'{self.student} - {self.subscription_type}'

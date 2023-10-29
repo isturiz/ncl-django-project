@@ -18,6 +18,8 @@ from django.db.models import Sum, F
 
 from django.contrib import messages
 
+from django.contrib.auth.decorators import user_passes_test
+
 class Student_ListView(ListView):
     model = Student
     template_name = 'home/student_list.html'

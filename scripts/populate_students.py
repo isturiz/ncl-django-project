@@ -111,7 +111,7 @@ def generate_phone_number():
 
 def generate_identify_card(initial, final):
     random_number = random.randint(initial, final)
-    random_string = f"V-{random_number:07}"
+    random_string = f"V{random_number:07}"
 
     return random_string
 
