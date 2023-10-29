@@ -7,7 +7,7 @@
 <script src="{% static '/node_modules/apexcharts/dist/apexcharts.min.js' %}"></script>
 
 {% comment %} <div>{{ inscription_students }}</div> {% endcomment %}
-<div class="max-w-none w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+<div class="max-w-none w-full bg-white rounded-2xl shadow dark:bg-gray-800 p-4 md:p-6">
     <div class="flex justify-between">
         <div>
             <h5 id="idTotalAmount" class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Total anual ${{ total_payments_current_year }}</h5>
@@ -62,7 +62,7 @@
                 </svg>
             </button>
             <!-- Dropdown menu -->
-            <div id="filterMonthButton" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+            <div id="filterMonthButton" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-2xl shadow w-44 dark:bg-gray-700">
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMonthButton">
                     <li>
                     <a href="#" data-filter="current-year" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Año actual</a>
@@ -83,7 +83,7 @@
 </div>
 
 <!-- Student Chart 3 -->
-<div class="max-w-none w-full bg-white rounded-lg shadow mt-8 dark:bg-gray-800 p-4 md:p-6">
+<div class="max-w-none w-full bg-white rounded-2xl shadow mt-8 dark:bg-gray-800 p-4 md:p-6">
     <div class="flex justify-between border-gray-200 border-b dark:border-gray-700 pb-3">
     <dl>
         <dd class="leading-none text-3xl font-bold text-gray-900 dark:text-white">Ganancia por tipo de suscripción</dd>
