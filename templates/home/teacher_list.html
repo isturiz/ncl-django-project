@@ -118,8 +118,8 @@
         </thead>
         <tbody>
             {% for teacher in teachers %}
-            <tr class="bg-gray-100 border-b dark:bg-gray-800 dark:border-gray-700" data-status="{% if teacher.is_active %}active{% else %}inactive{% endif %}" {% if not teacher.is_active%}style="display:none;"{% endif %}>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700" data-status="{% if teacher.is_active %}active{% else %}inactive{% endif %}" {% if not teacher.is_active%}style="display:none;"{% endif %}>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">
                     {{ teacher.first_name }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -142,7 +142,7 @@
                     {% endif %}
                     {% comment %} {{ teacher.birthdate|date:"d/m/Y"}} {% endcomment %}
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 {% if forloop.last %}rounded-br-2xl{% endif %}">
                     <div class="flex items-center h-full flex-1 flex-row gap-x-2">
                         <a href="{% url 'teacher-update' teacher.pk %}" class="font-medium text-black dark:text-white hover:underline">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
