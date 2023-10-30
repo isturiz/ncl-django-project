@@ -5,8 +5,10 @@ beautifulsoup4==4.12.2
 billiard==4.1.0
 binaryornot==0.4.4
 black==23.9.1
+Brotli==1.1.0
 celery==5.3.4
 certifi==2023.7.22
+cffi==1.16.0
 chardet==5.2.0
 charset-normalizer==3.3.0
 click==8.1.7
@@ -29,6 +31,8 @@ django-polymorphic==3.1.0
 django-timezone-field==6.0.1
 easy-thumbnails==2.8.5
 Faker==19.11.0
+fonttools==4.43.1
+html5lib==1.1
 idna==3.4
 Jinja2==3.1.2
 kombu==5.3.2
@@ -42,7 +46,10 @@ pathspec==0.11.2
 Pillow==10.0.1
 platformdirs==3.10.0
 prompt-toolkit==3.0.39
+pycparser==2.21
+pydyf==0.8.0
 Pygments==2.16.1
+pyphen==0.14.0
 python-crontab==3.0.0
 python-dateutil==2.8.2
 python-slugify==8.0.1
@@ -64,4 +71,6 @@ tzdata==2023.3
 urllib3==2.0.5
 vine==5.0.0
 wcwidth==0.2.8
+weasyprint==60.1
 webencodings==0.5.1
+zopfli==0.2.3
