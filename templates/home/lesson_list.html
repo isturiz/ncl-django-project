@@ -94,7 +94,13 @@
                     Estudiante
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Iden. Estu.
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Profesor
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Iden. Profu.
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Modalidad
@@ -121,8 +127,16 @@
                     {{ lesson.subscription.student }}
 
                 </td>
+                <td class="px-6 py-4 font-medium whitespace-nowrap">
+                    {{ lesson.subscription.student.identify_card }}
+
+                </td>
                 <td class="px-6 py-4">
                     {{ lesson.teacher }}
+                </td>
+                <td class="px-6 py-4 font-medium whitespace-nowrap">
+                    {{ lesson.teacher.identify_card }}
+
                 </td>
                 <td class="px-6 py-4">
                     {{ lesson.lesson_type }}
