@@ -112,7 +112,7 @@
         </thead>
         <tbody>
             {% for lesson in lessons %}
-            <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700" data-status="{% if lesson.lesson_status %}active{% else %}inactive{% endif %}">
+            <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700 {% if not forloop.last %}border-b{% endif %}" data-status="{% if lesson.lesson_status %}active{% else %}inactive{% endif %}">
                 
                 {% if lesson.start_date %}
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">

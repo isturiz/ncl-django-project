@@ -97,7 +97,7 @@
         </thead>
         <tbody>
             {% for subscription_type in subscription_types %}
-            <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700" data-status="{% if lesson.lesson_status %}active{% else %}inactive{% endif %}">
+            <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700 {% if not forloop.last %}border-b{% endif %}" data-status="{% if lesson.lesson_status %}active{% else %}inactive{% endif %}">
                 
                 <td class="px-6 py-4 {% if forloop.last %}rounded-bl-2xl{% endif %}">
                     {{ subscription_type.name }}

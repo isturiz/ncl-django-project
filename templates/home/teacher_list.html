@@ -121,7 +121,7 @@
         </thead>
         <tbody>
             {% for teacher in teachers %}
-            <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700" data-status="{% if teacher.is_active %}active{% else %}inactive{% endif %}" {% if not teacher.is_active%}style="display:none;"{% endif %}>
+            <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700 {% if not forloop.last %}border-b{% endif %}" data-status="{% if teacher.is_active %}active{% else %}inactive{% endif %}" {% if not teacher.is_active%}style="display:none;"{% endif %}>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">
                     {{ teacher.identify_card }}
                 </td>

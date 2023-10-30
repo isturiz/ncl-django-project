@@ -70,7 +70,7 @@
         </thead>
         <tbody>
             {% for entry in log_entries %}
-            <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700">
+            <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700 {% if not forloop.last %}border-b{% endif %}">
                 <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">
                     {{ entry.actor }}
                 </td>
