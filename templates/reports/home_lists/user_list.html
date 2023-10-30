@@ -1,0 +1,85 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de usuarios</title>
+        {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"> {% endcomment %}
+
+        <link rel="stylesheet" href="{% static "CACHE/css/output.a2c5aefc30c5.css" %}">
+
+</head>
+<body>
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="table-file">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3 rounded-tl-2xl">
+                    ID
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Usuario
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Email
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Última Conexión
+                </th>
+                <th scope="col" class="px-6 py-3 rounded-tr-2xl">
+                    Acción
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700 {% if not forloop.last %}border-b{% endif %}">
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">
+                    <span class="{% if not user.id %}text-gray-400{% endif %}">{{ user.id | default:"Sin establecer" }}</span>
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <span class="{% if not user.username %}text-gray-400{% endif %}">{{ user.username | default:"Sin establecer" }}</span>
+                </td>
+                <td class="px-6 py-4">
+                    <span class="{% if not user.email %}text-gray-400{% endif %}">{{ user.email | default:"Sin establecer" }}</span>
+                </td>
+                <td class="px-6 py-4">
+                    <span class="{% if not user.last_login %}text-gray-400{% endif %}">{{ user.last_login | date:"F d, Y H:i:s" | default:"Sin establecer" }}</span>
+                </td>
+                <td class="px-6 py-4 {% if forloop.last %}rounded-br-2xl{% endif %}">
+                    <div class="flex items-center h-full flex-1 flex-row gap-x-2">
+                        <a href="{% url 'user-edit' user.pk %}" class="font-medium text-black dark:text-white hover:underline">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                <path d="M16 5l3 3"></path>
+                            </svg>
+                        </a>
+
+                        <button 
+                            class="font-medium text-black dark:text-white hover:underline" 
+                            onclick="openModal('studentModal', {
+                                'Nombre': '{{ student.first_name }} {{ student.second_name }} {{ student.first_surname }} {{ student.second_surname }}',   
+                                'Fecha de Nacimiento': '{{ student.birthdate }}',
+                                'Teléfono': '{{ student.phone_number }}',
+                                'Email': '{{ student.email }}',
+                                'Dirección': '{{ student.address }}'
+                            })">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-square" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                <path d="M12 8v4"></path>
+                                <path d="M12 16h.01"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,88 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de pagos</title>
+        {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"> {% endcomment %}
+
+        <link rel="stylesheet" href="{% static "CACHE/css/output.a2c5aefc30c5.css" %}">
+
+</head>
+<body>
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="table-file">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3 rounded-tl-2xl">
+                    Estudiante
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Tipo de suscripción
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Monto
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Fecha
+                </th>
+                <th scope="col" class="px-6 py-3 rounded-tr-2xl">
+                    Acción
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for payment in payments %}
+            <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700 {% if not forloop.last %}border-b{% endif %}" data-status="{% if lesson.lesson_status %}active{% else %}inactive{% endif %}">
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">
+                    <span class="{% if not payment.subscription.student %}text-gray-400{% endif %}">{{ payment.subscription.student | default:"Sin establecer" }}</span>
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <span class="{% if not payment.subscription.subscription_type.name %}text-gray-400{% endif %}">{{ payment.subscription.subscription_type.name | default:"Sin establecer" }}</span>
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <span class="{% if not payment.price %}text-gray-400{% endif %}">{{ payment.price | default:"Sin establecer" }}</span>
+                </td>
+                <td class="px-6 py-4">
+                    <span class="{% if not payment.date %}text-gray-400{% endif %}">{{ payment.date | date:"d/m/Y" | default:"Sin establecer" }}</span>
+                </td>
+
+
+                <td class="px-6 py-4 {% if forloop.last %}rounded-br-2xl{% endif %}">
+                    <div class="flex items-center h-full flex-1 flex-row gap-x-2">
+                        <a href="{% url 'payment-update' payment.pk %}" class="font-medium text-black dark:text-white hover:underline">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                <path d="M16 5l3 3"></path>
+                            </svg>
+                        </a>
+
+                        <button 
+                            class="font-medium text-black dark:text-white hover:underline" 
+                            onclick="openModal('lessonModal', {
+                                'Fecha': '{% if lesson.start_date %}{{ lesson.start_date|date:"l j, g:iA" }}{% endif %}',   
+                                'Estudiante': '{{ lesson.subscription.student }}',
+                                'Precio': '{% if lesson.price %}${{lesson.price}}{% else %}$0{% endif %}',
+                                'Profesor': '{{ lesson.teacher }}',
+                                'Clase vista': '{% if lesson.lesson_status %}Vista{% else %}No vista{% endif %}',
+                                
+                            })">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-square" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                <path d="M12 8v4"></path>
+                                <path d="M12 16h.01"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

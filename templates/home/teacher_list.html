@@ -48,16 +48,18 @@
             </div>
     
             {% comment %} Export {% endcomment %}
-            <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">            
-                <button type="button" class="export-button flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-2xl focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                    <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                    </svg>
-                    Exportar
-                </button>
 
-                
+            <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
+                <a href="{% url 'report-teacher-list' %}" target="_blank">
+                    <button type="button" class="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-2xl focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                        </svg>
+                        Exportar
+                    </button>
+                </a>
             </div>
+            
         </div>
         
         
@@ -123,22 +125,22 @@
             {% for teacher in teachers %}
             <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700 {% if not forloop.last %}border-b{% endif %}" data-status="{% if teacher.is_active %}active{% else %}inactive{% endif %}" {% if not teacher.is_active%}style="display:none;"{% endif %}>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">
-                    {{ teacher.identify_card }}
+                    <span class="{% if not teacher.identify_card %}text-gray-400{% endif %}">{{ teacher.identify_card.0| default:"Sin " }}{% if teacher.identify_card %}-{% endif %}{{ teacher.identify_card|slice:"1:"| default:"establecer"}}</span>
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ teacher.first_name }}
+                    <span class="{% if not teacher.first_name %}text-gray-400{% endif %}">{{ teacher.first_name| default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ teacher.first_surname }}
+                    <span class="{% if not teacher.first_surname %}text-gray-400{% endif %}">{{ teacher.first_surname | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4">
-                    {{ teacher.email }}
+                    <span class="{% if not teacher.email %}text-gray-400{% endif %}">{{ teacher.email | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4">
-                    {{ teacher.phone_number }}
+                    <span class="{% if not teacher.phone_number  %}text-gray-400{% endif %}">{{ teacher.phone_number  | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4">
-                    {{ teacher.address }}
+                    <span class="{% if not teacher.address %}text-gray-400{% endif %}">{{ teacher.address | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4">
                     {% if teacher.is_active %}

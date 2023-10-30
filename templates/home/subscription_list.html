@@ -41,15 +41,15 @@
             </div>
     
             {% comment %} Export {% endcomment %}
-            <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">            
-                <button type="button" class="export-button flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-2xl focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                    <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                    </svg>
-                    Exportar
-                </button>
-
-                
+            <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
+                <a href="{% url 'report-subscription-list' %}" target="_blank">
+                    <button type="button" class="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-2xl focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                        </svg>
+                        Exportar
+                    </button>
+                </a>
             </div>
         </div>
         
@@ -113,20 +113,20 @@
             {% for subscription in subscriptions %}
             <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700 {% if not forloop.last %}border-b{% endif %}" data-status="{% if lesson.lesson_status %}active{% else %}inactive{% endif %}">
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">
-                    {{ subscription.student }}
+                    <span class="{% if not subscription.student %}text-gray-400{% endif %}">{{ subscription.student | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ subscription.subscription_type.name }}
+                    <span class="{% if not subscription.subscription_type.name %}text-gray-400{% endif %}">{{ subscription.subscription_type.name | default:"Sin establecer" }}</span>
                 </td>
                 
                 <td class="px-6 py-4">
-                    ${{ subscription.subscription_type.price }}
+                    <span class="{% if not subscription.subscription_type.price %}text-gray-400{% endif %}">{{ subscription.subscription_type.price | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4">
-                    {{ subscription.start_date }}
+                    <span class="{% if not subscription.start_date %}text-gray-400{% endif %}">{{ subscription.start_date | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4">
-                    {{ subscription.end_date }}
+                    <span class="{% if not subscription.end_date %}text-gray-400{% endif %}">{{ subscription.end_date | default:"Sin establecer" }}</span>
                 </td>
 
                 <td class="px-6 py-4 {% if forloop.last %}rounded-br-2xl{% endif %}">

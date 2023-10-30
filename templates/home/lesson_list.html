@@ -42,15 +42,15 @@
             </div>
     
             {% comment %} Export {% endcomment %}
-            <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">            
-                <button type="button" class="export-button flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-2xl focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                    <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                    </svg>
-                    Exportar
-                </button>
-
-                
+            <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
+                <a href="{% url 'report-lesson-list' %}" target="_blank">
+                    <button type="button" class="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-2xl focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                        </svg>
+                        Exportar
+                    </button>
+                </a>
             </div>
         </div>
         
@@ -114,32 +114,24 @@
             {% for lesson in lessons %}
             <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700 {% if not forloop.last %}border-b{% endif %}" data-status="{% if lesson.lesson_status %}active{% else %}inactive{% endif %}">
                 
-                {% if lesson.start_date %}
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">
-                        {{ lesson.start_date|date:"l j, g:iA" }}
-                    </td>
-                {% else %}
-                    <td class="px-6 py-4 font-medium text-gray-400 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">
-                        Sin fecha establecida
-                    </td>
-                {% endif %}
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">
+                    <span class="{% if not lesson.start_date %}text-gray-400{% endif %}">{{ lesson.start_date | date:"l j, g:iA" | default:"Sin establecer" }}</span>
+                </td>
+
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ lesson.subscription.student }}
-
+                    <span class="{% if not lesson.subscription.student %}text-gray-400{% endif %}">{{ lesson.subscription.student | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4 font-medium whitespace-nowrap">
-                    {{ lesson.subscription.student.identify_card }}
-
+                    <span class="{% if not lesson.subscription.student.identify_card %}text-gray-400{% endif %}">{{ lesson.subscription.student.identify_card.0| default:"Sin " }}{% if lesson.subscription.student.identify_card %}-{% endif %}{{ lesson.subscription.student.identify_card|slice:"1:"| default:"establecer"}}</span>
                 </td>
                 <td class="px-6 py-4">
-                    {{ lesson.teacher }}
+                    <span class="{% if not lesson.teacher %}text-gray-400{% endif %}">{{ lesson.teacher | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4 font-medium whitespace-nowrap">
-                    {{ lesson.teacher.identify_card }}
-
+                    <span class="{% if not lesson.teacher.identify_card %}text-gray-400{% endif %}">{{ lesson.teacher.identify_card.0| default:"Sin " }}{% if lesson.teacher.identify_card %}-{% endif %}{{ lesson.teacher.identify_card|slice:"1:"| default:"establecer"}}</span>
                 </td>
                 <td class="px-6 py-4">
-                    {{ lesson.lesson_type }}
+                    <span class="{% if not lesson.lesson_type %}text-gray-400{% endif %}">{{ lesson.lesson_type | default:"Sin establecer" }}</span>
                 </td>
 
                 <td class="px-6 py-4 {% if forloop.last %}rounded-br-2xl{% endif %}">

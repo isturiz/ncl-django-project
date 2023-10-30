@@ -9,10 +9,6 @@
 
 
 
-<style>
-    
-</style>
-
 <div class="relative overflow-x-auto sm:rounded-2xl px-2 pb-4 pb-4">
 
     {% comment %} first section {% endcomment %}
@@ -49,15 +45,15 @@
             </div>
     
             {% comment %} Export {% endcomment %}
-            <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">            
-                <button type="button" id="export-pdf-button" class="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-2xl focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                    <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                    </svg>
-                    Exportar
-                </button>
-
-                
+            <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
+                <a href="{% url 'report-student-list' %}" target="_blank">
+                    <button type="button" class="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-2xl focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                        </svg>
+                        Exportar
+                    </button>
+                </a>
             </div>
         </div>
         
@@ -125,22 +121,22 @@
             {% for student in students %}
             <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700 {% if not forloop.last %}border-b{% endif %} {% if not forloop.last %}border-b{% endif %}" data-status="{% if student.is_active %}active{% else %}inactive{% endif %}" {% if not student.is_active%}style="display:none;"{% endif %}>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">
-                    {{ student.identify_card.0 }}-{{ student.identify_card|slice:"1:" }}
+                    <span class="{% if not student.identify_card %}text-gray-400{% endif %}">{{ student.identify_card.0| default:"Sin " }}{% if student.identify_card %}-{% endif %}{{ student.identify_card|slice:"1:"| default:"establecer"}}</span>
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ student.first_name }}
+                    <span class="{% if not student.first_name %}text-gray-400{% endif %}">{{ student.first_name | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ student.first_surname }}
+                    <span class="{% if not student.first_surname %}text-gray-400{% endif %}">{{ student.first_surname | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4">
-                    {{ student.email }}
+                    <span class="{% if not student.email %}text-gray-400{% endif %}">{{ student.email | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4">
-                    {{ student.phone_number }}
+                    <span class="{% if not student.phone_number %}text-gray-400{% endif %}">{{ student.phone_number | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4">
-                    {{ student.address }}
+                    <span class="{% if not student.address %}text-gray-400{% endif %}">{{ student.address | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4">
                     {% if student.is_active %}

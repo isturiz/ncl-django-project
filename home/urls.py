@@ -1,5 +1,4 @@
 from django.urls import path
-from django.views.generic import TemplateView
 
 from .views import HomePageView
 from .views import Student_ListView, Student_CreateView, Student_UpdateView, StudentGraph_View

@@ -42,17 +42,21 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+
+    # third party apps (exception)
     'livereload',
+    #django apps
     "django.contrib.staticfiles",
 
     # third party apps
     "compressor",
     'auditlog',
-
+    'weasyprint',
 
     # local apps
     "home",
     "accounts",
+    "reports"
 ]
 
 MIDDLEWARE = [
