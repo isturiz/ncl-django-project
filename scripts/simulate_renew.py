@@ -1,4 +1,4 @@
-from home.models import Subscription
+from apps.home.models import Subscription
 from datetime import date
 
 latest_subscription = Subscription.objects.order_by('-id').first()

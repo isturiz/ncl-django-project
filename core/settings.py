@@ -54,9 +54,20 @@ INSTALLED_APPS = [
     'weasyprint',
 
     # local apps
-    "home",
-    "accounts",
-    "reports"
+    "apps.home",
+    "apps.accounts",
+
+    "apps.students",
+    "apps.teachers",
+    "apps.payments",
+    "apps.subscriptions",
+
+
+    "apps.reports",
+
+
+    "apps.users",
+
 ]
 
 MIDDLEWARE = [
@@ -183,7 +194,7 @@ CELERY_CACHE_BACKEND = 'memory'
 
 CELERY_BEAT_SCHEDULE = {
     'auto-renew-subscriptions': {
-        'task': 'home.tasks.auto_renew_subscriptions',
+        'task': 'apps.home.tasks.auto_renew_subscriptions',
         'schedule': crontab(hour=0, minute=0),  # Ejecuta a la medianoche
     },
 }

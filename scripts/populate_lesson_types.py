@@ -1,4 +1,4 @@
-from home.models import LessonType
+from apps.home.models import LessonType
 
 def populate_lesson_types():
     LessonType.objects.create(cathedra="Piano", modality="Virtual")

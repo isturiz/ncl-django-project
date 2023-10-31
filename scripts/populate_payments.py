@@ -1,7 +1,7 @@
 import random
 from datetime import date, timedelta, datetime
 from django.db import transaction
-from home.models import Subscription, Payment
+from apps.home.models import Subscription, Payment
 
 # Obtén todas las suscripciones existentes
 subscriptions = Subscription.objects.all()

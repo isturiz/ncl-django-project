@@ -2,7 +2,7 @@ import random
 from datetime import date, timedelta
 from django.db import transaction
 from faker import Faker
-from home.models import Student, SubscriptionType, Subscription
+from apps.home.models import Student, SubscriptionType, Subscription
 
 fake = Faker()
 

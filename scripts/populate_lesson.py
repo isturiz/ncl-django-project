@@ -1,6 +1,6 @@
 # scripts/populate_lessons.py
 import random
-from home.models import Lesson, LessonType
+from apps.home.models import Lesson, LessonType
 
 def populate_lessons():
     lesson_types = LessonType.objects.all()

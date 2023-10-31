@@ -1,5 +1,5 @@
 from django.db.models import Sum
-from home.models import Subscription, Lesson, Payment
+from apps.home.models import Subscription, Lesson, Payment
 
 
 

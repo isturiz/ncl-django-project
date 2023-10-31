@@ -1,4 +1,4 @@
-from home.models import Student
+from apps.home.models import Student
 
 
 from datetime import date

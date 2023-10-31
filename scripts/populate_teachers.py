@@ -1,5 +1,5 @@
 
-from home.models import Teacher
+from apps.home.models import Teacher
 
 
 from datetime import date
