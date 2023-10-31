@@ -123,7 +123,7 @@
     
         // Realiza una solicitud Ajax para cargar las suscripciones asociadas al estudiante
         if (selectedStudentId) {
-            fetch(`/load-subscription/${selectedStudentId}/`)
+            fetch(`/lessons/load-subscription/${selectedStudentId}/`)
                 .then(response => response.json())
                 .then(data => {
                     data.student.subscriptions.forEach(subscription => {

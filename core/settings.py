@@ -59,6 +59,9 @@ INSTALLED_APPS = [
 
     "apps.students",
     "apps.teachers",
+
+    "apps.lesson_types",
+
     "apps.payments",
     "apps.subscriptions",
 

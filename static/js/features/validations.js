@@ -3,14 +3,18 @@
 const validateOnlyLettersInput = (inputField) => {
     inputField.addEventListener("input", () => {
         const inputValue = inputField.value;
-        const isValid = /^[A-Za-z]+$/.test(inputValue);
+        const isValid = /^[A-Za-zÁáÉéÍíÓóÚúÜüÑñ´.]*$/.test(inputValue);
 
         if (!isValid) {
             // alert("El campo debe contener solo letras.");
-            inputField.value = inputValue.replace(/[^A-Za-z]+/g, "");
+            inputField.value = inputValue.replace(/[^A-Za-zÁáÉéÍíÓóÚúÜüÑñ´.]+/g, "");
         }
     });
 };
+
+
+
+
 
 
 const validateLetterInputs = document.querySelectorAll("[data-validate-only-letters='true']");

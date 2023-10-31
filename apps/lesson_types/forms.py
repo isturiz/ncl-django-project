@@ -7,7 +7,7 @@ class LessonTypeForm(forms.ModelForm):
         fields = ['cathedra', 'modality']
         labels = {
             'cathedra': 'Tipo de clase',
-            'modality': 'Suscripción',
+            'modality': 'Modalidad',
         }
 
     def __init__(self, *args, **kwargs):

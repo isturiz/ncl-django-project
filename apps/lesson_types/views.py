@@ -17,7 +17,7 @@ class LessonTypes_CreateView(CreateView):
     model = LessonType
     form_class = LessonTypeForm
     template_name = 'forms/lesson_types_form.html'
-    success_url = '/lesson-types/'
+    success_url = '/lesson_types/'
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -29,7 +29,7 @@ class LessonTypes_UpdateView(UpdateView):
     model = LessonType
     form_class = LessonTypeForm
     template_name = 'forms/lesson_types_form.html'  
-    success_url = '/lesson-types/'
+    success_url = '/lesson_types/'
 
     def form_valid(self, form):
         response = super().form_valid(form)

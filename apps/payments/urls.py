@@ -8,7 +8,7 @@ from .views import Payment_ListView, Payment_CreateView, Payment_UpdateView, Fin
 
 urlpatterns = [
 
-    path('', FinanceView.as_view(), name='finances'),
+    path('finances/', FinanceView.as_view(), name='finances'),
 
     path('', Payment_ListView.as_view(), name='payment-list'),
     path('create/', Payment_CreateView.as_view(), name='payment-create'),

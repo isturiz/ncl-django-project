@@ -88,6 +88,9 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3 rounded-tl-2xl">
+                    Identificación
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Estudiante
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -108,6 +111,9 @@
             {% for payment in payments %}
             <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700 {% if not forloop.last %}border-b{% endif %}" data-status="{% if lesson.lesson_status %}active{% else %}inactive{% endif %}">
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white {% if forloop.last %}rounded-bl-2xl{% endif %}">
+                    <span class="{% if not payment.subscription.student.identify_card %}text-gray-400{% endif %}">{{ payment.subscription.student.identify_card.0| default:"Sin " }}{% if payment.subscription.student.identify_card %}-{% endif %}{{ payment.subscription.student.identify_card|slice:"1:"| default:"establecer"}}</span>
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     <span class="{% if not payment.subscription.student %}text-gray-400{% endif %}">{{ payment.subscription.student | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
