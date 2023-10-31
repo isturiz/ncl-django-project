@@ -86,49 +86,6 @@
     </div>
 </div>
 
-<!-- Chart 2 -->
-<div class="max-w-none w-full bg-gray-100 rounded-2xl shadow mt-8 dark:bg-gray-800 p-4 md:p-6 hidden">
-    <div class="flex justify-between">
-        <div>
-            <h5 id="idTotalStudent" class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Cantidad de estudiantes {{ total_payments_current_year }}</h5>
-            <p class="text-base font-normal text-gray-500 dark:text-gray-400">Año actual</p>
-        </div>
-
-        <div class=" hidden flex flex-col items-end px-2.5 py-0.5">
-            {% if percentage_change > 0 %}
-                <div class="flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center">
-                    {{ percentage_change }}%
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M12 5l0 14"></path>
-                        <path d="M16 9l-4 -4"></path>
-                        <path d="M8 9l4 -4"></path>
-                    </svg>
-                </div>
-            {% elif percentage_change < 0  %}
-                <div class="flex items-center text-base font-semibold text-red-500 dark:text-red-500 text-center">
-                    {{ percentage_change }}%
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M12 5l0 14"></path>
-                        <path d="M16 15l-4 4"></path>
-                        <path d="M8 15l4 4"></path>
-                        </svg>
-                </div>
-            {% else %}
-                <div class="flex items-center text-base font-semibold text-gray-500 dark:text-gray-500 text-center pr-2">
-                    {{ percentage_change }}%
-                </div>
-            {% endif %}
-            <p class="flex items-center text-xs font-mono pr-2 text-gray-500 dark:text-gray-400">respecto al mes anterior</p>
-
-        </div>
-
-    </div>
-    <div id="student-chart-2">
-    </div>
-</div>
-
 <!-- Student Chart 3 -->
 <div class="max-w-none w-full bg-gray-100 rounded-2xl shadow mt-8 dark:bg-gray-800 p-4 md:p-6">
     <div class="flex justify-between border-gray-200 border-b dark:border-gray-700 pb-3">
@@ -140,8 +97,6 @@
 
     <div id="chart-3"></div>
 </div>
-  
-
   
 
 <!-- Script Chart 1: Count by age -->
@@ -325,148 +280,7 @@
 
 </script>
 
-<!-- Script Chart 2: Count by subscription type -->
-{% comment %} 
-<script>
-    
-    
 
-
-    // ApexCharts options and config
-    window.addEventListener("load", function() {
-        let options = {
-            chart: {
-                height: "100%",
-                maxWidth: "100%",
-                type: "area",
-                fontFamily: "Inter, sans-serif",
-                dropShadow: {
-                    enabled: false,
-                },
-                toolbar: {
-                    show: true,
-                    offsetX: 0,
-                    offsetY: 0,
-                    tools: {
-                        download: true,
-                        selection: true,
-                        zoom: true,
-                        zoomin: true,
-                        zoomout: true,
-                        pan: true,
-                        reset: true | '<img src="/static/icons/reset.png" width="20">',
-                        customIcons: []
-                    },
-                    export: {
-                        csv: {
-                            filename: 'cantidad-estudiantes-por-edad',
-                            columnDelimiter: ',',
-                            headerCategory: 'category',
-                            headerValue: 'value',
-                            dateFormatter(timestamp) {
-                            return new Date(timestamp).toDateString()
-                            }
-                        },
-                        svg: {
-                            filename: 'cantidad-estudiantes-por-edad',
-                        },
-                        png: {
-                            filename: 'cantidad-estudiantes-por-edad',
-                        }
-                    },
-                    autoSelected: 'zoom' 
-                },
-            },
-            
-            tooltip: {
-                enabled: true,
-                x: {
-                    show: false,
-                },
-            },
-            fill: {
-                type: "gradient",
-                gradient: {
-                    opacityFrom: 0.55,
-                    opacityTo: 0,
-                    shade: "#1C64F2",
-                    gradientToColors: ["#1C64F2"],
-                },
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            stroke: {
-                width: 6,
-            },
-            grid: {
-                show: false,
-                strokeDashArray: 4,
-                padding: {
-                    left: 2,
-                    right: 2,
-                    top: 0
-                },
-            },
-            series: [
-                {
-                    name: "Estudiantes",
-                    data: chart2_studentCount,
-                    color: "#1A56DB",
-                },
-            ],
-            xaxis: {
-                title: {
-                    text: 'Edad estudiantes',
-                    style: {
-                        fontSize: '14px',
-                    },
-                },
-                categories: chart2_subcriptionType,
-                labels: {
-                    show: true,
-                    style: {
-                        fontFamily: "Inter, sans-serif",
-                        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
-                    }
-                    
-                },
-                axisBorder: {
-                    show: false,
-                },
-                axisTicks: {
-                    show: false,
-                },
-            },
-            yaxis: {
-                title: {
-                    text: 'Cantidad estudiantes',
-                    style: {
-                        fontSize: '14px',
-                    },
-                },
-                show: true,
-                labels: {
-                    show: true,
-                    style: {
-                        fontFamily: "Inter, sans-serif",
-                        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
-                    },
-                    formatter: function (value) {
-                        return value;
-                    }
-                }
-            },
-        }
-
-        if (document.getElementById("student-chart-2") && typeof ApexCharts !== 'undefined') {
-            const studentChart2 = new ApexCharts(document.getElementById("student-chart-2"), options);
-            studentChart2.render();
-        }
-    });
-
-</script> 
-{% endcomment %}
 
 <!-- Script Chart 3 -->
 <script>

@@ -8,7 +8,12 @@ from .models import SubscriptionType, LessonType, Lesson, Teacher, Payment, Stud
 # ordering = () <- Ordering of the results
 # exclude = () <- List of fields to exclude from the admin interface
 
-admin.site.register(Lesson)
+
+class LessonAdmin(admin.ModelAdmin):
+    list_display = ('lesson_type', 'teacher', 'subscription', 'price')
+    search_fields = ['price', 'teacher__first_name', 'subscription__subscription_type__name']
+
+admin.site.register(Lesson, LessonAdmin)
 
 class SubscriptionAdmin(admin.ModelAdmin):
     list_display = ('id', 'student', 'subscription_type', 'start_date', 'end_date', 'is_active', 'auto_renewal')
@@ -26,7 +31,15 @@ class PaymentAdmin(admin.ModelAdmin):
 
 admin.site.register(Payment, PaymentAdmin)
 
-admin.site.register(SubscriptionType)
+class SubscriptionTypeAdmin(admin.ModelAdmin):
+    list_display = ('id','name', 'description', 'price', 'number_of_lessons')
+    list_filter = ('name',) 
+    search_fields = ['name', 'description', 'price', 'number_of_lessons']
+
+    # list_filter = ('date',)  # Agrega filtrado por fecha en el admin
+
+
+admin.site.register(SubscriptionType, SubscriptionTypeAdmin)
 admin.site.register(LessonType)
 admin.site.register(Teacher)
 

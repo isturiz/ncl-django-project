@@ -201,18 +201,22 @@ class Payment(models.Model):
         return f'{self.price} - {self.subscription} - {self.date}'
     
     def clean(self):
-        # Verifica si ya existe un pago asociado a esta suscripción
-        existing_payment = Payment.objects.filter(subscription=self.subscription).first()
-        if existing_payment and existing_payment != self:
-            raise ValidationError("Ya existe un pago asociado a esta suscripción.")
 
         # Verifica si el precio del pago es mayor que el precio de la suscripción
         subscription_price = self.subscription.subscription_type.price
-        if self.price > subscription_price:
-            raise ValidationError("El precio del pago no puede ser mayor que el precio de la suscripción.")
-        if self.price < 0:
-            raise ValidationError("El precio del pago no puede ser negativo.")
-        
+        if self.subscription.subscription_type.id == 10:
+            pass
+        else:
+            if self.price > subscription_price:
+                raise ValidationError("El precio del pago no puede ser mayor que el precio de la suscripción.")
+            if self.price < 0:
+                raise ValidationError("El precio del pago no puede ser negativo.")
+
+            # Verifica si ya existe un pago asociado a esta suscripción
+            existing_payment = Payment.objects.filter(subscription=self.subscription).first()
+            if existing_payment and existing_payment != self:
+                raise ValidationError("Ya existe un pago asociado a esta suscripción.")
+            
         # Verifica si la fecha del pago es menor que la fecha de inicio de la suscripción
         subscription_start_date = self.subscription.start_date
 

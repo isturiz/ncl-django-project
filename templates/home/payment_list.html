@@ -97,7 +97,10 @@
                     Tipo de suscripción
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Monto
+                    Monto Pagado
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Monto Total
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Fecha
@@ -121,6 +124,9 @@
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     <span class="{% if not payment.price %}text-gray-400{% endif %}">{{ payment.price | default:"Sin establecer" }}</span>
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <span class="{% if not payment.subscription.subscription_type.price %}text-gray-400{% endif %}">{{ payment.subscription.subscription_type.price  | default:"Sin establecer" }}</span>
                 </td>
                 <td class="px-6 py-4">
                     <span class="{% if not payment.date %}text-gray-400{% endif %}">{{ payment.date | date:"d/m/Y" | default:"Sin establecer" }}</span>
