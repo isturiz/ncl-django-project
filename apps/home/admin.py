@@ -12,11 +12,16 @@ admin.site.register(Lesson)
 
 class SubscriptionAdmin(admin.ModelAdmin):
     list_display = ('id', 'student', 'subscription_type', 'start_date', 'end_date', 'is_active', 'auto_renewal')
+    search_fields = ['student__first_name', 'subscription_type__name']
+
 
 admin.site.register(Subscription, SubscriptionAdmin)
 
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ('price', 'date', 'subscription')
+    list_filter = ('date',) 
+    search_fields = ['price', 'date', 'subscription__student__first_name', 'subscription__subscription_type__name']
+
     # list_filter = ('date',)  # Agrega filtrado por fecha en el admin
 
 admin.site.register(Payment, PaymentAdmin)

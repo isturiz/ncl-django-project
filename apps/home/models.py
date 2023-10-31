@@ -7,6 +7,11 @@ import calendar
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+
+
+
 
 
 
@@ -195,6 +200,31 @@ class Payment(models.Model):
     def __str__(self):
         return f'{self.price} - {self.subscription} - {self.date}'
     
+    def clean(self):
+        # Verifica si ya existe un pago asociado a esta suscripción
+        existing_payment = Payment.objects.filter(subscription=self.subscription).first()
+        if existing_payment and existing_payment != self:
+            raise ValidationError("Ya existe un pago asociado a esta suscripción.")
+
+        # Verifica si el precio del pago es mayor que el precio de la suscripción
+        subscription_price = self.subscription.subscription_type.price
+        if self.price > subscription_price:
+            raise ValidationError("El precio del pago no puede ser mayor que el precio de la suscripción.")
+        if self.price < 0:
+            raise ValidationError("El precio del pago no puede ser negativo.")
+        
+        # Verifica si la fecha del pago es menor que la fecha de inicio de la suscripción
+        subscription_start_date = self.subscription.start_date
+
+        if self.date.date() < subscription_start_date:
+            formatted_start_date = subscription_start_date.strftime('%d/%m/%Y')
+            error_message = f"La fecha del pago no puede ser anterior a la fecha de inicio de la suscripción: {formatted_start_date}"
+            raise ValidationError(error_message)
+
+
+
+        super().clean()
+
     
 class ActivityLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
