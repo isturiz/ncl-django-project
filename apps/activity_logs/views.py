@@ -43,7 +43,7 @@ def format_date(date_string):
 
 
 def auditlog_view(request):
-    log_entries = LogEntry.objects.all().order_by('-timestamp')  # Obtén las últimas 10 entradas de registro de auditoría
+    log_entries = LogEntry.objects.all().order_by('-timestamp')[0:10]
 
     DATE_FIELDS = ["date", "birthdate", "start_date", "end_date"]
 
