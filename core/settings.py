@@ -60,16 +60,20 @@ INSTALLED_APPS = [
     "apps.students",
     "apps.teachers",
 
+    "apps.lessons",
     "apps.lesson_types",
+    "apps.fullcalendar",
+
+    "apps.subscriptions",
+    "apps.subscription_types",
+
 
     "apps.payments",
-    "apps.subscriptions",
-
 
     "apps.reports",
 
-
     "apps.users",
+    "apps.activity_logs",
 
 ]
 
