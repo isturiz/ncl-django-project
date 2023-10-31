@@ -76,7 +76,7 @@ class Lesson(models.Model):
 class Teacher(models.Model):
 
     # Fields
-    identify_card = models.CharField(verbose_name=_('Identify Card'), max_length=20, blank=True, null=True)
+    identify_card = models.CharField(verbose_name=_('Identify Card'), max_length=20, blank=True, null=True, unique=True)
     first_name = models.CharField(verbose_name=_('First Name'), max_length=255)
     second_name = models.CharField(verbose_name=_('Second Name'), max_length=255, blank=True, null=True)
     first_surname = models.CharField(verbose_name=_('First Surname'), max_length=255)
@@ -220,8 +220,6 @@ class Payment(models.Model):
             formatted_start_date = subscription_start_date.strftime('%d/%m/%Y')
             error_message = f"La fecha del pago no puede ser anterior a la fecha de inicio de la suscripción: {formatted_start_date}"
             raise ValidationError(error_message)
-
-
 
         super().clean()
 
