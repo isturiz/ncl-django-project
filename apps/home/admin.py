@@ -1,5 +1,8 @@
 from django.contrib import admin
 from .models import SubscriptionType, LessonType, Lesson, Teacher, Payment, Student, Subscription, ActivityLog
+
+from django.contrib.auth.admin import UserAdmin
+from apps.home.models import User
 # Guide
 # search_fields = () <- Search fields for the admin interface
 # list_display = () <- List of fields to display in the admin interface
@@ -48,3 +51,29 @@ class StudentAdmin(admin.ModelAdmin):
 
 admin.site.register(Student, StudentAdmin)
 admin.site.register(ActivityLog)
+
+class CustomUserAdmin(UserAdmin):
+    # Campos a mostrar en el panel de admin
+    list_display = ('username', 'email', 'role', 'is_active', 'is_staff', 'date_joined')
+
+    # Campos editables en el panel de admin
+    fieldsets = (
+        (None, {'fields': ('username', 'email', 'password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'role')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'user_permissions', 'groups')}),
+    )
+
+    # Campos adicionales
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2', 'is_staff', 'is_superuser'),
+        }),
+    )
+
+    # Búsqueda en panel de admin
+    search_fields = ('email', 'first_name', 'last_name')
+    ordering = ('email',)
+
+# Registra el modelo CustomUser y la clase CustomUserAdmin
+admin.site.register(User, CustomUserAdmin)

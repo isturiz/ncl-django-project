@@ -5,17 +5,38 @@ from apps.home.models import Payment
 from apps.payments.forms import PaymentForm
 
 from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.http import HttpResponseForbidden
 
-class Payment_ListView(ListView):
+class Payment_ListView(PermissionRequiredMixin, ListView):
     model = Payment
     template_name = 'home/payment_list.html'
     context_object_name = 'payments'
 
-class Payment_CreateView(CreateView):
+    permission_required = "view_payment"
+    permission_denied_message = "user unauthorized."
+
+    def get(self, request, *args, **kwargs):
+        print("\n", self.request.user.username, "\n", self.request.user.role, "\n")
+        if not self.request.user.role == "AD" or self.request.user.role == "DR":
+            return HttpResponseForbidden()
+        
+        self.get_queryset().order_by('-date')
+        return super().get(request, *args, **kwargs)
+
+class Payment_CreateView(PermissionRequiredMixin, CreateView):
     model = Payment
     form_class = PaymentForm
     template_name = 'forms/payment_form.html'
     success_url = '/payments/'
+
+    permission_required = "add_payment"
+    permission_denied_message = "user unauthorized."
+
+    def post(self, request, *args, **kwargs):
+        if not self.request.user.role == "AD":
+            return HttpResponseForbidden()
+        return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -23,11 +44,14 @@ class Payment_CreateView(CreateView):
         messages.success(self.request, 'Pago registrado exitosamente')
         return response
 
-class Payment_UpdateView(UpdateView):
+class Payment_UpdateView(PermissionRequiredMixin, UpdateView):
     model = Payment
     form_class = PaymentForm
     template_name = 'forms/payment_form.html'  
     success_url = '/payments/'
+
+    permission_required = "change_payment"
+    permission_denied_message = "user unauthorized."
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -50,6 +74,9 @@ from apps.home.models import Subscription, Payment, Student
 from apps.home.models import Payment
 
 from datetime import datetime
+
+from django.core.exceptions import PermissionDenied
+
 
 import json
 from django.db.models import Sum, F
@@ -81,6 +108,10 @@ class FinanceView(TemplateView):
     template_name = 'home/graphs/finance_graph.html'
     
     def get_context_data(self, **kwargs):
+
+        if not self.request.user.role == "AD":
+            raise PermissionDenied("No tienes permiso para ver este contenido")
+
         context = super().get_context_data(**kwargs)
 
         context['revenue_by_subscription_type_current_year'] = get_revenue_by_subscription_type_current_year
