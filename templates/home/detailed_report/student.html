@@ -1,0 +1,305 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load compress %}
+{% load static %}
+
+
+
+<div class="relative overflow-x-auto sm:rounded-2xl px-2 pb-4 pb-4">
+
+    {% comment %} second section {% endcomment %}
+    <div class="flex flex-row w-full items-center justify-between pb-4">
+
+        <div class="flex py-3 flex-row items-center justify-between space-y-0 space-x-4">
+            <div>
+                <label for="students" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecciona un estudiante</label>
+                <select id="students" name="student" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="" selected>Elegir estudiante</option>
+                    {% for student in students %}
+                        <option value="{{ student.id }}">{{ student.first_name }} {{ student.first_surname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+    </div>
+    {% if messages %}
+        <div id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-2xl bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+            <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="ml-3 text-sm font-medium">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+            <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-2xl focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-3" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+            </svg>
+            </button>
+        </div>
+    {% endif %}
+
+
+
+    <div id="table-container">
+        <table class="w-full text-sm text-left text-gray-500  dark:text-gray-400" id="table-file">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3 rounded-tl-2xl">
+                        Tipo de suscripción
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Fecha de inicio
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Fecha de fin
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Activa
+                    </th>
+                    <th scope="col" class="px-6 py-3 rounded-tr-2xl">
+                        Autorenovación
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700" data-status="active">
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </td>
+
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </td>
+
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </td>
+
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </td>
+
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="table-container-2" class="mt-8">
+        <table class="w-full text-sm text-left text-gray-500  dark:text-gray-400" id="table-file">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3 rounded-tl-2xl">
+                        Tipo de clase
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Profesor
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Vista
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        inicio
+                    </th>
+                    <th scope="col" class="px-6 py-3 rounded-tr-2xl">
+                        fin
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="table-body-2">
+                <tr class="bg-gray-100 dark:bg-gray-800 dark:border-gray-700" data-status="active">
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </td>
+
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </td>
+
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </td>
+
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </td>
+
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    function updateTableWithData(data) {
+        const tableBody = document.getElementById('table-body');
+        tableBody.innerHTML = ''; // Limpia el contenido actual de la tabla
+
+        const STATUS = {
+            ACTIVE: 'Activa',
+            INACTIVE: 'Inactiva'
+        }
+    
+        console.log("data 1", data)
+        data.subscriptions.forEach(subscription => {
+            console.log("subscription 1", subscription)
+
+            console.log('work')
+            
+            function addClassesToCell(cell, classNames) {
+                cell.className = classNames;
+            }
+            const row = document.createElement('tr');
+            addClassesToCell(row, 'bg-gray-100 dark:bg-gray-800 dark:border-gray-700');
+
+    
+            // Crear celdas para cada columna de la fila
+            const subscriptionTypeCell = document.createElement('td');
+            subscriptionTypeCell.textContent = subscription.subscription_type__name;
+            addClassesToCell(subscriptionTypeCell, 'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
+
+            const startDateCell = document.createElement('td');
+            startDateCell.textContent = subscription.start_date;
+            addClassesToCell(startDateCell, 'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
+
+            const endDateCell = document.createElement('td');
+            endDateCell.textContent = subscription.end_date;
+            addClassesToCell(endDateCell, 'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
+
+            const isActiveCell = document.createElement('td');
+            isActiveCell.textContent = subscription.is_active ? STATUS.ACTIVE : STATUS.INACTIVE
+            addClassesToCell(isActiveCell, 'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
+
+            const autoRenewalCell = document.createElement('td');
+            autoRenewalCell.textContent = subscription.auto_renewal ? STATUS.ACTIVE : STATUS.INACTIVE
+            addClassesToCell(autoRenewalCell, 'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
+
+            // Agrega las celdas a la fila
+            row.appendChild(subscriptionTypeCell);
+            row.appendChild(startDateCell);
+            row.appendChild(endDateCell);
+            row.appendChild(isActiveCell);
+            row.appendChild(autoRenewalCell);
+    
+            // Agrega la fila a la tabla
+            tableBody.appendChild(row);
+        });
+    }
+
+    document.getElementById("students").addEventListener("change", function () {
+        const studentId = this.value;
+
+        if (studentId) {
+            fetch(`/students/get_subscriptions/?student_id=${studentId}`)
+
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    updateTableWithData(data);
+
+                });
+        } else {
+            document.getElementById("table-body").innerHTML = "";
+        }
+    });
+</script>
+
+<script>
+
+    function updateTableWithData2(data) {
+        const tableBody = document.getElementById('table-body-2');
+        tableBody.innerHTML = ''; // Limpia el contenido actual de la tabla
+
+        const STATUS = {
+            ACTIVE: 'Vista',
+            INACTIVE: 'No vista'
+        }
+    
+        console.log("data", data)
+        console.log("data.lessons", data)
+
+        data.lessons.forEach(lesson => {
+
+
+            function formatDateTime(dateTimeString) {
+                const options = {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                };
+                return new Date(dateTimeString).toLocaleString(undefined, options);
+            }
+            
+
+            const startTime = formatDateTime(lesson.start_date)
+            const endTime = formatDateTime(lesson.end_date)
+
+            function addClassesToCell(cell, classNames) {
+                cell.className = classNames;
+            }
+            
+            const row = document.createElement('tr');
+            addClassesToCell(row, 'bg-gray-100 dark:bg-gray-800 dark:border-gray-700');
+
+    
+            // Crear celdas para cada columna de la fila
+            const subscriptionTypeCell = document.createElement('td');
+            subscriptionTypeCell.textContent = `${lesson.lesson_type__cathedra} ${lesson.lesson_type__modality}`;
+            addClassesToCell(subscriptionTypeCell, 'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
+
+            const startDateCell = document.createElement('td');
+            startDateCell.textContent = `${lesson.teacher__first_name} ${lesson.teacher__first_surname}`;
+            addClassesToCell(startDateCell, 'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
+
+            const endDateCell = document.createElement('td');
+            endDateCell.textContent = lesson.lesson_status ? STATUS.ACTIVE : STATUS.INACTIVE;
+            addClassesToCell(endDateCell, 'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
+
+            const isActiveCell = document.createElement('td');
+            isActiveCell.textContent = lesson.start_date ? startTime : "Sin definir"
+            addClassesToCell(isActiveCell, 'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
+
+            const autoRenewalCell = document.createElement('td');
+            autoRenewalCell.textContent = lesson.end_date ? endTime : "Sin definir"
+            addClassesToCell(autoRenewalCell, 'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
+
+            // Agrega las celdas a la fila
+            row.appendChild(subscriptionTypeCell);
+            row.appendChild(startDateCell);
+            row.appendChild(endDateCell);
+            row.appendChild(isActiveCell);
+            row.appendChild(autoRenewalCell);
+    
+            // Agrega la fila a la tabla
+            tableBody.appendChild(row);
+            
+        });
+    }
+
+    document.getElementById("students").addEventListener("change", function () {
+        const studentId = this.value;
+
+        if (studentId) {
+            fetch(`/students/get_lessons/?student_id=${studentId}`)
+
+                .then(response => response.json())
+                .then(data => {
+                    console.log('lessons', data)
+                    updateTableWithData2(data);
+
+                });
+        } else {
+            document.getElementById("table-body-2").innerHTML = "";
+        }
+    });
+</script>
+
+
+{% endblock %}

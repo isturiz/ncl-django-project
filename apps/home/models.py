@@ -97,6 +97,24 @@ class Teacher(models.Model):
                 name='unique_teacher'
             )
         ]
+
+    def clean(self):
+        super().clean()
+
+        # Comprueba si ya existe un profesor con los mismos datos
+        existing_teacher = Teacher.objects.filter(
+            identify_card=self.identify_card,
+            first_name=self.first_name,
+            second_name=self.second_name,
+            first_surname=self.first_surname,
+            second_surname=self.second_surname,
+            birthdate=self.birthdate
+        ).exclude(id=self.id)
+
+        if existing_teacher.exists():
+            raise ValidationError("Ya existe un profesor registrado con esos datos.")
+
+
     
 
 class Student(models.Model):
@@ -150,6 +168,28 @@ class Subscription(models.Model):
     
     def get_student_and_type (self):
         return f'{self.student} - {self.subscription_type.name} - ${self.subscription_type.price}'
+    
+    def clean(self):
+        super().clean()
+        
+        # Comprueba si existe una suscripción activa que se superpone
+        overlapping_subscriptions = Subscription.objects.filter(
+            student=self.student,
+            subscription_type=self.subscription_type,
+            is_active=True,
+            start_date__lte=self.end_date,
+            end_date__gte=self.start_date
+        )
+
+        if overlapping_subscriptions.exists():
+            existing_subscription = overlapping_subscriptions.first()
+            # Formatea las fechas en formato "dd/mm/yyyy"
+            existing_start_date_str = existing_subscription.start_date.strftime('%d/%m/%Y')
+            existing_end_date_str = existing_subscription.end_date.strftime('%d/%m/%Y')
+            
+            error_message = f"Ya existe una suscripción activa que se superpone con estas fechas ({existing_start_date_str} - {existing_end_date_str}). Por favor, elige una fecha que no se superponga."
+            raise ValidationError(error_message)
+
     
     # If auto_renewal is True, renews the subscription
     def renew_subscription(self):

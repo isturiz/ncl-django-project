@@ -2,7 +2,7 @@
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 
-from apps.home.models import Student, Subscription, ActivityLog, Payment
+from apps.home.models import Student, Subscription, ActivityLog, Payment, Lesson
 from apps.students.forms import StudentForm
 
 from datetime import datetime
@@ -158,3 +158,39 @@ class StudentGraph_View(TemplateView):
         # Convierte los datos a formato JSON
         subscription_data_json = json.dumps(subscription_data)
         return subscription_data_json
+
+
+class DetailedReportStudentView(TemplateView):
+    model = Student
+    template_name = 'home/detailed_report/student.html'
+    context_object_name = 'students'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['students'] = self.get_all_students()
+
+        return context
+    
+    def get_all_students(self):
+        return Student.objects.all()
+
+from django.http import JsonResponse
+
+def get_subscriptions(request):
+    student_id = request.GET.get('student_id')
+    subscriptions = Subscription.objects.filter(student_id=student_id).values('subscription_type__name', 'start_date', 'end_date', 'is_active', 'auto_renewal')
+
+    return JsonResponse({'subscriptions': list(subscriptions)})
+
+def get_lessons(request):
+    student_id = request.GET.get('student_id')
+    subscriptions = Subscription.objects.filter(student_id=student_id)
+    
+    all_lessons = [] 
+    
+    for subscription in subscriptions:
+        lessons = Lesson.objects.filter(subscription=subscription).values('lesson_type__cathedra', 'lesson_type__modality', 'teacher__first_name', 'teacher__first_surname', 'lesson_status', 'start_date', 'end_date', 'description')
+        all_lessons.extend(list(lessons))
+    
+    return JsonResponse({'lessons': all_lessons})
